@@ -38,7 +38,6 @@ export function HeaderCard({
   const [isLoadingCustomRepos, setIsLoadingCustomRepos] = useState(false);
   const [, setError] = useState<string | null>(null);
 
-  // Fetch general GitHub stats
   useEffect(() => {
     const fetchGitHubStats = async () => {
       if (!links.github) {
@@ -68,7 +67,6 @@ export function HeaderCard({
     fetchGitHubStats();
   }, [links.github]);
 
-  // Fetch custom repository data if usePinnedRepos is true
   useEffect(() => {
     const fetchCustomRepos = async () => {
       if (!usePinnedRepos || customRepositories.length === 0 || !links.github) {

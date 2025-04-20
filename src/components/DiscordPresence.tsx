@@ -415,7 +415,6 @@ export function DiscordPresence({
 
               {presence.activities.length > 0 && (
                 <div>
-                  {/* Activity count indicator */}
                   {presence.activities.length > 1 && (
                     <div className="flex justify-between items-center mb-2">
                       <div className="flex gap-1">
@@ -450,7 +449,6 @@ export function DiscordPresence({
                     </div>
                   )}
 
-                  {/* Activity carousel */}
                   <div
                     className="relative overflow-hidden"
                     style={{ height: getMaxActivityHeight() }}

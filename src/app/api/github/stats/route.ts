@@ -3,6 +3,8 @@ import githubCache from "~/lib/github-cache";
 import { GitHubStatsData } from "~/types/HeaderCard";
 import { RepoNode } from "~/types/RepoNode";
 
+export const dynamic = "force-dynamic";
+
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "N/A";
 
@@ -200,7 +202,6 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
   }
 }
 
-// New function to fetch specific repository data
 async function fetchSpecificRepos(
   username: string,
   repoNames: string[],
@@ -214,16 +215,13 @@ async function fetchSpecificRepos(
   }>
 > {
   try {
-    // Process repo names to extract just the name if full URLs are provided
     const processedRepoNames = repoNames.map((repo) => {
-      // If it's a full URL, extract the repo name
       if (repo.includes("/")) {
         return repo.split("/").pop() || repo;
       }
       return repo;
     });
 
-    // Fetch each repository individually
     const promises = processedRepoNames.map(async (repoName) => {
       const response = await fetch("https://api.github.com/graphql", {
         method: "POST",
@@ -264,10 +262,8 @@ async function fetchSpecificRepos(
       };
     });
 
-    // Wait for all repository data to be fetched
     const results = await Promise.all(promises);
 
-    // Filter out any null results (repos that weren't found)
     return results.filter((repo) => repo !== null) as Array<{
       name: string;
       description: string | null;
@@ -281,8 +277,6 @@ async function fetchSpecificRepos(
   }
 }
 
-export const revalidate = 3600;
-
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
@@ -292,11 +286,21 @@ export async function GET(request: NextRequest) {
     if (repoNames) {
       const reposList = repoNames.split(",");
       const specificRepos = await fetchSpecificRepos(username, reposList);
-      return NextResponse.json(specificRepos, { status: 200 });
+      return NextResponse.json(specificRepos, {
+        status: 200,
+        headers: {
+          "Cache-Control": "max-age=3600, s-maxage=3600",
+        },
+      });
     }
 
     const githubStats = await fetchGithubStats(username);
-    return NextResponse.json(githubStats, { status: 200 });
+    return NextResponse.json(githubStats, {
+      status: 200,
+      headers: {
+        "Cache-Control": "max-age=3600, s-maxage=3600",
+      },
+    });
   } catch (error) {
     console.error("GitHub stats API error:", error);
     return NextResponse.json(

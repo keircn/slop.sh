@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import weatherCache from "~/lib/weather-cache";
 
+export const dynamic = "force-dynamic";
+
 const API_KEY = process.env.OPENWEATHERMAP_API_KEY || "";
 const DEFAULT_LOCATION = "London,UK";
-
-export const revalidate = 1800;
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,7 +14,11 @@ export async function GET(request: NextRequest) {
     const cachedData = weatherCache.get(location);
     if (cachedData) {
       console.log(`Using cached weather data for location: ${location}`);
-      return NextResponse.json(cachedData);
+      return NextResponse.json(cachedData, {
+        headers: {
+          "Cache-Control": "max-age=1800, s-maxage=1800",
+        },
+      });
     }
 
     console.log(`Fetching fresh weather data for location: ${location}`);
@@ -44,7 +48,11 @@ export async function GET(request: NextRequest) {
 
     weatherCache.set(location, weatherData);
 
-    return NextResponse.json(weatherData);
+    return NextResponse.json(weatherData, {
+      headers: {
+        "Cache-Control": "max-age=1800, s-maxage=1800",
+      },
+    });
   } catch (error) {
     console.error("Error fetching weather data:", error);
     return NextResponse.json(

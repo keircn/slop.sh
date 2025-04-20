@@ -47,7 +47,7 @@ export interface HeaderCardProps {
   githubUsername?: string | null;
   discordUserId?: string;
   usePinnedRepos?: boolean;
-  customRepositories?: string[]; // Array of repo names or full URLs
+  customRepositories?: string[];
   links?: {
     discord: string | undefined;
     github?: string;
