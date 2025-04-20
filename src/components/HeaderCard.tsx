@@ -71,7 +71,7 @@ export function HeaderCard({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="relative flex flex-col justify-center min-h-1/2"
+            className="relative flex flex-col justify-center min-h-[70vh]"
         >
             <div className="absolute -top-6 -left-6 w-24 h-24 bg-primary/5 rounded-full blur-xl" />
             <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-xl" />
@@ -100,14 +100,14 @@ export function HeaderCard({
                         />
 
                         <GitHubStats
-                            isLoading={isLoading}
+                            isLoading={true}
                             stats={stats}
                             languages={githubData?.languages}
                         />
                     </div>
 
                     <RepositoryList
-                        isLoading={isLoading}
+                        isLoading={true}
                         repositories={githubData?.topRepositories}
                     />
                 </CardContent>
