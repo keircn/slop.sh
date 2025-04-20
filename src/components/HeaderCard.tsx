@@ -100,14 +100,14 @@ export function HeaderCard({
                         />
 
                         <GitHubStats
-                            isLoading={true}
+                            isLoading={isLoading}
                             stats={stats}
                             languages={githubData?.languages}
                         />
                     </div>
 
                     <RepositoryList
-                        isLoading={true}
+                        isLoading={isLoading}
                         repositories={githubData?.topRepositories}
                     />
                 </CardContent>
