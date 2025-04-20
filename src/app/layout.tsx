@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Keiran",
   description: "I make things",
   icons: {
-    icon: '/vercel.svg',
+    icon: "/vercel.svg",
   },
   openGraph: {
     title: "Keiran",
@@ -54,9 +54,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}
       >
-        <div className="flex-grow flex flex-col">
-          {children}
-        </div>
+        <div className="flex-grow flex flex-col">{children}</div>
       </body>
     </html>
   );
