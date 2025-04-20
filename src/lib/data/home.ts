@@ -5,6 +5,8 @@ export const HeaderCardProps = [
     bio: "I make things",
     avatarUrl: "/avatar-placeholder.jpg",
     githubUsername: "q4ow",
+    usePinnedRepos: true,
+    customRepositories: ["slop-new", "archium", "e-zdocs", "snustalk"],
     links: {
       github: "https://github.com/q4ow",
       email: "mailto:me@keiran.cc",

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { FaCode, FaStar, FaCodeBranch } from "react-icons/fa";
 import { Skeleton } from "~/components/ui/skeleton";
+import { Weather } from "~/components/Weather";
 
 interface GitHubStatsProps {
   isLoading: boolean;
@@ -124,6 +125,10 @@ export function GitHubStats({
             No language data available
           </p>
         )}
+      </div>
+
+      <div className="mt-6 pt-4 border-t border-border w-full">
+        <Weather location="London,UK" />
       </div>
     </motion.div>
   );

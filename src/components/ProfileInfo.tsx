@@ -5,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { FaGithub, FaEnvelope, FaCoffee, FaDiscord } from "react-icons/fa";
 import { ProfileInfoProps } from "~/types/ProfileInfo";
-import { DiscordPresence } from "~/components/DiscordPresence";
 
 export function ProfileInfo({
   name,
@@ -15,10 +14,6 @@ export function ProfileInfo({
   links,
   githubUsername,
 }: ProfileInfoProps) {
-  const discordUserId = links.discord
-    ? links.discord.split("/").pop()
-    : undefined;
-
   return (
     <div className="flex flex-col space-y-6">
       <div className="flex flex-col items-center space-y-6 md:flex-row md:space-y-0 md:space-x-6">
@@ -109,8 +104,6 @@ export function ProfileInfo({
           </motion.div>
         </div>
       </div>
-
-      {discordUserId && <DiscordPresence userId={discordUserId} />}
     </div>
   );
 }

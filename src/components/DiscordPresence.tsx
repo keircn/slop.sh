@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaDiscord, FaExclamationTriangle } from "react-icons/fa";
-import { MdRefresh } from "react-icons/md";
+import { MdRefresh, MdSkipPrevious, MdSkipNext } from "react-icons/md";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
-import { Presence } from "~/types/presence";
+import { Presence } from "~/types/Presence";
 import { transformPresence } from "~/lib/discord";
+import { useMobile } from "~/lib/hooks/useMobile";
 
 interface DiscordPresenceProps {
   userId?: string;
@@ -25,6 +26,9 @@ export function DiscordPresence({
   const [error, setError] = useState<string | null>(null);
   const [connectionAttempts, setConnectionAttempts] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
+  const activityInterval = useRef<NodeJS.Timeout | null>(null);
+  const { isMobile } = useMobile();
 
   const retryConnection = () => {
     setIsLoading(true);
@@ -32,6 +36,42 @@ export function DiscordPresence({
     setIsVisible(true);
     setConnectionAttempts((prev) => prev + 1);
   };
+
+  const rotateActivity = useCallback(
+    (direction: "next" | "prev" = "next") => {
+      if (!presence || presence.activities.length <= 1) return;
+
+      setCurrentActivityIndex((prevIndex) => {
+        if (direction === "next") {
+          return (prevIndex + 1) % presence.activities.length;
+        } else {
+          return prevIndex === 0
+            ? presence.activities.length - 1
+            : prevIndex - 1;
+        }
+      });
+    },
+    [presence],
+  );
+
+  useEffect(() => {
+    if (presence?.activities.length && presence.activities.length > 1) {
+      if (activityInterval.current) {
+        clearInterval(activityInterval.current);
+      }
+
+      activityInterval.current = setInterval(() => {
+        rotateActivity("next");
+      }, 8000);
+
+      return () => {
+        if (activityInterval.current) {
+          clearInterval(activityInterval.current);
+          activityInterval.current = null;
+        }
+      };
+    }
+  }, [presence?.activities, rotateActivity]);
 
   useEffect(() => {
     if (disabled) {
@@ -237,6 +277,46 @@ export function DiscordPresence({
     exit: { opacity: 0, y: -10 },
   };
 
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 200 : -200,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        x: { type: "spring", stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2 },
+      },
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? -200 : 200,
+      opacity: 0,
+      transition: {
+        x: { type: "spring", stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2 },
+      },
+    }),
+  };
+
+  const [slideDirection, setSlideDirection] = useState(1);
+
+  const handleNext = () => {
+    setSlideDirection(1);
+    rotateActivity("next");
+  };
+
+  const handlePrev = () => {
+    setSlideDirection(-1);
+    rotateActivity("prev");
+  };
+
+  const getMaxActivityHeight = (): string => {
+    if (!presence || presence.activities.length === 0) return "auto";
+    return isMobile ? "6rem" : "6rem";
+  };
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -334,45 +414,102 @@ export function DiscordPresence({
               </motion.div>
 
               {presence.activities.length > 0 && (
-                <div className="space-y-2">
-                  {presence.activities.map((activity, index) => (
-                    <motion.div
-                      key={index}
-                      variants={itemVariants}
-                      className="rounded-md border border-border bg-muted/30 p-2 text-sm"
-                    >
-                      <div className="flex items-center gap-2">
-                        {activity.assets?.largeImage && (
-                          <Image
-                            src={activity.assets.largeImage}
-                            alt={activity.assets.largeText || activity.name}
-                            width={40}
-                            height={40}
-                            className="h-10 w-10 rounded-md"
+                <div>
+                  {/* Activity count indicator */}
+                  {presence.activities.length > 1 && (
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="flex gap-1">
+                        {presence.activities.map((_, index) => (
+                          <span
+                            key={index}
+                            className={`h-1.5 w-1.5 rounded-full ${
+                              index === currentActivityIndex
+                                ? "bg-primary"
+                                : "bg-muted-foreground/30"
+                            }`}
                           />
-                        )}
-                        <div>
-                          <p className="font-medium">{activity.name}</p>
-                          {activity.details && (
-                            <p className="text-xs text-muted-foreground">
-                              {activity.details}
-                            </p>
-                          )}
-                          {activity.state && (
-                            <p className="text-xs text-muted-foreground">
-                              {activity.state}
-                            </p>
-                          )}
-                          {activity.timestamps?.start && (
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {formatElapsedTime(activity.timestamps.start)}{" "}
-                              elapsed
-                            </p>
-                          )}
-                        </div>
+                        ))}
                       </div>
-                    </motion.div>
-                  ))}
+
+                      <div className="flex gap-1">
+                        <button
+                          onClick={handlePrev}
+                          className="p-1 rounded-full hover:bg-muted/50 transition-colors text-muted-foreground"
+                          aria-label="Previous activity"
+                        >
+                          <MdSkipPrevious size={16} />
+                        </button>
+                        <button
+                          onClick={handleNext}
+                          className="p-1 rounded-full hover:bg-muted/50 transition-colors text-muted-foreground"
+                          aria-label="Next activity"
+                        >
+                          <MdSkipNext size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Activity carousel */}
+                  <div
+                    className="relative overflow-hidden"
+                    style={{ height: getMaxActivityHeight() }}
+                  >
+                    <AnimatePresence initial={false} custom={slideDirection}>
+                      <motion.div
+                        key={currentActivityIndex}
+                        custom={slideDirection}
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        className="absolute w-full rounded-md border border-border bg-muted/30 p-2 text-sm"
+                      >
+                        {(() => {
+                          const activity =
+                            presence.activities[currentActivityIndex];
+                          return (
+                            <div className="flex items-start gap-2">
+                              {activity.assets?.largeImage && (
+                                <Image
+                                  src={activity.assets.largeImage}
+                                  alt={
+                                    activity.assets.largeText || activity.name
+                                  }
+                                  width={40}
+                                  height={40}
+                                  className="h-10 w-10 rounded-md flex-shrink-0"
+                                />
+                              )}
+                              <div className="flex-1 min-w-0">
+                                <p className="font-medium truncate">
+                                  {activity.name}
+                                </p>
+                                {activity.details && (
+                                  <p className="text-xs text-muted-foreground truncate">
+                                    {activity.details}
+                                  </p>
+                                )}
+                                {activity.state && (
+                                  <p className="text-xs text-muted-foreground truncate">
+                                    {activity.state}
+                                  </p>
+                                )}
+                                {activity.timestamps?.start && (
+                                  <p className="text-xs text-muted-foreground mt-1">
+                                    {formatElapsedTime(
+                                      activity.timestamps.start,
+                                    )}{" "}
+                                    elapsed
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })()}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
               )}
 

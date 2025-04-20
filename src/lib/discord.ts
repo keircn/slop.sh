@@ -3,7 +3,7 @@ import {
   Activity,
   RawActivityData,
   RawPresenceData,
-} from "~/types/presence";
+} from "~/types/Presence";
 
 export const transformActivity = (activity: RawActivityData): Activity => {
   return {

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import githubCache from "~/lib/github-cache";
 import { GitHubStatsData } from "~/types/HeaderCard";
 import { RepoNode } from "~/types/RepoNode";
@@ -44,10 +44,47 @@ const getUserStatsQuery = `
           }
         }
       }
+      pinnedItems(first: 6, types: REPOSITORY) {
+        nodes {
+          ... on Repository {
+            name
+            description
+            url
+            stargazerCount
+            forkCount
+            languages(first: 5, orderBy: { field: SIZE, direction: DESC }) {
+              edges {
+                node {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
       contributionsCollection {
         totalCommitContributions
         totalPullRequestContributions
         totalIssueContributions
+      }
+    }
+  }
+`;
+
+const getSpecificRepoQuery = `
+  query getSpecificRepo($username: String!, $repoName: String!) {
+    repository(owner: $username, name: $repoName) {
+      name
+      description
+      url
+      stargazerCount
+      forkCount
+      languages(first: 5, orderBy: { field: SIZE, direction: DESC }) {
+        edges {
+          node {
+            name
+          }
+        }
       }
     }
   }
@@ -105,6 +142,7 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
     const languagesArray = Object.entries(languages)
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count);
+
     const topRepositories = data.user.repositories.nodes
       .slice(0, 5)
       .map((repo: RepoNode) => ({
@@ -114,6 +152,16 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
         stars: repo.stargazerCount,
         forks: repo.forkCount,
       }));
+
+    const pinnedRepositories = data.user.pinnedItems.nodes.map(
+      (repo: RepoNode) => ({
+        name: repo.name,
+        description: repo.description,
+        url: repo.url,
+        stars: repo.stargazerCount,
+        forks: repo.forkCount,
+      }),
+    );
 
     const statsData: GitHubStatsData = {
       user: {
@@ -140,6 +188,7 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
       },
       languages: languagesArray,
       topRepositories,
+      pinnedRepositories,
     };
 
     githubCache.set(username, statsData);
@@ -151,13 +200,102 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
   }
 }
 
+// New function to fetch specific repository data
+async function fetchSpecificRepos(
+  username: string,
+  repoNames: string[],
+): Promise<
+  Array<{
+    name: string;
+    description: string | null;
+    url: string;
+    stars: number;
+    forks: number;
+  }>
+> {
+  try {
+    // Process repo names to extract just the name if full URLs are provided
+    const processedRepoNames = repoNames.map((repo) => {
+      // If it's a full URL, extract the repo name
+      if (repo.includes("/")) {
+        return repo.split("/").pop() || repo;
+      }
+      return repo;
+    });
+
+    // Fetch each repository individually
+    const promises = processedRepoNames.map(async (repoName) => {
+      const response = await fetch("https://api.github.com/graphql", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${GITHUB_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: getSpecificRepoQuery,
+          variables: {
+            username,
+            repoName,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        console.warn(
+          `Could not fetch repo ${repoName}: Status ${response.status}`,
+        );
+        return null;
+      }
+
+      const { data } = await response.json();
+
+      if (!data || !data.repository) {
+        console.warn(`Repository ${repoName} not found or not accessible`);
+        return null;
+      }
+
+      const repo = data.repository;
+      return {
+        name: repo.name,
+        description: repo.description,
+        url: repo.url,
+        stars: repo.stargazerCount,
+        forks: repo.forkCount,
+      };
+    });
+
+    // Wait for all repository data to be fetched
+    const results = await Promise.all(promises);
+
+    // Filter out any null results (repos that weren't found)
+    return results.filter((repo) => repo !== null) as Array<{
+      name: string;
+      description: string | null;
+      url: string;
+      stars: number;
+      forks: number;
+    }>;
+  } catch (error) {
+    console.error("Error fetching specific repositories:", error);
+    throw error;
+  }
+}
+
 export const revalidate = 3600;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const url = new URL(request.url);
+    const repoNames = url.searchParams.get("repos");
     const username = GITHUB_USERNAME;
-    const githubStats = await fetchGithubStats(username);
 
+    if (repoNames) {
+      const reposList = repoNames.split(",");
+      const specificRepos = await fetchSpecificRepos(username, reposList);
+      return NextResponse.json(specificRepos, { status: 200 });
+    }
+
+    const githubStats = await fetchGithubStats(username);
     return NextResponse.json(githubStats, { status: 200 });
   } catch (error) {
     console.error("GitHub stats API error:", error);

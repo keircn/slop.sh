@@ -13,14 +13,28 @@ interface Repository {
 }
 
 interface RepositoryListProps {
-  repositories: Repository[] | undefined;
+  repositories?: Repository[];
+  pinnedRepositories?: Repository[];
+  customRepositories?: Repository[];
   isLoading: boolean;
+  usePinnedRepos?: boolean;
 }
 
 export function RepositoryList({
   repositories,
+  customRepositories = [],
   isLoading,
+  usePinnedRepos = false,
 }: RepositoryListProps) {
+  const displayRepositories = usePinnedRepos
+    ? customRepositories && customRepositories.length > 0
+      ? customRepositories
+      : []
+    : repositories;
+  const displayTitle = usePinnedRepos
+    ? "Featured Repositories"
+    : "Top Repositories";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -28,7 +42,7 @@ export function RepositoryList({
       transition={{ delay: 0.7, duration: 0.4 }}
       className="mt-6 pt-6 border-t border-border"
     >
-      <h3 className="text-sm font-medium mb-3">Top Repositories</h3>
+      <h3 className="text-sm font-medium mb-3">{displayTitle}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {isLoading ? (
           <>
@@ -38,8 +52,8 @@ export function RepositoryList({
                 <RepositorySkeleton key={idx} />
               ))}
           </>
-        ) : repositories && repositories.length > 0 ? (
-          repositories.slice(0, 4).map((repo) => (
+        ) : displayRepositories && displayRepositories.length > 0 ? (
+          displayRepositories.slice(0, 4).map((repo) => (
             <a
               key={repo.name}
               href={repo.url}

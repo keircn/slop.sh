@@ -30,6 +30,13 @@ export interface GitHubStatsData {
     stars: number;
     forks: number;
   }>;
+  pinnedRepositories: Array<{
+    name: string;
+    description: string | null;
+    url: string;
+    stars: number;
+    forks: number;
+  }>;
 }
 
 export interface HeaderCardProps {
@@ -38,6 +45,9 @@ export interface HeaderCardProps {
   bio: string;
   avatarUrl: string;
   githubUsername?: string | null;
+  discordUserId?: string;
+  usePinnedRepos?: boolean;
+  customRepositories?: string[]; // Array of repo names or full URLs
   links?: {
     discord: string | undefined;
     github?: string;
