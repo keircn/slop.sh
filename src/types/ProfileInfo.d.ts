@@ -1,13 +1,14 @@
 export interface ProfileInfoProps {
     name: string;
-    githubName?: string | null;
+    githubUsername?: string | null;
     title: string;
     bio: string;
     avatarUrl: string;
     links: {
         github?: string;
-        discord?: string;
         email?: string;
+        website?: string;
         kofi?: string;
+        discord?: string;
     };
 }

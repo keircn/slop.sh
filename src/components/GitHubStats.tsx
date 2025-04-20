@@ -87,7 +87,6 @@ export function GitHubStats({ isLoading, stats, languages = [] }: GitHubStatsPro
                 </div>
             </div>
 
-            {/* Language section - show skeleton or content based on loading state */}
             <div className="mt-6 pt-4 border-t border-border w-full">
                 <h4 className="text-xs font-medium text-muted-foreground mb-3">
                     Top Languages

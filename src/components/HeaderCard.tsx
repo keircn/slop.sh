@@ -10,6 +10,7 @@ import { RepositoryList } from "~/components/RepositoryList";
 
 export function HeaderCard({
     name,
+    githubUsername,
     title,
     bio,
     avatarUrl,
@@ -24,9 +25,6 @@ export function HeaderCard({
     const [githubData, setGithubData] = useState<GitHubStatsData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [, setError] = useState<string | null>(null);
-
-    const githubUsername = links.github ?
-        links.github.split('/').filter(Boolean).pop() : null;
 
     useEffect(() => {
         const fetchGitHubStats = async () => {
@@ -89,7 +87,7 @@ export function HeaderCard({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <ProfileInfo
                             name={githubData?.user.name || name}
-                            githubName={githubUsername}
+                            githubUsername={githubUsername}
                             title={title}
                             bio={displayBio}
                             avatarUrl={displayAvatar}

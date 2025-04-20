@@ -38,6 +38,7 @@ export interface HeaderCardProps {
     title: string;
     bio: string;
     avatarUrl: string;
+    githubUsername?: string | null;
     links?: {
         discord: string | undefined;
         github?: string;

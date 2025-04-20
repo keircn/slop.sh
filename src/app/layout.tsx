@@ -11,7 +11,20 @@ export const metadata: Metadata = {
   title: "Keiran",
   description: "I make things",
   icons: {
-    icon: '/favicon.ico',
+    icon: '/vercel.svg',
+  },
+  openGraph: {
+    title: "Keiran",
+    description: "I make things",
+    url: "https://slop.sh",
+    siteName: "slop.sh",
+    /* images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ], */
   },
 };
 

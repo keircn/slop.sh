@@ -4,6 +4,7 @@ export const HeaderCardProps = [
         title: "Software Developer",
         bio: "I make things",
         avatarUrl: "/avatar-placeholder.jpg",
+        githubUsername: "q4ow",
         links: {
             github: "https://github.com/keiran",
             email: "mailto:me@keiran.cc",

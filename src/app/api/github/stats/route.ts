@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import githubCache from '~/lib/github-cache';
 import { GitHubStatsData } from '~/types/HeaderCard';
+import { RepoNode } from '~/types/RepoNode';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'N/A';
@@ -84,18 +85,18 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
         }
 
         const totalStars = data.user.repositories.nodes.reduce(
-            (acc: number, repo: any) => acc + repo.stargazerCount,
+            (acc: number, repo: RepoNode) => acc + repo.stargazerCount,
             0
         );
 
         const totalForks = data.user.repositories.nodes.reduce(
-            (acc: number, repo: any) => acc + repo.forkCount,
+            (acc: number, repo: RepoNode) => acc + repo.forkCount,
             0
         );
 
         const languages: Record<string, number> = {};
-        data.user.repositories.nodes.forEach((repo: any) => {
-            repo.languages.edges.forEach((edge: any) => {
+        data.user.repositories.nodes.forEach((repo: RepoNode) => {
+            repo.languages.edges.forEach((edge: { node: { name: string } }) => {
                 const langName = edge.node.name;
                 languages[langName] = (languages[langName] || 0) + 1;
             });
@@ -106,7 +107,7 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
             .sort((a, b) => b.count - a.count);
         const topRepositories = data.user.repositories.nodes
             .slice(0, 5)
-            .map((repo: any) => ({
+            .map((repo: RepoNode) => ({
                 name: repo.name,
                 description: repo.description,
                 url: repo.url,
