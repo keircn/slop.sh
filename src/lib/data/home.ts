@@ -3,7 +3,7 @@ export const HeaderCardProps = [
     name: "Keiran",
     title: "Software Developer",
     bio: "I make things",
-    avatarUrl: "/avatar-placeholder.jpg",
+    avatarUrl: "/vercel.svg",
     githubUsername: "q4ow",
     usePinnedRepos: true,
     customRepositories: ["slop-new", "archium", "e-zdocs", "snustalk"],
