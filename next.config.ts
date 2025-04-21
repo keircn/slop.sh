@@ -26,6 +26,18 @@ const nextConfig: NextConfig = {
         hostname: "raw.githubusercontent.com",
         port: "",
         pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "keiran.cc",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "slop.sh",
+        port: "",
+        pathname: "/**",
       }
     ],
   }

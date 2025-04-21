@@ -1,17 +1,25 @@
-export const HeaderCardProps = [
+import { HeaderCardProps as HeaderCardPropsType } from "~/types/HeaderCard";
+
+export const HeaderCardProps: HeaderCardPropsType[] = [
   {
     name: "Keiran",
-    title: "Software Developer",
-    bio: "I make things",
-    avatarUrl: "/vercel.svg",
-    githubUsername: "q4ow",
+    githubUsername: "yourusername",
+    title: "Full Stack Developer",
+    bio: "I'm passionate about building high-quality web applications using modern technologies. I enjoy working with React, TypeScript, and exploring new frameworks.",
+    avatarUrl: "https://github.com/yourusername.png",
     usePinnedRepos: true,
-    customRepositories: ["slop-new", "archium", "e-zdocs", "snustalk"],
+    customRepositories: ["yourusername/personal-website", "yourusername/project-manager", "yourusername/chat-app"],
     links: {
-      github: "https://github.com/q4ow",
-      email: "mailto:me@keiran.cc",
-      kofi: "https://ko-fi.com/anonhost",
-      discord: "https://discord.com/users/1230319937155760131",
+      github: "https://github.com/yourusername",
+      email: "mailto:hello@example.com",
+      kofi: "https://ko-fi.com/yourusername",
+      discord: "https://discord.com/users/yourdiscordid",
+    },
+    discordUserId: "yourdiscordid",
+    stats: {
+      projects: 12,
+      stars: 45,
+      contributions: 280,
     },
   },
 ];
