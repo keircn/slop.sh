@@ -14,7 +14,8 @@ import {
 } from "react-icons/wi";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useMobile } from "~/lib/hooks/useMobile";
-import { Button } from "./ui/button";
+import { Button } from "~/components/ui/button";
+import { NavClock } from "~/components/NavClock";
 
 interface WeatherData {
   location: string;
@@ -189,6 +190,10 @@ export function Navbar() {
                 slop.sh
               </Link>
             </motion.div>
+          </div>
+
+          <div className="hidden md:flex flex-1 justify-center">
+            <NavClock />
           </div>
 
           <div className="flex items-center gap-4">

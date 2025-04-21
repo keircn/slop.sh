@@ -8,7 +8,11 @@ export const HeaderCardProps: HeaderCardPropsType[] = [
     bio: "I'm passionate about building high-quality web applications using modern technologies. I enjoy working with React, TypeScript, and exploring new frameworks.",
     avatarUrl: "https://github.com/yourusername.png",
     usePinnedRepos: true,
-    customRepositories: ["yourusername/personal-website", "yourusername/project-manager", "yourusername/chat-app"],
+    customRepositories: [
+      "yourusername/personal-website",
+      "yourusername/project-manager",
+      "yourusername/chat-app",
+    ],
     links: {
       github: "https://github.com/yourusername",
       email: "mailto:hello@example.com",
