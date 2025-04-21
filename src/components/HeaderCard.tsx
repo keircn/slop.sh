@@ -164,7 +164,7 @@ export function HeaderCard({
                   onConnectionChange={handleDiscordConnectionChange}
                 />
               ) : (
-                <Weather location="Margate,UK" />
+                <Weather location="London,UK" />
               )}
             </div>
 

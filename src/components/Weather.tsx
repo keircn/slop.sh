@@ -35,7 +35,7 @@ interface WeatherProps {
 }
 
 export function Weather({
-  location = "Margate,UK",
+  location = "London,UK",
   disabled = false,
 }: WeatherProps) {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);

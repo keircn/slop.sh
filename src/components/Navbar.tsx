@@ -92,7 +92,7 @@ export function Navbar() {
     const fetchWeather = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`/api/weather?location=Margate,UK`);
+        const response = await fetch(`/api/weather?location=London,UK`);
 
         if (!response.ok) {
           throw new Error(`API returned status: ${response.status}`);

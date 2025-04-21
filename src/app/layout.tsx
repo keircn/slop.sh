@@ -35,23 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.classList.toggle('dark', prefersDark);
-
-                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                  document.documentElement.classList.toggle('dark', e.matches);
-                });
-              })();
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" suppressHydrationWarning className="dark scroll-smooth">
       <body
         className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}
       >
