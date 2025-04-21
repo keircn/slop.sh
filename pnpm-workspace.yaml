@@ -1,3 +1,5 @@
 onlyBuiltDependencies:
+  - eslint-js
   - sharp
+  - sqlite3
   - unrs-resolver

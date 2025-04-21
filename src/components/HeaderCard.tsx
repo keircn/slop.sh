@@ -8,6 +8,7 @@ import { ProfileInfo } from "~/components/ProfileInfo";
 import { GitHubStats } from "~/components/GitHubStats";
 import { RepositoryList } from "~/components/RepositoryList";
 import { DiscordPresence } from "~/components/DiscordPresence";
+import { Weather } from "~/components/Weather";
 
 export function HeaderCard({
   name,
@@ -37,6 +38,9 @@ export function HeaderCard({
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCustomRepos, setIsLoadingCustomRepos] = useState(false);
   const [, setError] = useState<string | null>(null);
+
+  const [, setIsDiscordConnected] = useState(false);
+  const [showWeather, setShowWeather] = useState(false);
 
   useEffect(() => {
     const fetchGitHubStats = async () => {
@@ -111,6 +115,14 @@ export function HeaderCard({
   const displayAvatar = githubData?.user.avatarUrl || avatarUrl;
   const displayBio = githubData?.user.bio || bio;
 
+  const handleDiscordConnectionChange = (connected: boolean) => {
+    console.log(
+      `Discord connection status changed: ${connected ? "connected" : "disconnected"}`,
+    );
+    setIsDiscordConnected(connected);
+    setShowWeather(!connected);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -145,7 +157,15 @@ export function HeaderCard({
                 }}
               />
 
-              <DiscordPresence userId={discordUserId} />
+              {!showWeather ? (
+                <DiscordPresence
+                  userId={discordUserId}
+                  disabled={!links.discord}
+                  onConnectionChange={handleDiscordConnectionChange}
+                />
+              ) : (
+                <Weather location="Margate,UK" />
+              )}
             </div>
 
             <div className="space-y-4">

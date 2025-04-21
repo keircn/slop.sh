@@ -14,11 +14,13 @@ import { useMobile } from "~/lib/hooks/useMobile";
 interface DiscordPresenceProps {
   userId?: string;
   disabled?: boolean;
+  onConnectionChange?: (isConnected: boolean) => void;
 }
 
 export function DiscordPresence({
   userId,
   disabled = false,
+  onConnectionChange,
 }: DiscordPresenceProps) {
   const [presence, setPresence] = useState<Presence | null>(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -29,6 +31,12 @@ export function DiscordPresence({
   const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
   const activityInterval = useRef<NodeJS.Timeout | null>(null);
   const { isMobile } = useMobile();
+
+  useEffect(() => {
+    if (disabled || !userId) {
+      setIsVisible(false);
+    }
+  }, [disabled, userId]);
 
   const retryConnection = () => {
     setIsLoading(true);
@@ -77,6 +85,7 @@ export function DiscordPresence({
     if (disabled) {
       setIsLoading(false);
       setIsVisible(false);
+      if (onConnectionChange) onConnectionChange(false);
       return;
     }
 
@@ -96,6 +105,7 @@ export function DiscordPresence({
         setIsLoading(false);
         setError("Connection failed after multiple attempts");
         setIsVisible(false);
+        if (onConnectionChange) onConnectionChange(false);
 
         reconnectTimer = setTimeout(() => {
           reconnectAttempts = 0;
@@ -118,6 +128,7 @@ export function DiscordPresence({
             setIsLoading(false);
             setError("Connection timed out");
             setIsVisible(false);
+            if (onConnectionChange) onConnectionChange(false);
           }
         }, 5000);
 
@@ -142,18 +153,25 @@ export function DiscordPresence({
               setPresence(transformed);
               setIsLoading(false);
 
-              setIsVisible(transformed.status !== "offline");
+              console.log("Discord status received:", transformed.status);
+              const newVisibility = transformed.status !== "offline";
+              setIsVisible(newVisibility);
+              if (onConnectionChange) onConnectionChange(newVisibility);
             } else if (data && data._id) {
               const transformed = transformPresence(data);
               setPresence(transformed);
               setIsLoading(false);
 
-              setIsVisible(transformed.status !== "offline");
+              console.log("Discord status received:", transformed.status);
+              const newVisibility = transformed.status !== "offline";
+              setIsVisible(newVisibility);
+              if (onConnectionChange) onConnectionChange(newVisibility);
             } else if (data && data.type === "ERROR") {
               console.error("WebSocket error from server:", data.message);
               setError(`Server error: ${data.message}`);
               setIsLoading(false);
               setIsVisible(false);
+              if (onConnectionChange) onConnectionChange(false);
             } else {
               console.warn("Unrecognized WebSocket message format:", data);
               setIsLoading(false);
@@ -163,6 +181,7 @@ export function DiscordPresence({
             setError("Failed to parse data from Discord service");
             setIsLoading(false);
             setIsVisible(false);
+            if (onConnectionChange) onConnectionChange(false);
           }
         };
 
@@ -183,6 +202,7 @@ export function DiscordPresence({
             setError("Connection to Discord presence service closed");
             setIsLoading(false);
             setIsVisible(false);
+            if (onConnectionChange) onConnectionChange(false);
 
             reconnectTimer = setTimeout(() => {
               reconnectAttempts = 0;
@@ -197,6 +217,7 @@ export function DiscordPresence({
           setError("Failed to connect to the Discord presence service");
           setIsLoading(false);
           setIsVisible(false);
+          if (onConnectionChange) onConnectionChange(false);
           ws?.close();
         };
       } catch (err) {
@@ -206,6 +227,7 @@ export function DiscordPresence({
         );
         setIsLoading(false);
         setIsVisible(false);
+        if (onConnectionChange) onConnectionChange(false);
       }
     };
 
@@ -217,7 +239,7 @@ export function DiscordPresence({
       }
       clearTimeout(reconnectTimer);
     };
-  }, [userId, connectionAttempts, disabled]);
+  }, [userId, connectionAttempts, disabled, onConnectionChange]);
 
   const formatElapsedTime = (startTime: Date | null): string => {
     if (!startTime) return "";
