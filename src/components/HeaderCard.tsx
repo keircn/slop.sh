@@ -39,8 +39,15 @@ export function HeaderCard({
   const [isLoadingCustomRepos, setIsLoadingCustomRepos] = useState(false);
   const [, setError] = useState<string | null>(null);
 
-  const [, setIsDiscordConnected] = useState(false);
-  const [showWeather, setShowWeather] = useState(false);
+  const [isDiscordConnected, setIsDiscordConnected] = useState(false);
+  const [discordLoading, setDiscordLoading] = useState(true);
+
+  useEffect(() => {
+    if (!links.discord || !discordUserId) {
+      setIsDiscordConnected(false);
+      setDiscordLoading(false);
+    }
+  }, [links.discord, discordUserId]);
 
   useEffect(() => {
     const fetchGitHubStats = async () => {
@@ -120,7 +127,7 @@ export function HeaderCard({
       `Discord connection status changed: ${connected ? "connected" : "disconnected"}`,
     );
     setIsDiscordConnected(connected);
-    setShowWeather(!connected);
+    setDiscordLoading(false);
   };
 
   return (
@@ -157,14 +164,18 @@ export function HeaderCard({
                 }}
               />
 
-              {!showWeather ? (
-                <DiscordPresence
-                  userId={discordUserId}
-                  disabled={!links.discord}
-                  onConnectionChange={handleDiscordConnectionChange}
-                />
-              ) : (
-                <Weather location="London,UK" />
+              {!discordLoading && (
+                <>
+                  {isDiscordConnected ? (
+                    <DiscordPresence
+                      userId={discordUserId}
+                      disabled={!links.discord}
+                      onConnectionChange={handleDiscordConnectionChange}
+                    />
+                  ) : (
+                    <Weather location="London,UK" />
+                  )}
+                </>
               )}
             </div>
 
