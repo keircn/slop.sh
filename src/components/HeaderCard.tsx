@@ -39,9 +39,8 @@ export function HeaderCard({
   const [isLoadingCustomRepos, setIsLoadingCustomRepos] = useState(false);
   const [, setError] = useState<string | null>(null);
 
-  const [isDiscordConnected, setIsDiscordConnected] = useState(false);
+  const [, setIsDiscordConnected] = useState(false);
   const [discordLoading, setDiscordLoading] = useState(true);
-  const [hasDoneInitialRender, setHasDoneInitialRender] = useState(false);
 
   useEffect(() => {
     if (!links.discord || !discordUserId) {
@@ -54,7 +53,6 @@ export function HeaderCard({
     console.log(`Discord connection status: ${connected ? "connected" : "disconnected"}`);
     setIsDiscordConnected(connected);
     setDiscordLoading(false);
-    setHasDoneInitialRender(true);
   }, []);
 
   useEffect(() => {
