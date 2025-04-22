@@ -154,7 +154,7 @@ export function DiscordPresence({
             setIsVisible(false);
             if (onConnectionChange) onConnectionChange(false);
           }
-        }, 5000);
+        }, 2000);
 
         ws.onopen = () => {
           console.log("Connected to Discord presence WebSocket");
@@ -164,6 +164,7 @@ export function DiscordPresence({
           setError(null);
 
           if (userId) {
+            console.log(`Sending REQUEST_USER for userId: ${userId}`);
             ws?.send(JSON.stringify({ type: "REQUEST_USER", userId }));
           }
         };
@@ -480,11 +481,10 @@ export function DiscordPresence({
                         {presence.activities.map((_, index) => (
                           <span
                             key={index}
-                            className={`h-1.5 w-1.5 rounded-full ${
-                              index === currentActivityIndex
-                                ? "bg-primary"
-                                : "bg-muted-foreground/30"
-                            }`}
+                            className={`h-1.5 w-1.5 rounded-full ${index === currentActivityIndex
+                              ? "bg-primary"
+                              : "bg-muted-foreground/30"
+                              }`}
                           />
                         ))}
                       </div>

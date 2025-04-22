@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent } from "~/components/ui/card";
 import { motion } from "framer-motion";
 import { GitHubStatsData, HeaderCardProps } from "~/types/HeaderCard";
@@ -41,24 +41,21 @@ export function HeaderCard({
 
   const [isDiscordConnected, setIsDiscordConnected] = useState(false);
   const [discordLoading, setDiscordLoading] = useState(true);
-  const [hasAttemptedDiscordConnection, setHasAttemptedDiscordConnection] = useState(false);
+  const [hasDoneInitialRender, setHasDoneInitialRender] = useState(false);
 
   useEffect(() => {
     if (!links.discord || !discordUserId) {
       setIsDiscordConnected(false);
       setDiscordLoading(false);
-      setHasAttemptedDiscordConnection(true);
-    } else {
-      const timeoutId = setTimeout(() => {
-        if (discordLoading) {
-          console.log("Setting Discord loading to false after timeout");
-          setDiscordLoading(false);
-        }
-      }, 5000);
-
-      return () => clearTimeout(timeoutId);
     }
-  }, [links.discord, discordUserId, discordLoading]);
+  }, [links.discord, discordUserId]);
+
+  const handleDiscordConnectionChange = useCallback((connected: boolean) => {
+    console.log(`Discord connection status: ${connected ? "connected" : "disconnected"}`);
+    setIsDiscordConnected(connected);
+    setDiscordLoading(false);
+    setHasDoneInitialRender(true);
+  }, []);
 
   useEffect(() => {
     const fetchGitHubStats = async () => {
@@ -133,14 +130,6 @@ export function HeaderCard({
   const displayAvatar = githubData?.user.avatarUrl || avatarUrl;
   const displayBio = githubData?.user.bio || bio;
 
-  const handleDiscordConnectionChange = (connected: boolean) => {
-    console.log(
-      `Discord connection status changed: ${connected ? "connected" : "disconnected"}`,
-    );
-    setIsDiscordConnected(connected);
-    setDiscordLoading(false);
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -175,30 +164,15 @@ export function HeaderCard({
                 }}
               />
 
-              {!discordLoading && (
-                <>
-                  {!hasAttemptedDiscordConnection ? (
-                    <DiscordPresence
-                      userId={discordUserId}
-                      disabled={!links.discord}
-                      onConnectionChange={(connected) => {
-                        console.log(`Discord connection status: ${connected ? "connected" : "disconnected"}`);
-                        setIsDiscordConnected(connected);
-                        setHasAttemptedDiscordConnection(true);
-                        setDiscordLoading(false);
-                      }}
-                    />
-                  ) : isDiscordConnected ? (
-                    <DiscordPresence
-                      userId={discordUserId}
-                      disabled={!links.discord}
-                      onConnectionChange={handleDiscordConnectionChange}
-                    />
-                  ) : (
-                    <Weather location="London,UK" />
-                  )}
-                </>
-              )}
+              {links.discord && discordUserId ? (
+                <DiscordPresence
+                  userId={discordUserId}
+                  disabled={!links.discord}
+                  onConnectionChange={handleDiscordConnectionChange}
+                />
+              ) : !discordLoading ? (
+                <Weather location="London,UK" />
+              ) : null}
             </div>
 
             <div className="space-y-4">
