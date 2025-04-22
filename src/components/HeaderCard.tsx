@@ -54,7 +54,7 @@ export function HeaderCard({
           console.log("Setting Discord loading to false after timeout");
           setDiscordLoading(false);
         }
-      }, 3000);
+      }, 5000);
 
       return () => clearTimeout(timeoutId);
     }
