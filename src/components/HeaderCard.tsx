@@ -46,8 +46,17 @@ export function HeaderCard({
     if (!links.discord || !discordUserId) {
       setIsDiscordConnected(false);
       setDiscordLoading(false);
+    } else {
+      const timeoutId = setTimeout(() => {
+        if (discordLoading) {
+          console.log("Setting Discord loading to false after timeout");
+          setDiscordLoading(false);
+        }
+      }, 3000);
+
+      return () => clearTimeout(timeoutId);
     }
-  }, [links.discord, discordUserId]);
+  }, [links.discord, discordUserId, discordLoading]);
 
   useEffect(() => {
     const fetchGitHubStats = async () => {
