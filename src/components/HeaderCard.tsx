@@ -41,11 +41,13 @@ export function HeaderCard({
 
   const [isDiscordConnected, setIsDiscordConnected] = useState(false);
   const [discordLoading, setDiscordLoading] = useState(true);
+  const [hasAttemptedDiscordConnection, setHasAttemptedDiscordConnection] = useState(false);
 
   useEffect(() => {
     if (!links.discord || !discordUserId) {
       setIsDiscordConnected(false);
       setDiscordLoading(false);
+      setHasAttemptedDiscordConnection(true);
     } else {
       const timeoutId = setTimeout(() => {
         if (discordLoading) {
@@ -175,7 +177,18 @@ export function HeaderCard({
 
               {!discordLoading && (
                 <>
-                  {isDiscordConnected ? (
+                  {!hasAttemptedDiscordConnection ? (
+                    <DiscordPresence
+                      userId={discordUserId}
+                      disabled={!links.discord}
+                      onConnectionChange={(connected) => {
+                        console.log(`Discord connection status: ${connected ? "connected" : "disconnected"}`);
+                        setIsDiscordConnected(connected);
+                        setHasAttemptedDiscordConnection(true);
+                        setDiscordLoading(false);
+                      }}
+                    />
+                  ) : isDiscordConnected ? (
                     <DiscordPresence
                       userId={discordUserId}
                       disabled={!links.discord}
