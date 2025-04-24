@@ -50,7 +50,9 @@ export function HeaderCard({
   }, [links.discord, discordUserId]);
 
   const handleDiscordConnectionChange = useCallback((connected: boolean) => {
-    console.log(`Discord connection status: ${connected ? "connected" : "disconnected"}`);
+    console.log(
+      `Discord connection status: ${connected ? "connected" : "disconnected"}`,
+    );
     setIsDiscordConnected(connected);
     setDiscordLoading(false);
   }, []);
@@ -138,7 +140,7 @@ export function HeaderCard({
       <div className="absolute -top-6 -left-6 w-32 h-32 bg-primary/10 rounded-full blur-xl" />
       <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-xl" />
 
-      <Card className="overflow-hidden border-2 relative backdrop-blur-sm">
+      <Card className="overflow-hidden border-2 relative backdrop-blur-sm max-w-6xl">
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <div className="absolute -top-12 -right-12 w-40 h-40 border border-primary/30 rounded-full" />
           <div className="absolute top-20 -right-8 w-24 h-24 border border-primary/20 rounded-full" />

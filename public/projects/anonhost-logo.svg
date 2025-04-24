@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background gradient for dark theme -->
+  <rect width="200" height="200" fill="url(#gradient)"/>
+  
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0C5A8A"/>
+      <stop offset="100%" stop-color="#002233"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Arch triangle -->
+  <path d="M60 140 L100 60 L140 140 Z" fill="none" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- 'a' shape -->
+  <path d="M80 110 Q100 120, 120 140" stroke="white" stroke-width="12" fill="none" stroke-linecap="round"/>
+</svg>
