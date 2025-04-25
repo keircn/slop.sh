@@ -29,9 +29,9 @@ export const ProjectCard = ({
         transition={{ duration: 0.3 }}
         className="w-full rounded-lg bg-card/90 shadow-sm border border-border/50 p-6"
       >
-        <div className="flex flex-col gap-4 md:flex-row">
+        <div className="flex flex-col h-full gap-4 md:flex-row">
           <div className="flex-shrink-0">
-            <div className="relative h-32 w-32 overflow-hidden rounded-md border border-border/40">
+            <div className="relative h-full min-h-[8rem] w-44 overflow-hidden rounded-md border border-border/40">
               <Image
                 src={logo}
                 alt={`${company} logo`}
