@@ -7,7 +7,7 @@ type CacheEntry = {
 
 class GitHubStatsCache {
   private cache: Record<string, CacheEntry> = {};
-  private readonly TTL_MS = 60 * 60 * 1000;
+  private readonly TTL_MS = 24 * 60 * 60 * 1000;
 
   get(username: string): GitHubStatsData | null {
     const entry = this.cache[username];

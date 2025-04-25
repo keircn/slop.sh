@@ -14,6 +14,7 @@ import {
 } from "react-icons/wi";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useMobile } from "~/lib/hooks/useMobile";
+import { useScrollDirection } from "~/lib/hooks/useScrollDirection";
 import { Button } from "~/components/ui/button";
 import { NavClock } from "~/components/NavClock";
 
@@ -87,6 +88,7 @@ export function Navbar() {
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const { isMobile } = useMobile();
+  const isScrollingUp = useScrollDirection();
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -172,7 +174,12 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-lg bg-background/90 border-b border-border/40">
+    <motion.header
+      className="sticky top-0 z-50 w-full backdrop-blur-lg bg-background/90 border-b border-border/40"
+      initial={{ y: 0 }}
+      animate={{ y: isScrollingUp ? 0 : -100 }}
+      transition={{ duration: 0.3 }}
+    >
       <motion.div
         className="container mx-auto px-4 py-3"
         variants={navVariants}
@@ -248,6 +255,6 @@ export function Navbar() {
           )}
         </AnimatePresence>
       </motion.div>
-    </header>
+    </motion.header>
   );
 }
