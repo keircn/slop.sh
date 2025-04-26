@@ -55,4 +55,36 @@ export const projects: Project[] = [
       ],
     },
   },
+  {
+    title: "E-Z Docs",
+    role: "Head Developer",
+    company: "E-Z Docs",
+    timeline: "November 2024 - March 2025",
+    description:
+      "Community driven documentation for the products provided by E-Z services. I am responsible for all aspects of the project, from the frontend to the hours of research I put in.",
+    logo: "/projects/e-z.svg",
+    image: "/projects/e-zdocs.png",
+    website: "https://e-z.wiki",
+    detailedInfo: {
+      overview:
+        "Community driven documentation for the products provided by E-Z services. I am responsible for all aspects of the project, from frontend to the hours of research I put in.",
+      projects: ["E-Z Docs - Community driven documentation"],
+      technologies: [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Git",
+        "Vercel",
+      ],
+      responsibilities: [
+        "Frontend development",
+        "User experience design",
+        "API development",
+        "Deployment and maintenance",
+        "Information research & proofreading",
+        "Community management",
+        "Documentation writing",
+      ],
+    },
+  }
 ];

@@ -31,7 +31,7 @@ export const ProjectCard = ({
       >
         <div className="flex flex-col h-full gap-4 md:flex-row">
           <div className="flex-shrink-0">
-            <div className="relative h-full min-h-[8rem] w-44 overflow-hidden rounded-md border border-border/40">
+            <div className="relative h-full min-h-[8rem] w-44 overflow-hidden rounded-md">
               <Image
                 src={logo}
                 alt={`${company} logo`}
