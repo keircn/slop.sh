@@ -44,7 +44,7 @@ export function DiscordPresence({
   const retryConnection = () => {
     setIsLoading(true);
     setError(null);
-    setIsVisible(true);
+    if (onConnectionChange) onConnectionChange(false);
     setConnectionAttempts((prev) => prev + 1);
   };
 
@@ -72,7 +72,6 @@ export function DiscordPresence({
           console.log("Discord connection timed out after waiting");
           setError("Connection timed out");
           setIsLoading(false);
-          setIsVisible(false);
           if (onConnectionChange) onConnectionChange(false);
         }
       }, 10000);

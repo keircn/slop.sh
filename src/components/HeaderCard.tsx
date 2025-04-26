@@ -37,24 +37,11 @@ export function HeaderCard({
   }> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCustomRepos, setIsLoadingCustomRepos] = useState(false);
-  const [, setError] = useState<string | null>(null);
-
-  const [, setIsDiscordConnected] = useState(false);
-  const [discordLoading, setDiscordLoading] = useState(true);
-
-  useEffect(() => {
-    if (!links.discord || !discordUserId) {
-      setIsDiscordConnected(false);
-      setDiscordLoading(false);
-    }
-  }, [links.discord, discordUserId]);
 
   const handleDiscordConnectionChange = useCallback((connected: boolean) => {
     console.log(
       `Discord connection status: ${connected ? "connected" : "disconnected"}`,
     );
-    setIsDiscordConnected(connected);
-    setDiscordLoading(false);
   }, []);
 
   useEffect(() => {
@@ -74,10 +61,8 @@ export function HeaderCard({
 
         const data = await response.json();
         setGithubData(data);
-        setError(null);
       } catch (err) {
         console.error("Failed to fetch GitHub stats:", err);
-        setError("Could not load GitHub stats");
       } finally {
         setIsLoading(false);
       }
@@ -104,10 +89,8 @@ export function HeaderCard({
 
         const data = await response.json();
         setCustomRepoData(data);
-        setError(null);
       } catch (err) {
         console.error("Failed to fetch custom repository data:", err);
-        setError("Could not load custom repositories");
       } finally {
         setIsLoadingCustomRepos(false);
       }
@@ -170,9 +153,9 @@ export function HeaderCard({
                   disabled={!links.discord}
                   onConnectionChange={handleDiscordConnectionChange}
                 />
-              ) : !discordLoading ? (
+              ) : (
                 <Weather location="London,UK" />
-              ) : null}
+              )}
             </div>
 
             <div className="space-y-4">

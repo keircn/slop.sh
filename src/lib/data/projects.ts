@@ -69,13 +69,7 @@ export const projects: Project[] = [
       overview:
         "Community driven documentation for the products provided by E-Z services. I am responsible for all aspects of the project, from frontend to the hours of research I put in.",
       projects: ["E-Z Docs - Community driven documentation"],
-      technologies: [
-        "React",
-        "TypeScript",
-        "Node.js",
-        "Git",
-        "Vercel",
-      ],
+      technologies: ["React", "TypeScript", "Node.js", "Git", "Vercel"],
       responsibilities: [
         "Frontend development",
         "User experience design",
@@ -86,5 +80,5 @@ export const projects: Project[] = [
         "Documentation writing",
       ],
     },
-  }
+  },
 ];
