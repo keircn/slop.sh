@@ -5,8 +5,8 @@ export const HeaderCardProps: HeaderCardPropsType[] = [
     name: "Keiran",
     githubUsername: "q4ow",
     title: "Full Stack Developer",
-    bio: "I'm passionate about building high-quality web applications using modern technologies. I enjoy working with React, TypeScript, and exploring new frameworks.",
-    avatarUrl: "/vercel.svg",
+    bio: "",
+    avatarUrl: "",
     usePinnedRepos: true,
     customRepositories: [
       "q4ow/slop-new",
