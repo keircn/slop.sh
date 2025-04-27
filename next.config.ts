@@ -40,6 +40,21 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       }
     ],
+  },
+  poweredByHeader: false,
+  reactStrictMode: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  experimental: {
+    optimizeCss: true,
+  },
+  webpack: (config) => {
+    config.optimization = {
+      ...config.optimization,
+      moduleIds: 'deterministic'
+    }
+    return config;
   }
 };
 

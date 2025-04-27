@@ -9,6 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://slop.sh"),
   title: "Keiran",
   description: "I make things",
   icons: {

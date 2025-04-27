@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import { Card, CardContent } from "~/components/ui/card";
 import { motion } from "framer-motion";
 import { GitHubStatsData, HeaderCardProps } from "~/types/HeaderCard";
@@ -10,7 +10,7 @@ import { RepositoryList } from "~/components/RepositoryList";
 import { DiscordPresence } from "~/components/DiscordPresence";
 import { Weather } from "~/components/Weather";
 
-export function HeaderCard({
+export const HeaderCard = memo(function HeaderCard({
   name,
   githubUsername,
   title,
@@ -44,60 +44,60 @@ export function HeaderCard({
     );
   }, []);
 
-  useEffect(() => {
-    const fetchGitHubStats = async () => {
-      if (!links.github) {
-        setIsLoading(false);
-        return;
+  const fetchGitHubStats = useCallback(async () => {
+    if (!links.github) {
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/github/stats");
+
+      if (!response.ok) {
+        throw new Error(`API returned status: ${response.status}`);
       }
 
-      try {
-        setIsLoading(true);
-        const response = await fetch("/api/github/stats");
-
-        if (!response.ok) {
-          throw new Error(`API returned status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setGithubData(data);
-      } catch (err) {
-        console.error("Failed to fetch GitHub stats:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchGitHubStats();
+      const data = await response.json();
+      setGithubData(data);
+    } catch (err) {
+      console.error("Failed to fetch GitHub stats:", err);
+    } finally {
+      setIsLoading(false);
+    }
   }, [links.github]);
 
-  useEffect(() => {
-    const fetchCustomRepos = async () => {
-      if (!usePinnedRepos || customRepositories.length === 0 || !links.github) {
-        setIsLoadingCustomRepos(false);
-        return;
+  const fetchCustomRepos = useCallback(async () => {
+    if (!usePinnedRepos || customRepositories.length === 0 || !links.github) {
+      setIsLoadingCustomRepos(false);
+      return;
+    }
+
+    try {
+      setIsLoadingCustomRepos(true);
+      const reposList = customRepositories.join(",");
+      const response = await fetch(`/api/github/stats?repos=${reposList}`);
+
+      if (!response.ok) {
+        throw new Error(`API returned status: ${response.status}`);
       }
 
-      try {
-        setIsLoadingCustomRepos(true);
-        const reposList = customRepositories.join(",");
-        const response = await fetch(`/api/github/stats?repos=${reposList}`);
-
-        if (!response.ok) {
-          throw new Error(`API returned status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setCustomRepoData(data);
-      } catch (err) {
-        console.error("Failed to fetch custom repository data:", err);
-      } finally {
-        setIsLoadingCustomRepos(false);
-      }
-    };
-
-    fetchCustomRepos();
+      const data = await response.json();
+      setCustomRepoData(data);
+    } catch (err) {
+      console.error("Failed to fetch custom repository data:", err);
+    } finally {
+      setIsLoadingCustomRepos(false);
+    }
   }, [usePinnedRepos, customRepositories, links.github]);
+
+  useEffect(() => {
+    fetchGitHubStats();
+  }, [fetchGitHubStats]);
+
+  useEffect(() => {
+    fetchCustomRepos();
+  }, [fetchCustomRepos]);
 
   const isLoadingRepos = isLoading || (usePinnedRepos && isLoadingCustomRepos);
 
@@ -178,4 +178,4 @@ export function HeaderCard({
       </Card>
     </motion.div>
   );
-}
+});
