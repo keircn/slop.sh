@@ -46,9 +46,6 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  experimental: {
-    optimizeCss: true,
-  },
   webpack: (config) => {
     config.optimization = {
       ...config.optimization,

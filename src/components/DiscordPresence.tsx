@@ -9,7 +9,7 @@ import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Presence } from "~/types/Presence";
 import { transformPresence } from "~/lib/discord";
-import { useMobile } from "~/lib/hooks/useMobile";
+import { useMobile } from "~/hooks/useMobile";
 
 interface DiscordPresenceProps {
   userId?: string;

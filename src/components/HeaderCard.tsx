@@ -9,6 +9,7 @@ import { GitHubStats } from "~/components/GitHubStats";
 import { RepositoryList } from "~/components/RepositoryList";
 import { DiscordPresence } from "~/components/DiscordPresence";
 import { Weather } from "~/components/Weather";
+import { useMobile } from "~/hooks/useMobile";
 
 export const HeaderCard = memo(function HeaderCard({
   name,
@@ -37,6 +38,7 @@ export const HeaderCard = memo(function HeaderCard({
   }> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCustomRepos, setIsLoadingCustomRepos] = useState(false);
+  const { isMobile } = useMobile();
 
   const handleDiscordConnectionChange = useCallback((connected: boolean) => {
     console.log(
@@ -110,7 +112,7 @@ export const HeaderCard = memo(function HeaderCard({
     issues: githubData?.stats.issues || 0,
   };
 
-  const displayAvatar = githubData?.user.avatarUrl || avatarUrl;
+  const displayAvatar = avatarUrl;
   const displayBio = githubData?.user.bio || bio;
 
   return (
@@ -118,11 +120,8 @@ export const HeaderCard = memo(function HeaderCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="relative flex flex-col justify-center"
+      className={`relative flex flex-col justify-center ${isMobile ? "px-4" : ""}`}
     >
-      <div className="absolute -top-6 -left-6 w-32 h-32 bg-primary/10 rounded-full blur-xl" />
-      <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-xl" />
-
       <Card className="overflow-hidden border-2 relative backdrop-blur-sm max-w-6xl bg-card">
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <div className="absolute -top-12 -right-12 w-40 h-40 border border-primary/30 rounded-full" />

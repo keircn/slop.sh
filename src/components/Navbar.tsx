@@ -12,10 +12,8 @@ import {
   WiFog,
   WiNightClear,
 } from "react-icons/wi";
-import { FiMenu, FiX } from "react-icons/fi";
-import { useMobile } from "~/lib/hooks/useMobile";
-import { useScrollDirection } from "~/lib/hooks/useScrollDirection";
-import { Button } from "~/components/ui/button";
+import { useMobile } from "~/hooks/useMobile";
+import { useScrollDirection } from "~/hooks/useScrollDirection";
 import { NavClock } from "~/components/NavClock";
 
 interface WeatherData {
@@ -175,7 +173,7 @@ export function Navbar() {
 
   return (
     <motion.header
-      className="sticky top-0 z-50 w-full backdrop-blur-lg bg-background/90 border-b border-border/40"
+      className={`sticky top-0 z-50 w-full backdrop-blur-lg bg-background/90 border-b border-border/40 ${isMobile ? "px-2" : ""}`}
       initial={{ y: 0 }}
       animate={{ y: isScrollingUp ? 0 : -100 }}
       transition={{ duration: 0.3 }}
@@ -206,7 +204,7 @@ export function Navbar() {
           <div className="flex items-center gap-4">
             {!isLoading && <WeatherDisplay weatherData={weatherData} />}
 
-            <div className="md:hidden">
+            {/* <div className="md:hidden">
               <Button
                 variant="ghost"
                 size="icon"
@@ -215,7 +213,7 @@ export function Navbar() {
               >
                 {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
 

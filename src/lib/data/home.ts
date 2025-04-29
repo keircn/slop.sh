@@ -6,7 +6,7 @@ export const HeaderCardProps: HeaderCardPropsType[] = [
     githubUsername: "q4ow",
     title: "Full Stack Developer",
     bio: "",
-    avatarUrl: "",
+    avatarUrl: "https://avatars.githubusercontent.com/u/209698135?v=4",
     usePinnedRepos: true,
     customRepositories: [
       "q4ow/slop-new",

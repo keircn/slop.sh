@@ -16,7 +16,7 @@ import {
   WiThermometer,
 } from "react-icons/wi";
 import { Skeleton } from "~/components/ui/skeleton";
-import { useMobile } from "~/lib/hooks/useMobile";
+import { useMobile } from "~/hooks/useMobile";
 
 interface WeatherData {
   location: string;
