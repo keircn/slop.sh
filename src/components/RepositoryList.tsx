@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { FaStar, FaCodeBranch } from "react-icons/fa";
 import { Skeleton } from "~/components/ui/skeleton";
+import Link from "next/link";
 
 interface Repository {
   name: string;
@@ -54,7 +55,7 @@ export function RepositoryList({
           </>
         ) : displayRepositories && displayRepositories.length > 0 ? (
           displayRepositories.slice(0, 4).map((repo) => (
-            <a
+            <Link
               key={repo.name}
               href={repo.url}
               target="_blank"
@@ -77,7 +78,7 @@ export function RepositoryList({
                   {repo.forks}
                 </span>
               </div>
-            </a>
+            </Link>
           ))
         ) : (
           <div className="p-3 border border-border rounded-lg col-span-2 text-center text-sm text-muted-foreground">

@@ -5,6 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { FaGithub, FaEnvelope, FaCoffee, FaDiscord } from "react-icons/fa";
 import { ProfileInfoProps } from "~/types/ProfileInfo";
+import Link from "next/link";
+import { BiCode } from "react-icons/bi";
 
 export function ProfileInfo({
   name,
@@ -64,43 +66,53 @@ export function ProfileInfo({
           >
             {links.github && (
               <Button variant="outline" size="sm" asChild className="gap-1.5">
-                <a
+                <Link
                   href={links.github}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <FaGithub size={16} />
-                </a>
+                </Link>
               </Button>
             )}
 
             {links.discord && (
               <Button variant="outline" size="sm" asChild className="gap-1.5">
-                <a
+                <Link
                   href={links.discord}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <FaDiscord size={16} />
-                </a>
+                </Link>
               </Button>
             )}
 
             {links.kofi && (
               <Button variant="outline" size="sm" asChild className="gap-1.5">
-                <a href={links.kofi} target="_blank" rel="noopener noreferrer">
+                <Link href={links.kofi} target="_blank" rel="noopener noreferrer">
                   <FaCoffee size={16} />
-                </a>
+                </Link>
               </Button>
             )}
 
             {links.email && (
               <Button variant="outline" size="sm" asChild className="gap-1.5">
-                <a href={links.email}>
+                <Link href={links.email} target="_blank" rel="noopener noreferrer">
                   <FaEnvelope size={16} />
-                </a>
+                </Link>
               </Button>
             )}
+
+            <Button variant="outline" size="sm" asChild className="gap-1.5">
+              <Link
+                href="https://kdev.pw/src"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BiCode size={16} />
+              </Link>
+            </Button>
           </motion.div>
         </div>
       </div>

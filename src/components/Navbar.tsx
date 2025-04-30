@@ -199,14 +199,6 @@ export function Navbar() {
                   slop.sh
                 </Link>
               </motion.div>
-              <Link
-                href="https://kdev.pw/src"
-                className="text-sm font-medium transition-colors hover:text-primary hover:bg-accent/50 px-3 py-2 rounded-md ml-2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Source
-              </Link>
             </div>
 
             <div className="hidden md:flex flex-1 justify-center">
