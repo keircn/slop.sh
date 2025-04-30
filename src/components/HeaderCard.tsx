@@ -10,7 +10,6 @@ import { RepositoryList } from "~/components/RepositoryList";
 import { DiscordPresence } from "~/components/DiscordPresence";
 import { Weather } from "~/components/Weather";
 import { useMobile } from "~/hooks/useMobile";
-import Link from "next/link";
 
 export const HeaderCard = memo(function HeaderCard({
   name,
