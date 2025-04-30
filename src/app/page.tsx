@@ -6,6 +6,7 @@ import { PageTransition } from "~/components/PageTransition";
 import { projects } from "~/lib/data/projects";
 import { Suspense } from "react";
 import { Card } from "~/components/ui/card";
+import { RetroGrid } from "~/components/magicui/retro-grid";
 
 const HeaderCard = dynamic(
   () =>
@@ -35,22 +36,25 @@ const ProjectsContainer = dynamic(
 export default function Home() {
   return (
     <PageTransition>
-      <main className="container mx-auto flex flex-col items-center justify-center mt-16 pb-16">
-        <div className="max-w-6xl w-full">
-          <Suspense
-            fallback={
-              <Card className="w-full h-[600px] animate-pulse bg-primary/5" />
-            }
-          >
-            <HeaderCard {...HeaderCardProps[0]} />
-          </Suspense>
-          <Suspense
-            fallback={
-              <Card className="w-full h-[400px] animate-pulse bg-primary/5" />
-            }
-          >
-            <ProjectsContainer projects={projects} title="Projects" />
-          </Suspense>
+      <main className="relative min-h-screen w-full">
+        <RetroGrid className="fixed inset-0 opacity-20" />
+        <div className="container mx-auto flex flex-col items-center justify-center mt-16 pb-16">
+          <div className="max-w-6xl w-full relative z-10">
+            <Suspense
+              fallback={
+                <Card className="w-full h-[600px] animate-pulse bg-primary/5" />
+              }
+            >
+              <HeaderCard {...HeaderCardProps[0]} />
+            </Suspense>
+            <Suspense
+              fallback={
+                <Card className="w-full h-[400px] animate-pulse bg-primary/5" />
+              }
+            >
+              <ProjectsContainer projects={projects} title="Projects" />
+            </Suspense>
+          </div>
         </div>
       </main>
     </PageTransition>

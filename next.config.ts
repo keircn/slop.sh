@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         hostname: "avatars.githubusercontent.com",
         port: "",
         pathname: "/**",
+      }, {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        port: "",
+        pathname: "/**",
       },
       {
         protocol: "https",
@@ -34,6 +39,12 @@ const nextConfig: NextConfig = {
       moduleIds: 'deterministic'
     }
     return config;
+  },
+  turbopack: {
+    resolveAlias: {
+      "~/": "./src/",
+    },
+    resolveExtensions: [".js", ".ts", ".jsx", ".tsx"]
   }
 };
 

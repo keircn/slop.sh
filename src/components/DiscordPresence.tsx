@@ -10,17 +10,20 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { Presence } from "~/types/Presence";
 import { transformPresence } from "~/lib/discord";
 import { useMobile } from "~/hooks/useMobile";
+import { Weather } from "~/components/Weather";
 
 interface DiscordPresenceProps {
   userId?: string;
   disabled?: boolean;
   onConnectionChange?: (isConnected: boolean) => void;
+  weatherLocation?: string;
 }
 
 export function DiscordPresence({
   userId,
   disabled = false,
   onConnectionChange,
+  weatherLocation = "London,UK",
 }: DiscordPresenceProps) {
   const [presence, setPresence] = useState<Presence | null>(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -377,8 +380,8 @@ export function DiscordPresence({
   };
 
   return (
-    <AnimatePresence>
-      {isVisible && (
+    <>
+      {isVisible && presence?.status !== "offline" ? (
         <motion.div
           key="discord-presence"
           variants={containerVariants}
@@ -588,7 +591,9 @@ export function DiscordPresence({
             </motion.p>
           )}
         </motion.div>
+      ) : (
+        <Weather location={weatherLocation} disabled={false} />
       )}
-    </AnimatePresence>
+    </>
   );
 }

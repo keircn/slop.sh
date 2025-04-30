@@ -2,16 +2,31 @@
 
 import { useState, useEffect } from "react";
 
-export function useScrollDirection() {
-  const [isScrollingUp, setIsScrollingUp] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+interface ScrollInfo {
+  isScrollingUp: boolean;
+  isScrolledDown: boolean;
+  lastScrollY: number;
+}
+
+export function useScrollDirection(): ScrollInfo {
+  const [scrollInfo, setScrollInfo] = useState<ScrollInfo>({
+    isScrollingUp: true,
+    isScrolledDown: false,
+    lastScrollY: 0,
+  });
 
   useEffect(() => {
+    const SCROLL_THRESHOLD = 100;
+
     const updateScrollDirection = () => {
       const currentScrollY = window.scrollY;
 
-      setIsScrollingUp(currentScrollY < lastScrollY || currentScrollY <= 0);
-      setLastScrollY(currentScrollY);
+      setScrollInfo({
+        isScrollingUp:
+          currentScrollY < scrollInfo.lastScrollY || currentScrollY <= 0,
+        isScrolledDown: currentScrollY > SCROLL_THRESHOLD,
+        lastScrollY: currentScrollY,
+      });
     };
 
     let ticking = false;
@@ -27,7 +42,7 @@ export function useScrollDirection() {
 
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, [lastScrollY]);
+  }, [scrollInfo.lastScrollY]);
 
-  return isScrollingUp;
+  return scrollInfo;
 }

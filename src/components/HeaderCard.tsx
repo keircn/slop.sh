@@ -151,6 +151,7 @@ export const HeaderCard = memo(function HeaderCard({
                   userId={discordUserId}
                   disabled={!links.discord}
                   onConnectionChange={handleDiscordConnectionChange}
+                  weatherLocation="London,UK"
                 />
               ) : (
                 <Weather location="London,UK" />
