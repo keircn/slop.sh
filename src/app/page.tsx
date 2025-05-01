@@ -6,7 +6,6 @@ import { PageTransition } from "~/components/PageTransition";
 import { projects } from "~/lib/data/projects";
 import { Suspense } from "react";
 import { Card } from "~/components/ui/card";
-import { RetroGrid } from "~/components/magicui/retro-grid";
 
 const HeaderCard = dynamic(
   () =>
@@ -37,7 +36,6 @@ export default function Home() {
   return (
     <PageTransition>
       <main className="relative min-h-screen w-full">
-        <RetroGrid className="fixed inset-0 opacity-20" />
         <div className="container mx-auto flex flex-col items-center justify-center mt-16 pb-16">
           <div className="max-w-6xl w-full relative z-10">
             <Suspense

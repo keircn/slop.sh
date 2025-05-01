@@ -73,10 +73,12 @@
   --color-shadow-color: var(--shadow-color);
   --color-destructive-foreground: var(--destructive-foreground);
   --animate-grid: grid 15s linear infinite;
+
   @keyframes grid {
     0% {
       transform: translateY(-50%);
     }
+
     100% {
       transform: translateY(0);
     }
@@ -150,6 +152,7 @@ body {
     0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
   --tracking-normal: 0em;
+  --color-mode: rgba(128, 128, 128, 0.1);
 }
 
 .dark {
@@ -214,6 +217,7 @@ body {
   --shadow-xl:
     0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  --color-mode: rgba(128, 128, 128, 0.1);
 }
 
 @layer base {
@@ -221,11 +225,20 @@ body {
     @apply border-border outline-ring/50;
     scrollbar-width: thin;
     scrollbar-color: var(--color-muted) transparent;
+    transform-style: preserve-3d;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overscroll-behavior: none;
   }
 
   body {
     @apply bg-background text-foreground;
     letter-spacing: var(--tracking-normal);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   ::-webkit-scrollbar {

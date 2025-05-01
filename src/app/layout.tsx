@@ -64,9 +64,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="dark scroll-smooth">
       <body
-        className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}
+        className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col isolate overflow-x-hidden`}
       >
-        <div className="flex-grow flex flex-col">
+        <div className="relative flex-grow flex flex-col z-0">
           <Navbar />
           {children}
         </div>

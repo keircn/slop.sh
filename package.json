@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "cross-env NODE_ENV=development next dev --turbopack",
     "build": "cross-env NODE_ENV=production next build",
     "start": "cross-env NODE_ENV=production next start",
     "lint": "next lint",
-    "format": "prettier --write src",
-    "analyze": "cross-env ANALYZE=true next build",
-    "clean": "rm -rf .next"
+    "checktypes": "tsc --noEmit",
+    "check": "tsc --noEmit ; eslint src/**/*.{ts,tsx}",
+    "format": "prettier --write src"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.7",

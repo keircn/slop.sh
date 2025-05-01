@@ -177,7 +177,7 @@ export function Navbar() {
         className={`w-full backdrop-blur-sm bg-background/50 border rounded border-border/40 max-w-4xl mx-auto px-4 ${isMobile ? "px-2" : ""}`}
         initial={{ y: 0, scale: 1 }}
         animate={{
-          scale: isScrolledDown ? 1 : 1.15,
+          scale: isMobile ? 1 : isScrolledDown ? 1 : 1.15,
           y: 0,
         }}
         transition={{ duration: 0.2 }}

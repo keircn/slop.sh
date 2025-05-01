@@ -90,7 +90,11 @@ export function ProfileInfo({
 
             {links.kofi && (
               <Button variant="outline" size="sm" asChild className="gap-1.5">
-                <Link href={links.kofi} target="_blank" rel="noopener noreferrer">
+                <Link
+                  href={links.kofi}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <FaCoffee size={16} />
                 </Link>
               </Button>
@@ -98,7 +102,11 @@ export function ProfileInfo({
 
             {links.email && (
               <Button variant="outline" size="sm" asChild className="gap-1.5">
-                <Link href={links.email} target="_blank" rel="noopener noreferrer">
+                <Link
+                  href={links.email}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <FaEnvelope size={16} />
                 </Link>
               </Button>
