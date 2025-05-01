@@ -483,11 +483,10 @@ export function DiscordPresence({
                         {presence.activities.map((_, index) => (
                           <span
                             key={index}
-                            className={`h-1.5 w-1.5 rounded-full ${
-                              index === currentActivityIndex
-                                ? "bg-primary"
-                                : "bg-muted-foreground/30"
-                            }`}
+                            className={`h-1.5 w-1.5 rounded-full ${index === currentActivityIndex
+                              ? "bg-primary"
+                              : "bg-muted-foreground/30"
+                              }`}
                           />
                         ))}
                       </div>
@@ -529,30 +528,30 @@ export function DiscordPresence({
                           const activity =
                             presence.activities[currentActivityIndex];
                           return (
-                            <div className="flex items-start gap-2">
+                            <div className="grid grid-cols-[80px_1fr] gap-4">
                               {activity.assets?.largeImage && (
                                 <Image
                                   src={activity.assets.largeImage}
                                   alt={
                                     activity.assets.largeText || activity.name
                                   }
-                                  width={40}
-                                  height={40}
-                                  className="h-10 w-10 rounded-md flex-shrink-0"
+                                  width={80}
+                                  height={80}
+                                  className="rounded-md flex-shrink-0 w-20 h-20"
                                 />
                               )}
-                              <div className="flex-1 min-w-0">
+                              <div className="grid content-center min-w-0 h-full">
                                 <p className="font-medium truncate">
                                   {activity.name}
                                 </p>
                                 {activity.details && (
-                                  <p className="text-xs text-muted-foreground truncate">
+                                  <p className="text-xs text-muted-foreground truncate mt-1">
                                     {activity.details}
                                   </p>
                                 )}
                                 {activity.state && (
                                   <p className="text-xs text-muted-foreground truncate">
-                                    {activity.state}
+                                    {activity.state?.replace(/;/g, ",")}
                                   </p>
                                 )}
                                 {activity.timestamps?.start && (
