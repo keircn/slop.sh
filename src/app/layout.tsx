@@ -43,14 +43,14 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Keiran",
-    description: "I make things",
+    description: "i make things",
     url: "https://slop.sh",
     siteName: "slop.sh",
     images: [
       {
         url: "/og-image.png",
-        width: 1348,
-        height: 768,
+        width: 800,
+        height: 400,
       },
     ],
   },
