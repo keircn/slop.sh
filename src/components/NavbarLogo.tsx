@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
+import { FaUser } from "react-icons/fa";
 
 interface NavbarLogoProps {
   variants?: Variants;
@@ -16,8 +17,8 @@ export function NavbarLogo({ variants }: NavbarLogoProps) {
       style={{ transform: "none" }}
     >
       <div className="absolute -inset-3 bg-gradient-to-r from-primary/50 to-primary/10 blur-lg opacity-60 rounded-full pointer-events-none" />
-      <Link href="/" className="relative z-[1] cursor-pointer" prefetch={false}>
-        <span className="block p-2">Keiran</span>
+      <Link href="/" className="relative z-[1] cursor-pointer flex items-center gap-2" prefetch={false}>
+        <FaUser />
       </Link>
     </motion.div>
   );
