@@ -17,7 +17,7 @@ export const HeaderCardProps: HeaderCardPropsType[] = [
     links: {
       github: "https://github.com/q4ow",
       email: "mailto:me@keiran.cc",
-      kofi: "https://ko-fi.com/anonhost",
+      kofi: "https://ko-fi.com/qkeiran",
       discord: "https://discord.com/users/1230319937155760131",
     },
     discordUserId: "1230319937155760131",
