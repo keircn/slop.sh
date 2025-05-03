@@ -7,11 +7,13 @@ import { FaGithub, FaEnvelope, FaCoffee, FaDiscord } from "react-icons/fa";
 import { ProfileInfoProps } from "~/types/ProfileInfo";
 import Link from "next/link";
 import { BiCode } from "react-icons/bi";
+import { getAge } from "~/lib/utils";
 
 export function ProfileInfo({
   name,
   title,
   bio,
+  dateOfBirth,
   avatarUrl,
   links,
   githubUsername,
@@ -48,6 +50,17 @@ export function ProfileInfo({
             </h1>
             <p className="text-lg text-muted-foreground">{title}</p>
           </motion.div>
+
+          {dateOfBirth && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.4 }}
+              className="text-sm text-muted-foreground flex items-center gap-2"
+            >
+              <span>{getAge(new Date(dateOfBirth))} years old</span>
+            </motion.p>
+          )}
 
           <motion.p
             initial={{ opacity: 0 }}

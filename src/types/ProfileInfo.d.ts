@@ -3,6 +3,7 @@ export interface ProfileInfoProps {
   githubUsername?: string | null;
   title: string;
   bio: string;
+  dateOfBirth: Date;
   avatarUrl: string;
   links: {
     github?: string;

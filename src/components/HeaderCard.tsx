@@ -137,6 +137,7 @@ export const HeaderCard = memo(function HeaderCard({
                 githubUsername={githubUsername}
                 title={title}
                 bio={displayBio}
+                dateOfBirth={new Date("2009-03-25")}
                 avatarUrl={displayAvatar}
                 links={{
                   github: links.github,
