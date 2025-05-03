@@ -1,0 +1,22 @@
+{
+    "ignores": [
+        "@tailwindcss/postcss",
+        "autoprefixer",
+        "eslint-config-next",
+        "tailwindcss",
+        "tailwindcss-animate"
+    ],
+    "ignorePatterns": [
+        "**/dist/**",
+        "**/build/**",
+        "**/.next/**"
+    ],
+    "specials": [
+        "bin",
+        "eslint",
+        "prettier",
+        "webpack",
+        "babel",
+        "postcss"
+    ]
+}
