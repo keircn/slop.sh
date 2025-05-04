@@ -66,51 +66,60 @@ export const NavbarWeather = memo(function NavbarWeather({
   }, [location]);
 
   const getWeatherIcon = (iconCode: string) => {
+    const iconSize = 22;
     const iconMap: Record<string, React.ReactElement> = {
-      "01d": <WiDaySunny size={24} className="text-yellow-500" />,
-      "02d": <WiCloudy size={24} className="text-gray-500" />,
-      "03d": <WiCloudy size={24} className="text-gray-500" />,
-      "04d": <WiCloudy size={24} className="text-gray-500" />,
-      "09d": <WiRain size={24} className="text-blue-500" />,
-      "10d": <WiRain size={24} className="text-blue-500" />,
-      "11d": <WiThunderstorm size={24} className="text-gray-700" />,
-      "13d": <WiSnow size={24} className="text-blue-200" />,
-      "50d": <WiFog size={24} className="text-gray-400" />,
-      "01n": <WiNightClear size={24} className="text-indigo-300" />,
-      "02n": <WiCloudy size={24} className="text-gray-600" />,
-      "03n": <WiCloudy size={24} className="text-gray-600" />,
-      "04n": <WiCloudy size={24} className="text-gray-600" />,
-      "09n": <WiRain size={24} className="text-blue-600" />,
-      "10n": <WiRain size={24} className="text-blue-600" />,
-      "11n": <WiThunderstorm size={24} className="text-gray-800" />,
-      "13n": <WiSnow size={24} className="text-blue-100" />,
-      "50n": <WiFog size={24} className="text-gray-500" />,
+      "01d": <WiDaySunny size={iconSize} className="text-amber-400" />,
+      "02d": <WiCloudy size={iconSize} className="text-gray-400" />,
+      "03d": <WiCloudy size={iconSize} className="text-gray-400" />,
+      "04d": <WiCloudy size={iconSize} className="text-gray-400" />,
+      "09d": <WiRain size={iconSize} className="text-blue-400" />,
+      "10d": <WiRain size={iconSize} className="text-blue-400" />,
+      "11d": <WiThunderstorm size={iconSize} className="text-gray-600" />,
+      "13d": <WiSnow size={iconSize} className="text-blue-100" />,
+      "50d": <WiFog size={iconSize} className="text-gray-300" />,
+      "01n": <WiNightClear size={iconSize} className="text-indigo-200" />,
+      "02n": <WiCloudy size={iconSize} className="text-gray-500" />,
+      "03n": <WiCloudy size={iconSize} className="text-gray-500" />,
+      "04n": <WiCloudy size={iconSize} className="text-gray-500" />,
+      "09n": <WiRain size={iconSize} className="text-blue-500" />,
+      "10n": <WiRain size={iconSize} className="text-blue-500" />,
+      "11n": <WiThunderstorm size={iconSize} className="text-gray-700" />,
+      "13n": <WiSnow size={iconSize} className="text-blue-50" />,
+      "50n": <WiFog size={iconSize} className="text-gray-400" />,
     };
 
     return (
-      iconMap[iconCode] || <WiDaySunny size={24} className="text-yellow-500" />
+      iconMap[iconCode] || (
+        <WiDaySunny size={iconSize} className="text-amber-400" />
+      )
     );
   };
 
-  if (isLoading || !weatherData) return null;
+  if (isLoading || !weatherData)
+    return (
+      <div className="flex items-center gap-2 text-sm opacity-50">
+        <div className="h-6 w-12 rounded bg-accent/40 animate-pulse"></div>
+      </div>
+    );
 
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="flex items-center gap-2 text-sm"
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      className="flex items-center gap-1.5 px-2 py-1 rounded-lg"
     >
       <div className="flex items-center">
         {getWeatherIcon(weatherData.icon)}
       </div>
       <div className="hidden md:block">
-        <div className="font-medium">{weatherData.temperature}°C</div>
-        <div className="text-xs text-muted-foreground">
+        <div className="font-medium text-sm">{weatherData.temperature}°C</div>
+        <div className="text-xs text-muted-foreground truncate max-w-[100px]">
           {weatherData.location}
         </div>
       </div>
       <div className="md:hidden">
-        <div className="font-medium">{weatherData.temperature}°C</div>
+        <div className="font-medium text-sm">{weatherData.temperature}°C</div>
       </div>
     </motion.div>
   );

@@ -43,16 +43,28 @@ export function Navbar() {
     },
   };
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+  };
+
   return (
-    <div className="sticky top-0 z-50 w-full mt-8">
+    <div className="sticky top-0 z-50 w-full mt-6">
       <motion.header
-        className={`w-full backdrop-blur-sm bg-background/50 border rounded border-border/40 max-w-4xl mx-auto px-4 ${isMobile ? "px-2" : ""}`}
-        initial={{ y: 0, scale: 1 }}
+        className={`w-full backdrop-blur-md bg-background/70 border rounded-xl border-border/40 shadow-sm max-w-5xl mx-auto`}
+        initial={{ y: 0 }}
         animate={{
-          scale: isMobile ? 1 : isScrolledDown ? 1 : 1.15,
-          y: 0,
+          y: isScrolledDown && !isOpen ? -100 : 0,
         }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.3 }}
         style={{ transformStyle: "flat", transform: "translate3d(0,0,0)" }}
       >
         <motion.div
@@ -62,40 +74,40 @@ export function Navbar() {
           animate="visible"
         >
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
+            <motion.div
+              className="flex items-center space-x-4"
+              variants={itemVariants}
+            >
               <NavbarLogo variants={logoVariants} />
-              {/* <div className="w-0.5 h-16 bg-border/40 ml-8 mr-2" /> */}
-              {/* <div className="flex items-center gap-4">
-                {[
-                  { href: "/contact", label: "Contact" },
-                ].map((link) => (
-                  <Button key={link.href} variant="ghost" asChild>
-                    <Link href={link.href} className="text-lg font-semibold">
-                      {link.label}
-                    </Link>
-                  </Button>
-                ))}
-              </div> */}
-            </div>
 
-            <div className="hidden md:flex flex-1 justify-center">
+              {/* <div className="hidden md:block h-6 w-px bg-border/40 mx-2" /> */}
+            </motion.div>
+
+            <motion.div
+              className="hidden md:flex justify-center px-4"
+              variants={itemVariants}
+            >
               <NavClock />
-            </div>
+            </motion.div>
 
-            <div className="flex items-center gap-4">
+            <motion.div
+              className="flex items-center gap-3"
+              variants={itemVariants}
+            >
               <NavbarWeather location="London,UK" />
 
               <div className="md:hidden">
                 <Button
-                  variant="ghost"
-                  size="icon"
+                  variant="outline"
+                  size="sm"
                   onClick={() => setIsOpen(!isOpen)}
                   aria-label="Toggle Menu"
+                  className="border border-border/40 bg-background/20"
                 >
-                  {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+                  {isOpen ? <FiX size={18} /> : <FiMenu size={18} />}
                 </Button>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           <AnimatePresence>
