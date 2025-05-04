@@ -11,20 +11,30 @@ import { Presence } from "~/types/Presence";
 import { transformPresence } from "~/lib/discord";
 import { useMobile } from "~/hooks/useMobile";
 import { Weather } from "~/components/Weather";
+import { z } from "zod";
 
-interface DiscordPresenceProps {
-  userId?: string;
-  disabled?: boolean;
-  onConnectionChange?: (isConnected: boolean) => void;
-  weatherLocation?: string;
-}
+const discordPresencePropsSchema = z.object({
+  userId: z.string().optional(),
+  disabled: z.boolean().optional().default(false),
+  onConnectionChange: z
+    .function()
+    .args(z.boolean())
+    .returns(z.void())
+    .optional(),
+  weatherLocation: z.string().optional().default("London,UK"),
+});
 
-export function DiscordPresence({
-  userId,
-  disabled = false,
-  onConnectionChange,
-  weatherLocation = "London,UK",
-}: DiscordPresenceProps) {
+type DiscordPresenceProps = z.infer<typeof discordPresencePropsSchema>;
+
+export function DiscordPresence(rawProps: DiscordPresenceProps) {
+  const props = discordPresencePropsSchema.parse(rawProps);
+  const {
+    userId,
+    disabled = false,
+    onConnectionChange,
+    weatherLocation = "London,UK",
+  } = props;
+
   const [presence, setPresence] = useState<Presence | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

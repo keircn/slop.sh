@@ -3,57 +3,74 @@ import {
   Activity,
   RawActivityData,
   RawPresenceData,
+  rawActivitySchema,
+  rawPresenceSchema,
+  activitySchema,
+  presenceSchema,
 } from "~/types/Presence";
 
 export const transformActivity = (activity: RawActivityData): Activity => {
-  return {
-    applicationId: activity.applicationId || "",
-    details: activity.details || "",
-    emoji: activity.emoji || "",
-    name: activity.name || "",
-    state: activity.state || "",
-    title: activity.title || "",
-    type: activity.type || "",
+  const validatedRaw = rawActivitySchema.parse(activity);
+
+  const transformed = {
+    applicationId: validatedRaw.applicationId || "",
+    details: validatedRaw.details || "",
+    emoji: validatedRaw.emoji || "",
+    name: validatedRaw.name || "",
+    state: validatedRaw.state || "",
+    title: validatedRaw.title || "",
+    type: validatedRaw.type || "",
     timestamps: {
-      start: activity.timestamps?.start
-        ? new Date(activity.timestamps.start)
+      start: validatedRaw.timestamps?.start
+        ? new Date(validatedRaw.timestamps.start)
         : null,
-      end: activity.timestamps?.end ? new Date(activity.timestamps.end) : null,
+      end: validatedRaw.timestamps?.end
+        ? new Date(validatedRaw.timestamps.end)
+        : null,
     },
     assets: {
-      largeImage: activity.assets?.largeImage || null,
-      smallImage: activity.assets?.smallImage || null,
-      largeText: activity.assets?.largeText || null,
-      smallText: activity.assets?.smallText || null,
+      largeImage: validatedRaw.assets?.largeImage || null,
+      smallImage: validatedRaw.assets?.smallImage || null,
+      largeText: validatedRaw.assets?.largeText || null,
+      smallText: validatedRaw.assets?.smallText || null,
     },
   };
+
+  return activitySchema.parse(transformed);
 };
 
 export const transformPresence = (data: RawPresenceData): Presence => {
+  const validatedRaw = rawPresenceSchema.parse(data);
+
   let platformArray: string[] = [];
 
-  if (data.platform) {
-    if (Array.isArray(data.platform)) {
-      platformArray = data.platform;
-    } else if (typeof data.platform === "object") {
-      platformArray = Object.entries(data.platform).map(
+  if (validatedRaw.platform) {
+    if (Array.isArray(validatedRaw.platform)) {
+      platformArray = validatedRaw.platform;
+    } else if (
+      typeof validatedRaw.platform === "object" &&
+      validatedRaw.platform !== null
+    ) {
+      platformArray = Object.entries(validatedRaw.platform).map(
         ([key, value]) => `${key}:${value}`,
       );
     }
   }
 
-  return {
-    _id: data._id || "",
-    tag: data.tag || "",
-    pfp: data.pfp || "",
+  const transformed = {
+    _id: validatedRaw._id || "",
+    tag: validatedRaw.tag || "",
+    pfp: validatedRaw.pfp || "",
     platform: platformArray,
-    status: data.status || "offline",
-    activities: (data.activities || []).map(transformActivity),
-    badges: data.badges || [],
+    status: validatedRaw.status || "offline",
+    activities: (validatedRaw.activities || []).map(transformActivity),
+    badges: validatedRaw.badges || [],
     customStatus: {
-      name: data.customStatus?.name || "",
-      createdTimestamp: data.customStatus?.createdTimestamp || 0,
-      emoji: data.customStatus?.emoji || "",
+      name: validatedRaw.customStatus?.name || "",
+      createdTimestamp: validatedRaw.customStatus?.createdTimestamp || 0,
+      emoji: validatedRaw.customStatus?.emoji || "",
     },
   };
+
+  return presenceSchema.parse(transformed);
 };
