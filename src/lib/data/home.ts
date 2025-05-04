@@ -9,10 +9,10 @@ export const HeaderCardProps: HeaderCardPropsType[] = [
     avatarUrl: "https://avatars.githubusercontent.com/u/209698135?v=4",
     usePinnedRepos: true,
     customRepositories: [
-      "q4ow/slop-new",
-      "q4ow/snustalk",
-      "q4ow/archium",
+      "q4ow/slop.sh",
       "q4ow/anonhost",
+      "q4ow/e-zhost-js",
+      "q4ow/archium",
     ],
     links: {
       github: "https://github.com/q4ow",
