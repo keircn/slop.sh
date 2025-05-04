@@ -64,7 +64,7 @@ export function Navbar() {
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <NavbarLogo variants={logoVariants} />
-              <div className="w-0.5 h-16 bg-border/40 ml-8 mr-2" />
+              {/* <div className="w-0.5 h-16 bg-border/40 ml-8 mr-2" /> */}
               {/* <div className="flex items-center gap-4">
                 {[
                   { href: "/contact", label: "Contact" },
