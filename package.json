@@ -1,7 +1,11 @@
 {
-  "name": "slop-new",
+  "name": "slop.sh",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "description": "My personal website",
+  "author": "Keiran",
+  "homepage": "https://slop.sh",
   "scripts": {
     "dev": "cross-env NODE_ENV=development next dev --turbopack",
     "build": "cross-env NODE_ENV=production next build",
