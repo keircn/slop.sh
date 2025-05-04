@@ -10,7 +10,6 @@ import { NavClock } from "~/components/NavClock";
 import { NavbarLogo } from "~/components/NavbarLogo";
 import { NavbarWeather } from "~/components/NavbarWeather";
 import { NavbarMobileMenu } from "~/components/NavbarMobileMenu";
-import Link from "next/link";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,7 +65,7 @@ export function Navbar() {
             <div className="flex items-center">
               <NavbarLogo variants={logoVariants} />
               <div className="w-0.5 h-16 bg-border/40 ml-8 mr-2" />
-              <div className="flex items-center gap-4">
+              {/* <div className="flex items-center gap-4">
                 {[
                   { href: "/contact", label: "Contact" },
                 ].map((link) => (
@@ -76,7 +75,7 @@ export function Navbar() {
                     </Link>
                   </Button>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             <div className="hidden md:flex flex-1 justify-center">

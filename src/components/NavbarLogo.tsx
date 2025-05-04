@@ -22,12 +22,7 @@ export function NavbarLogo({ variants }: NavbarLogoProps) {
         className="relative z-[1] cursor-pointer flex items-center gap-2"
         prefetch={false}
       >
-        <Image
-          src="/slop-transparent.png"
-          alt="Logo"
-          width={64}
-          height={64}
-        />
+        <Image src="/slop-transparent.png" alt="Logo" width={64} height={64} />
       </Link>
     </motion.div>
   );
