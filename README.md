@@ -1,4 +1,6 @@
-# slop.sh - my portfolio
+# slop.sh
+
+![slop.sh](https://hentai.expert/cw9umcx1.png)
 
 Environment variables are self explanatory:
 
