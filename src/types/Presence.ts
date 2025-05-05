@@ -35,7 +35,7 @@ export const presenceSchema = z.object({
   customStatus: z.object({
     name: z.string(),
     createdTimestamp: z.number(),
-    emoji: z.string(),
+    emoji: z.string().nullable().optional(),
   }),
 });
 
@@ -75,7 +75,7 @@ export const rawPresenceSchema = z.object({
     .object({
       name: z.string().optional(),
       createdTimestamp: z.number().optional(),
-      emoji: z.string().optional(),
+      emoji: z.string().nullable().optional(),
     })
     .optional(),
 });

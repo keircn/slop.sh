@@ -7,7 +7,6 @@ import { GitHubStatsData, HeaderCardProps } from "~/types/HeaderCard";
 import { ProfileInfo } from "~/components/ProfileInfo";
 import { GitHubStats } from "~/components/GitHubStats";
 import { RepositoryList } from "~/components/RepositoryList";
-import { DiscordPresence } from "~/components/DiscordPresence";
 import { Weather } from "~/components/Weather";
 import { useMobile } from "~/hooks/useMobile";
 
@@ -25,7 +24,6 @@ export const HeaderCard = memo(function HeaderCard({
     email: undefined,
     kofi: undefined,
   },
-  discordUserId = "",
   stats: propStats,
 }: HeaderCardProps) {
   const [githubData, setGithubData] = useState<GitHubStatsData | null>(null);
@@ -39,12 +37,6 @@ export const HeaderCard = memo(function HeaderCard({
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCustomRepos, setIsLoadingCustomRepos] = useState(false);
   const { isMobile } = useMobile();
-
-  const handleDiscordConnectionChange = useCallback((connected: boolean) => {
-    console.log(
-      `Discord connection status: ${connected ? "connected" : "disconnected"}`,
-    );
-  }, []);
 
   const fetchGitHubStats = useCallback(async () => {
     if (!links.github) {
@@ -146,17 +138,7 @@ export const HeaderCard = memo(function HeaderCard({
                   discord: links.discord,
                 }}
               />
-
-              {links.discord && discordUserId ? (
-                <DiscordPresence
-                  userId={discordUserId}
-                  disabled={!links.discord}
-                  onConnectionChange={handleDiscordConnectionChange}
-                  weatherLocation="London,UK"
-                />
-              ) : (
-                <Weather location="London,UK" />
-              )}
+              <Weather location="London,UK" />
             </div>
 
             <div className="space-y-4">

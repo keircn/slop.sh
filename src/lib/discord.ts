@@ -68,7 +68,7 @@ export const transformPresence = (data: RawPresenceData): Presence => {
     customStatus: {
       name: validatedRaw.customStatus?.name || "",
       createdTimestamp: validatedRaw.customStatus?.createdTimestamp || 0,
-      emoji: validatedRaw.customStatus?.emoji || "",
+      emoji: validatedRaw.customStatus?.emoji || null,
     },
   };
 
