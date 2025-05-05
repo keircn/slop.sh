@@ -1,26 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "~/components/ui/button";
-import { ProjectModal } from "~/components/ProjectModal";
 import { LuExternalLink } from "react-icons/lu";
 import { ProjectCardProps } from "~/types/ProjectCard";
 import Image from "next/image";
 
 export const ProjectCard = ({
-  title,
   role,
   company,
   timeline,
   description,
   logo,
-  image,
   website,
-  detailedInfo,
 }: ProjectCardProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <>
       <motion.div
@@ -66,35 +59,10 @@ export const ProjectCard = ({
                   Visit Website
                 </Button>
               )}
-
-              <Button
-                variant="outline"
-                className="border-border bg-transparent text-foreground/80 hover:bg-accent hover:text-muted-foreground"
-                onClick={() => setIsModalOpen(true)}
-              >
-                View More
-              </Button>
             </div>
           </div>
         </div>
       </motion.div>
-
-      {detailedInfo && (
-        <ProjectModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          project={{
-            title,
-            role,
-            company,
-            timeline,
-            logo,
-            image,
-            website,
-            ...detailedInfo,
-          }}
-        />
-      )}
     </>
   );
 };
