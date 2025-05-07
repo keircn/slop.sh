@@ -40,7 +40,7 @@ const ShrineCard = dynamic(
     })),
   {
     loading: () => (
-      <Card className="w-full h-[400px] animate-pulse bg-primary/5" />
+      <Card className="w-full h-[600px] animate-pulse bg-primary/5" />
     ),
   },
 );
