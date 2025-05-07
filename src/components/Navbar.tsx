@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useMobile } from "~/hooks/useMobile";
-import { useScrollDirection } from "~/hooks/useScrollDirection";
+import { useNavbar } from "~/context/NavbarContext";
 import { Button } from "~/components/ui/button";
 import { NavClock } from "~/components/NavClock";
 import { NavbarLogo } from "~/components/NavbarLogo";
@@ -15,7 +15,7 @@ import { NavbarLinks } from "~/components/NavbarLinks";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isMobile } = useMobile();
-  const { isScrolledDown, isScrollingUp } = useScrollDirection();
+  const { isNavbarVisible } = useNavbar();
 
   const navVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -58,16 +58,11 @@ export function Navbar() {
   };
 
   return (
-    <div className="fixed top-6 left-0 right-0 z-50 w-full pointer-events-none">
+    <div className={`fixed top-0 left-0 right-0 z-50 w-full pointer-events-none ${!isNavbarVisible ? 'hidden' : ''}`}>
       <motion.header
-        className={`w-full backdrop-blur-md bg-background/70 border rounded-xl border-border/40 shadow-sm max-w-5xl mx-auto pointer-events-auto transition-all duration-300 ease-in-out ${
-          isScrolledDown ? "bg-background/90 shadow-md" : ""
-        }`}
-        initial={{ y: 0, opacity: 0 }}
-        animate={{
-          y: isScrolledDown && !isScrollingUp && !isOpen ? -100 : 0,
-          opacity: 1,
-        }}
+        className="w-full backdrop-blur-md bg-background/90 border-b border-border/40 shadow-sm pointer-events-auto transition-all duration-300 ease-in-out"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{
           duration: 0.4,
           ease: [0.16, 1, 0.3, 1],
@@ -75,7 +70,7 @@ export function Navbar() {
         style={{ willChange: "transform, opacity" }}
       >
         <motion.div
-          className="container mx-auto px-4 py-3"
+          className="container mx-auto px-4 py-2"
           variants={navVariants}
           initial="hidden"
           animate="visible"

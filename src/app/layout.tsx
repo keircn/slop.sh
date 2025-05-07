@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "~/components/Navbar";
+import { NavbarProvider } from "~/context/NavbarContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -66,10 +67,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col isolate overflow-x-hidden`}
       >
-        <div className="relative flex-grow flex flex-col z-0">
-          <Navbar />
-          {children}
-        </div>
+        <NavbarProvider>
+          <div className="relative flex-grow flex flex-col z-0">
+            <Navbar />
+            {children}
+          </div>
+        </NavbarProvider>
       </body>
     </html>
   );
