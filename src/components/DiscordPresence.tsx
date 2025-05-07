@@ -344,13 +344,13 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
                 )}
                 {presence?.platform && (
                   <span className="text-xs text-muted-foreground opacity-0 hidden">
-                  {typeof presence.platform === "object" &&
-                  !Array.isArray(presence.platform)
-                    ? `• ${Object.keys(presence.platform)[0] || "web"}`
-                    : Array.isArray(presence.platform) &&
-                    presence.platform.length > 0
-                    ? `• ${presence.platform[0]}`
-                    : ""}
+                    {typeof presence.platform === "object" &&
+                    !Array.isArray(presence.platform)
+                      ? `• ${Object.keys(presence.platform)[0] || "web"}`
+                      : Array.isArray(presence.platform) &&
+                          presence.platform.length > 0
+                        ? `• ${presence.platform[0]}`
+                        : ""}
                   </span>
                 )}
               </div>
