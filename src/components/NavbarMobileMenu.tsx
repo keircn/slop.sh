@@ -7,12 +7,12 @@ import { NavClock } from "./NavClock";
 
 interface NavbarMobileMenuProps {
   isOpen: boolean;
-  onLinkClick: () => void;
+  onLinkClickAction: () => void;
 }
 
 export function NavbarMobileMenu({
   isOpen,
-  onLinkClick,
+  onLinkClickAction,
 }: NavbarMobileMenuProps) {
   const mobileMenuVariants = {
     hidden: { opacity: 0, height: 0 },
@@ -80,7 +80,7 @@ export function NavbarMobileMenu({
           <Link
             href="/"
             className="flex items-center text-sm font-medium transition-colors hover:text-primary px-3 py-2.5 rounded-md hover:bg-accent/50"
-            onClick={onLinkClick}
+            onClick={onLinkClickAction}
           >
             Home
           </Link>
@@ -90,7 +90,7 @@ export function NavbarMobileMenu({
           <Link
             href="/contact"
             className="flex items-center text-sm font-medium transition-colors hover:text-primary px-3 py-2.5 rounded-md hover:bg-accent/50"
-            onClick={onLinkClick}
+            onClick={onLinkClickAction}
           >
             Contact
           </Link>

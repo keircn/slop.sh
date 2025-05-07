@@ -1,15 +1,13 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 interface NavbarLinksProps {
-  variants?: any;
+  variants?: Variants;
 }
 
-const links = [
-  { href: "/contact", label: "Contact" },
-] as const;
+const links = [{ href: "/contact", label: "Contact" }] as const;
 
 export function NavbarLinks({ variants }: NavbarLinksProps) {
   return (

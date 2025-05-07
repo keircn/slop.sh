@@ -61,14 +61,14 @@ export function Navbar() {
     <div className="fixed top-6 left-0 right-0 z-50 w-full pointer-events-none">
       <motion.header
         className={`w-full backdrop-blur-md bg-background/70 border rounded-xl border-border/40 shadow-sm max-w-5xl mx-auto pointer-events-auto transition-all duration-300 ease-in-out ${
-          isScrolledDown ? 'bg-background/90 shadow-md' : ''
+          isScrolledDown ? "bg-background/90 shadow-md" : ""
         }`}
         initial={{ y: 0, opacity: 0 }}
         animate={{
           y: isScrolledDown && !isScrollingUp && !isOpen ? -100 : 0,
           opacity: 1,
         }}
-        transition={{ 
+        transition={{
           duration: 0.4,
           ease: [0.16, 1, 0.3, 1],
         }}
@@ -123,7 +123,7 @@ export function Navbar() {
             {isOpen && isMobile && (
               <NavbarMobileMenu
                 isOpen={isOpen}
-                onLinkClick={() => setIsOpen(false)}
+                onLinkClickAction={() => setIsOpen(false)}
               />
             )}
           </AnimatePresence>

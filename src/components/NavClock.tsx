@@ -15,11 +15,11 @@ export function NavClock() {
   useEffect(() => {
     setMounted(true);
     setTime(getLondonTime());
-    
+
     const interval = setInterval(() => {
       setTime(getLondonTime());
     }, 1000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -27,7 +27,7 @@ export function NavClock() {
 
   if (!mounted || !time) {
     return (
-      <span 
+      <span
         className="font-mono text-base md:text-lg text-center px-4 select-none opacity-0"
         aria-hidden="true"
       >
