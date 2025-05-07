@@ -57,15 +57,15 @@ export function Navbar() {
   };
 
   return (
-    <div className="sticky top-0 z-50 w-full mt-6">
+    <div className="fixed top-6 left-0 right-0 z-50 w-full pointer-events-none">
       <motion.header
-        className={`w-full backdrop-blur-md bg-background/70 border rounded-xl border-border/40 shadow-sm max-w-5xl mx-auto`}
+        className={`w-full backdrop-blur-md bg-background/70 border rounded-xl border-border/40 shadow-sm max-w-5xl mx-auto pointer-events-auto`}
         initial={{ y: 0 }}
         animate={{
           y: isScrolledDown && !isOpen ? -100 : 0,
         }}
         transition={{ duration: 0.3 }}
-        style={{ transformStyle: "flat", transform: "translate3d(0,0,0)" }}
+        style={{ willChange: "transform" }}
       >
         <motion.div
           className="container mx-auto px-4 py-3"
