@@ -33,6 +33,18 @@ const ProjectsContainer = dynamic(
   },
 );
 
+const ShrineCard = dynamic(
+  () =>
+    import("~/components/ShrineCard").then((mod) => ({
+      default: mod.ShrineCard,
+    })),
+  {
+    loading: () => (
+      <Card className="w-full h-[400px] animate-pulse bg-primary/5" />
+    ),
+  },
+);
+
 export default function Home() {
   return (
     <PageTransition>
@@ -44,6 +56,7 @@ export default function Home() {
                 <Card className="w-full h-[600px] animate-pulse bg-primary/5" />
               }
             >
+              <span id="header" />
               <HeaderCard {...HeaderCardProps[0]} />
             </Suspense>
             <Suspense
@@ -51,10 +64,12 @@ export default function Home() {
                 <Card className="w-full h-[400px] animate-pulse bg-primary/5" />
               }
             >
-              {/* <ProjectsContainer projects={projects} title="Projects" /> */}
+              <span id="clara" />
+              <ShrineCard />
             </Suspense>
           </div>
         </div>
+        <span id="footer" />
         <Footer />
       </main>
     </PageTransition>
