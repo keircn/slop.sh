@@ -58,7 +58,9 @@ export function Navbar() {
   };
 
   return (
-    <div className={`fixed top-0 left-0 right-0 z-50 w-full pointer-events-none ${!isNavbarVisible ? 'hidden' : ''}`}>
+    <div
+      className={`fixed top-0 left-0 right-0 z-50 w-full pointer-events-none ${!isNavbarVisible ? "hidden" : ""}`}
+    >
       <motion.header
         className="w-full backdrop-blur-md bg-background/90 border-b border-border/40 shadow-sm pointer-events-auto transition-all duration-300 ease-in-out"
         initial={{ opacity: 0 }}
@@ -85,16 +87,16 @@ export function Navbar() {
             </motion.div>
 
             <motion.div
-              className="hidden md:flex justify-center px-4"
+              className="hidden md:flex items-center justify-center flex-1 px-4"
               variants={itemVariants}
             >
-              <div className="min-w-[85px] flex justify-center">
+              <div className="min-w-[85px] justify-center absolute left-1/2 -translate-x-1/2 -mx-9 hidden">
                 <NavClock />
               </div>
             </motion.div>
 
             <motion.div
-              className="flex items-center gap-6"
+              className="flex items-center gap-6 justify-end"
               variants={itemVariants}
             >
               <div className="hidden md:block h-6 w-px bg-border/40" />

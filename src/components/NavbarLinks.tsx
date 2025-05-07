@@ -7,7 +7,10 @@ interface NavbarLinksProps {
   variants?: Variants;
 }
 
-const links = [{ href: "/contact", label: "Contact" }] as const;
+const links = [
+  { href: "/contact", label: "Contact" },
+  { href: "/clara", label: "Clara" },
+] as const;
 
 export function NavbarLinks({ variants }: NavbarLinksProps) {
   return (
