@@ -247,7 +247,7 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="mt-4 rounded-lg border border-border p-3 overflow-hidden"
+      className="mt-4 rounded-lg border border-border p-3 overflow-hidden pb-4"
     >
       <motion.div variants={itemVariants} className="flex items-center gap-2">
         <div className="flex items-center justify-between w-full mb-2">
@@ -325,7 +325,7 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
                 alt={presence.tag}
                 width={40}
                 height={40}
-                className="h-10 w-10 rounded-full"
+                className="h-10 w-10 rounded"
               />
               <div
                 className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-card ${getStatusColor(presence.status)}`}
@@ -360,7 +360,7 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
           {presence.activities && presence.activities.length > 0 && (
             <div>
               {presence.activities.length > 1 && (
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center">
                   <div className="flex gap-1">
                     {presence.activities.map((_: unknown, index: number) => (
                       <span
@@ -405,7 +405,7 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    className="absolute w-full rounded-md border border-border bg-muted/30 p-2 text-sm"
+                    className="absolute w-full rounded bg-secondary/30 p-2 text-sm"
                   >
                     {(() => {
                       const activity =
