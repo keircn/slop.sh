@@ -10,11 +10,12 @@ import { NavClock } from "~/components/NavClock";
 import { NavbarLogo } from "~/components/NavbarLogo";
 import { NavbarWeather } from "~/components/NavbarWeather";
 import { NavbarMobileMenu } from "~/components/NavbarMobileMenu";
+import { NavbarLinks } from "~/components/NavbarLinks";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isMobile } = useMobile();
-  const { isScrolledDown } = useScrollDirection();
+  const { isScrolledDown, isScrollingUp } = useScrollDirection();
 
   const navVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -59,13 +60,19 @@ export function Navbar() {
   return (
     <div className="fixed top-6 left-0 right-0 z-50 w-full pointer-events-none">
       <motion.header
-        className={`w-full backdrop-blur-md bg-background/70 border rounded-xl border-border/40 shadow-sm max-w-5xl mx-auto pointer-events-auto`}
-        initial={{ y: 0 }}
+        className={`w-full backdrop-blur-md bg-background/70 border rounded-xl border-border/40 shadow-sm max-w-5xl mx-auto pointer-events-auto transition-all duration-300 ease-in-out ${
+          isScrolledDown ? 'bg-background/90 shadow-md' : ''
+        }`}
+        initial={{ y: 0, opacity: 0 }}
         animate={{
-          y: isScrolledDown && !isOpen ? -100 : 0,
+          y: isScrolledDown && !isScrollingUp && !isOpen ? -100 : 0,
+          opacity: 1,
         }}
-        transition={{ duration: 0.3 }}
-        style={{ willChange: "transform" }}
+        transition={{ 
+          duration: 0.4,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        style={{ willChange: "transform, opacity" }}
       >
         <motion.div
           className="container mx-auto px-4 py-3"
@@ -79,8 +86,7 @@ export function Navbar() {
               variants={itemVariants}
             >
               <NavbarLogo variants={logoVariants} />
-
-              {/* <div className="hidden md:block h-6 w-px bg-border/40 mx-2" /> */}
+              <NavbarLinks variants={itemVariants} />
             </motion.div>
 
             <motion.div
@@ -91,9 +97,10 @@ export function Navbar() {
             </motion.div>
 
             <motion.div
-              className="flex items-center gap-3"
+              className="flex items-center gap-6"
               variants={itemVariants}
             >
+              <div className="hidden md:block h-6 w-px bg-border/40" />
               <NavbarWeather location="London,UK" />
 
               <div className="md:hidden">
