@@ -8,6 +8,7 @@ import { ProfileInfo } from "~/components/ProfileInfo";
 import { GitHubStats } from "~/components/GitHubStats";
 import { RepositoryList } from "~/components/RepositoryList";
 import { Weather } from "~/components/Weather";
+import { DiscordPresence } from "~/components/DiscordPresence";
 import { useMobile } from "~/hooks/useMobile";
 
 export const HeaderCard = memo(function HeaderCard({
@@ -16,6 +17,7 @@ export const HeaderCard = memo(function HeaderCard({
   title,
   bio,
   avatarUrl,
+  discordUserId,
   usePinnedRepos = false,
   customRepositories = [],
   links = {
@@ -36,6 +38,7 @@ export const HeaderCard = memo(function HeaderCard({
   }> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCustomRepos, setIsLoadingCustomRepos] = useState(false);
+  const [discordConnected, setDiscordConnected] = useState(false);
   const { isMobile } = useMobile();
 
   const fetchGitHubStats = useCallback(async () => {
@@ -107,6 +110,10 @@ export const HeaderCard = memo(function HeaderCard({
   const displayAvatar = avatarUrl;
   const displayBio = githubData?.user.bio || bio;
 
+  const handleDiscordConnectionChange = useCallback((connected: boolean) => {
+    setDiscordConnected(connected);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -138,7 +145,16 @@ export const HeaderCard = memo(function HeaderCard({
                   discord: links.discord,
                 }}
               />
-              <Weather location="London,UK" />
+              {discordUserId ? (
+                <DiscordPresence
+                  userId={discordUserId}
+                  weatherLocation="London,UK"
+                  onConnectionChange={handleDiscordConnectionChange}
+                  disabled={isLoading || !discordConnected}
+                />
+              ) : (
+                <Weather location="London,UK" />
+              )}
             </div>
 
             <div className="space-y-4">

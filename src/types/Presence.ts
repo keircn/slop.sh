@@ -47,8 +47,8 @@ const rawActivityAssetsSchema = z.object({
 });
 
 const rawActivityTimestampsSchema = z.object({
-  start: z.union([z.number(), z.string()]).optional(),
-  end: z.union([z.number(), z.string()]).optional(),
+  start: z.union([z.number(), z.string(), z.date()]).optional(),
+  end: z.union([z.number(), z.string(), z.date()]).optional(),
 });
 
 export const rawActivitySchema = z.object({

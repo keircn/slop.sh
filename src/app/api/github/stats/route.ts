@@ -95,11 +95,9 @@ const getSpecificRepoQuery = `
 async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
   const cachedData = githubCache.get(username);
   if (cachedData) {
-    console.log(`Using cached GitHub data for user: ${username}`);
     return cachedData;
   }
 
-  console.log(`Fetching fresh GitHub data for user: ${username}`);
   try {
     const response = await fetch("https://api.github.com/graphql", {
       method: "POST",

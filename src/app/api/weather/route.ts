@@ -13,15 +13,12 @@ export async function GET(request: NextRequest) {
 
     const cachedData = weatherCache.get(location);
     if (cachedData) {
-      console.log(`Using cached weather data for location: ${location}`);
       return NextResponse.json(cachedData, {
         headers: {
           "Cache-Control": "max-age=1800, s-maxage=1800",
         },
       });
     }
-
-    console.log(`Fetching fresh weather data for location: ${location}`);
 
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(

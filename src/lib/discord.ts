@@ -74,3 +74,105 @@ export const transformPresence = (data: RawPresenceData): Presence => {
 
   return presenceSchema.parse(transformed);
 };
+
+export function normalizePresenceData(presenceData: RawPresenceData): Presence {
+  try {
+    const data = JSON.parse(JSON.stringify(presenceData));
+
+    if (data.activities && Array.isArray(data.activities)) {
+      data.activities = data.activities.map((activity: RawActivityData) => {
+        if (activity.timestamps) {
+          if (activity.timestamps.start) {
+            activity.timestamps.start = new Date(activity.timestamps.start);
+          } else {
+            activity.timestamps.start = undefined;
+          }
+
+          if (activity.timestamps.end) {
+            activity.timestamps.end = new Date(activity.timestamps.end);
+          } else {
+            activity.timestamps.end = undefined;
+          }
+        }
+
+        return {
+          applicationId: activity.applicationId || "",
+          assets: {
+            largeImage: activity.assets?.largeImage || null,
+            largeText: activity.assets?.largeText || null,
+            smallImage: activity.assets?.smallImage || null,
+            smallText: activity.assets?.smallText || null,
+          },
+          details: activity.details || "",
+          emoji: activity.emoji || "",
+          name: activity.name || "",
+          state: activity.state || "",
+          title: activity.title || activity.name || "",
+          timestamps: activity.timestamps || { start: null, end: null },
+          type: activity.type || "",
+        };
+      });
+    } else {
+      data.activities = [];
+    }
+
+    if (data.platform && !Array.isArray(data.platform)) {
+      if (data.platform === null || data.platform === undefined) {
+        data.platform = [];
+      } else if (typeof data.platform === "object") {
+        data.platform = Object.keys(data.platform).filter(
+          (key) => data.platform[key] === true,
+        );
+      } else {
+        data.platform = [String(data.platform)];
+      }
+    }
+
+    data._id = data._id || "";
+    data.tag = data.tag || "";
+    data.pfp = data.pfp || "";
+    data.status = data.status || "offline";
+    data.badges = data.badges || [];
+    data.customStatus = data.customStatus || { name: "", createdTimestamp: 0 };
+
+    return presenceSchema.parse(data);
+  } catch (error) {
+    console.error("Failed to normalize presence data:", error);
+    throw new Error("Invalid presence data format");
+  }
+}
+
+export function connectToDiscordWebSocket(
+  url: string,
+  userId: string,
+): Promise<WebSocket> {
+  return new Promise((resolve, reject) => {
+    try {
+      const socket = new WebSocket(url);
+
+      socket.addEventListener("open", () => {
+        socket.send(JSON.stringify({ userId }));
+        resolve(socket);
+      });
+
+      socket.addEventListener("error", () => {
+        reject(new Error("WebSocket connection failed"));
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export function createKeepAlive(
+  socket: WebSocket,
+  interval = 10000,
+): () => void {
+  const pingInterval = setInterval(() => {
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send("ping");
+    }
+  }, interval);
+
+  return () => clearInterval(pingInterval);
+}

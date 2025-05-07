@@ -10,6 +10,7 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { useMobile } from "~/hooks/useMobile";
 import { Weather } from "~/components/Weather";
 import { z } from "zod";
+import { useDiscordPresence } from "~/hooks/useDiscordPresence";
 
 const discordPresencePropsSchema = z.object({
   userId: z.string().optional(),
@@ -20,12 +21,6 @@ const discordPresencePropsSchema = z.object({
     .returns(z.void())
     .optional(),
   weatherLocation: z.string().optional().default("London,UK"),
-
-  presence: z.any().optional(),
-  isConnected: z.boolean().optional().default(false),
-  isLoading: z.boolean().optional().default(false),
-  error: z.string().nullable().optional(),
-  onRetryConnection: z.function().returns(z.void()).optional(),
 });
 
 type DiscordPresenceProps = z.infer<typeof discordPresencePropsSchema>;
@@ -88,13 +83,11 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
     userId,
     disabled = false,
     weatherLocation = "London,UK",
-    presence,
-    isConnected = false,
-    isLoading = false,
-    error = null,
-    onRetryConnection,
+    onConnectionChange,
   } = props;
 
+  const { presence, isConnected, isLoading, error, retryConnection } =
+    useDiscordPresence(userId);
   const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(1);
   const [, setIsVisible] = useState(true);
@@ -106,6 +99,11 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
 
   const formatElapsedTime = useCallback((startTime: Date | null): string => {
     if (!startTime) return "";
+
+    if (!(startTime instanceof Date) || isNaN(startTime.getTime())) {
+      return "";
+    }
+
     const now = new Date();
     const elapsed = now.getTime() - startTime.getTime();
     const hours = Math.floor(elapsed / (1000 * 60 * 60));
@@ -167,17 +165,14 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
     }
 
     setShowWeatherFallback(false);
-
-    if (onRetryConnection) {
-      onRetryConnection();
-    }
+    retryConnection();
 
     retryTimeoutRef.current = setTimeout(() => {
       if (!isConnected && error) {
         setShowWeatherFallback(true);
       }
     }, 10000);
-  }, [onRetryConnection, isConnected, error]);
+  }, [retryConnection, isConnected, error]);
 
   useEffect(() => {
     if (presence?.activities?.length && presence.activities.length > 1) {
@@ -234,6 +229,12 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (onConnectionChange) {
+      onConnectionChange(isConnected);
+    }
+  }, [isConnected, onConnectionChange]);
 
   if (disabled || !userId || (presence && presence.status === "offline")) {
     return <Weather location={weatherLocation} disabled={false} />;
@@ -332,14 +333,27 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
             </div>
             <div>
               <p className="text-sm font-medium">{presence.tag}</p>
-              {presence.customStatus?.name && (
-                <p className="text-xs text-muted-foreground">
-                  {presence.customStatus.emoji
-                    ? presence.customStatus.emoji + " "
-                    : ""}
-                  {presence.customStatus.name}
-                </p>
-              )}
+              <div className="flex items-center gap-1">
+                {presence.customStatus?.name && (
+                  <p className="text-xs text-muted-foreground">
+                    {presence.customStatus.emoji
+                      ? presence.customStatus.emoji + " "
+                      : ""}
+                    {presence.customStatus.name}
+                  </p>
+                )}
+                {presence.platform && (
+                  <span className="text-xs text-muted-foreground opacity-70">
+                    {typeof presence.platform === "object" &&
+                    !Array.isArray(presence.platform)
+                      ? `• ${Object.keys(presence.platform)[0] || "web"}`
+                      : Array.isArray(presence.platform) &&
+                          presence.platform.length > 0
+                        ? `• ${presence.platform[0]}`
+                        : ""}
+                  </span>
+                )}
+              </div>
             </div>
           </motion.div>
 
