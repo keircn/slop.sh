@@ -93,7 +93,9 @@ export function Navbar() {
               className="hidden md:flex justify-center px-4"
               variants={itemVariants}
             >
-              <NavClock />
+              <div className="min-w-[85px] flex justify-center">
+                <NavClock />
+              </div>
             </motion.div>
 
             <motion.div
