@@ -171,7 +171,7 @@ export function Weather({
           initial="hidden"
           animate="visible"
           exit="exit"
-          className={`rounded-lg overflow-hidden ${isMobile ? "pt-2 px-2" : ""}`}
+          className={`overflow-hidden ${isMobile ? "pt-2 px-2" : ""}`}
         >
           <motion.div
             variants={itemVariants}
