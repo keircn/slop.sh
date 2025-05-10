@@ -121,7 +121,7 @@ export const HeaderCard = memo(function HeaderCard({
       transition={{ duration: 0.5 }}
       className={`relative flex flex-col justify-center ${isMobile ? "px-4" : ""}`}
     >
-      <Card className="overflow-hidden border-2 relative backdrop-blur-sm max-w-6xl bg-card">
+      <Card className="overflow-hidden border-2 relative backdrop-blur-sm max-w-6xl bg-card/30">
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <div className="absolute -top-12 -right-12 w-40 h-40 border border-primary/30 rounded-full" />
           <div className="absolute top-20 -right-8 w-24 h-24 border border-primary/20 rounded-full" />
