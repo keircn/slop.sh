@@ -1,0 +1,15 @@
+{
+    "typescript.validate.enable": true,
+    "javascript.validate.enable": true,
+    "editor.formatOnSave": true,
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/.next": true,
+        "**/public": true,
+        "**/src/components/ui": true
+    },
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "css.validate": false
+}
