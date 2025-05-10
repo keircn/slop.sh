@@ -10,7 +10,6 @@ import { NavClock } from "~/components/NavClock";
 import { NavbarLogo } from "~/components/NavbarLogo";
 import { NavbarWeather } from "~/components/NavbarWeather";
 import { NavbarMobileMenu } from "~/components/NavbarMobileMenu";
-import { NavbarLinks } from "~/components/NavbarLinks";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +82,6 @@ export function Navbar() {
               variants={itemVariants}
             >
               <NavbarLogo variants={logoVariants} />
-              <NavbarLinks variants={itemVariants} />
             </motion.div>
 
             <motion.div
