@@ -6,6 +6,7 @@ import { PageTransition } from "~/components/PageTransition";
 import { Suspense } from "react";
 import { Card } from "~/components/ui/card";
 import { Footer } from "~/components/Footer";
+import { GitHubActivity } from "~/components/GitHubActivity";
 
 const HeaderCard = dynamic(
   () =>
@@ -47,6 +48,16 @@ export default function Home() {
               <span id="header" />
               <HeaderCard {...HeaderCardProps[0]} />
             </Suspense>
+
+            <div className="mt-8">
+              <Suspense
+                fallback={
+                  <Card className="w-full h-[200px] animate-pulse bg-primary/5" />
+                }
+              >
+                <GitHubActivity username={HeaderCardProps[0].githubUsername || ""} />
+              </Suspense>
+            </div>
           </div>
         </div>
         <span id="footer" />
