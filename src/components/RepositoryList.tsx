@@ -60,7 +60,7 @@ export function RepositoryList({
               href={repo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 border border-border rounded-lg hover:bg-primary/5 transition-colors"
+              className="p-3 border border-border rounded hover:bg-primary/5 transition-colors"
             >
               <h4 className="font-medium text-sm">{repo.name}</h4>
               {repo.description && (

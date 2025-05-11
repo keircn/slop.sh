@@ -33,7 +33,6 @@ export function SocialLinks() {
             onClick={() => window.open(link.url, "_blank")}
           >
             {getLinkIcon(link.type)}
-            <span>{link.name}</span>
           </Button>
         </motion.div>
       ))}

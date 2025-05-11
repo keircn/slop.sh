@@ -42,7 +42,7 @@
   --font-sans: Open Sans, sans-serif;
   --font-mono: Menlo, monospace;
   --font-serif: Georgia, serif;
-  --radius: 1.3rem;
+  --radius: 2rem;
   --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
   --tracking-tight: calc(var(--tracking-normal) - 0.025em);
   --tracking-wide: calc(var(--tracking-normal) + 0.025em);
@@ -84,7 +84,7 @@ body {
 }
 
 :root {
-  --radius: 1.3rem;
+  --radius: 2rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.19 0.01 248.51);
   --card: oklch(0.98 0 197.14);
@@ -183,7 +183,7 @@ body {
   --sidebar-border: oklch(0.38 0.02 240.59);
   --sidebar-ring: oklch(0.68 0.16 243.35);
   --destructive-foreground: oklch(1 0 0);
-  --radius: 1.3rem;
+  --radius: 2rem;
   --font-sans: Open Sans, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
