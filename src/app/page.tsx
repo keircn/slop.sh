@@ -55,7 +55,9 @@ export default function Home() {
                   <Card className="w-full h-[200px] animate-pulse bg-primary/5" />
                 }
               >
-                <GitHubActivity username={HeaderCardProps[0].githubUsername || ""} />
+                <GitHubActivity
+                  username={HeaderCardProps[0].githubUsername || ""}
+                />
               </Suspense>
             </div>
           </div>

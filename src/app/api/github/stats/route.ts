@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import githubCache from "~/lib/github-cache";
 import { GitHubStatsData } from "~/types/HeaderCard";
 import { RepoNode } from "~/types/RepoNode";
+
+import { githubStatsCache } from "~/lib/github-cache";
 
 export const dynamic = "force-dynamic";
 
@@ -93,7 +94,7 @@ const getSpecificRepoQuery = `
 `;
 
 async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
-  const cachedData = githubCache.get(username);
+  const cachedData = githubStatsCache.get(username);
   if (cachedData) {
     return cachedData;
   }
@@ -191,7 +192,7 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
       pinnedRepositories,
     };
 
-    githubCache.set(username, statsData);
+    githubStatsCache.set(username, statsData);
 
     return statsData;
   } catch (error) {

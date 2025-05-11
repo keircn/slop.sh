@@ -1,36 +1,45 @@
 import { GitHubStatsData } from "~/types/HeaderCard";
+import type { GitHubContributionData } from "~/types/Github";
 
-type CacheEntry = {
-  data: GitHubStatsData;
+type CacheEntry<T> = {
+  data: T;
   timestamp: number;
 };
 
-class GitHubStatsCache {
-  private cache: Record<string, CacheEntry> = {};
-  private readonly TTL_MS = 24 * 60 * 60 * 1000;
+class GitHubCache<T> {
+  private cache: Record<string, CacheEntry<T>> = {};
+  private readonly TTL_MS: number;
 
-  get(username: string): GitHubStatsData | null {
-    const entry = this.cache[username];
+  constructor(ttlMs: number = 24 * 60 * 60 * 1000) {
+    this.TTL_MS = ttlMs;
+  }
+
+  get(key: string): T | null {
+    const entry = this.cache[key];
 
     if (!entry) return null;
 
     const now = Date.now();
     if (now - entry.timestamp > this.TTL_MS) {
-      delete this.cache[username];
+      delete this.cache[key];
       return null;
     }
 
     return entry.data;
   }
 
-  set(username: string, data: GitHubStatsData): void {
-    this.cache[username] = {
+  set(key: string, data: T): void {
+    this.cache[key] = {
       data,
       timestamp: Date.now(),
     };
   }
 }
 
-const githubCache = new GitHubStatsCache();
+// Create two separate cache instances
+const githubStatsCache = new GitHubCache<GitHubStatsData>();
+const githubContributionsCache = new GitHubCache<GitHubContributionData>(
+  3600 * 1000,
+); // 1 hour TTL
 
-export default githubCache;
+export { githubStatsCache, githubContributionsCache };
