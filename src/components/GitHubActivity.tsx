@@ -4,22 +4,8 @@ import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "~/components/ui/card";
 import { Skeleton } from "~/components/ui/skeleton";
-
-type ContributionDay = {
-  date: string;
-  contributionCount: number;
-  color: string;
-};
-
-type ContributionWeek = {
-  firstDay: string;
-  contributionDays: ContributionDay[];
-};
-
-interface GitHubActivityProps {
-  username?: string;
-  isLoading?: boolean;
-}
+import { GitHubActivityProps, ContributionWeek } from "~/types/Github";
+import { getMonthLabels, getDayOfWeekLabels, getTooltipText } from "~/lib/github-utils";
 
 export function GitHubActivity({
   username,
@@ -37,8 +23,8 @@ export function GitHubActivity({
   const handleMouseMove = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       const rect = event.currentTarget.getBoundingClientRect();
-      const x = event.clientX - rect.left + 10; // offset from cursor
-      const y = event.clientY - rect.top - 40; // position above cursor
+      const x = event.clientX - rect.left + 10;
+      const y = event.clientY - rect.top - 40;
       setTooltipPosition({ x, y });
     },
     [],
@@ -71,59 +57,7 @@ export function GitHubActivity({
     fetchGitHubActivity();
   }, [fetchGitHubActivity]);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      day: "numeric",
-    }).format(date);
-  };
-
-  const getMonthLabels = () => {
-    if (!contributionData?.weeks.length) return [];
-
-    const months: { month: string; index: number }[] = [];
-    let currentMonth = "";
-
-    contributionData.weeks.forEach((week, weekIndex) => {
-      const date = new Date(week.firstDay);
-      const monthName = date.toLocaleString("default", { month: "short" });
-
-      if (monthName !== currentMonth) {
-        months.push({ month: monthName, index: weekIndex });
-        currentMonth = monthName;
-      }
-    });
-
-    return months;
-  };
-
-  const getTooltipText = (day: ContributionDay) => {
-    const count = day.contributionCount;
-    const dateText = formatDate(day.date);
-
-    if (count === 0) {
-      return `No contributions on ${dateText}`;
-    } else if (count === 1) {
-      return `1 contribution on ${dateText}`;
-    } else {
-      return `${count} contributions on ${dateText}`;
-    }
-  };
-
-  const getDayOfWeekLabels = () => {
-    return [
-      { day: "Sun", index: 0 },
-      { day: "Mon", index: 1 },
-      { day: "Tue", index: 2 },
-      { day: "Wed", index: 3 },
-      { day: "Thu", index: 4 },
-      { day: "Fri", index: 5 },
-      { day: "Sat", index: 6 },
-    ];
-  };
-
-  const monthLabels = getMonthLabels();
+  const monthLabels = contributionData ? getMonthLabels(contributionData) : [];
   const dayLabels = getDayOfWeekLabels();
 
   return (
@@ -163,7 +97,6 @@ export function GitHubActivity({
           ) : contributionData ? (
             <div className="relative overflow-visible">
               <div className="flex">
-                {/* Day of week labels */}
                 <div className="flex flex-col mr-3 pt-6 text-xs text-muted-foreground shrink-0">
                   {dayLabels.map((day, index) => (
                     <div
@@ -175,9 +108,7 @@ export function GitHubActivity({
                   ))}
                 </div>
 
-                {/* Calendar grid */}
                 <div className="relative flex-1 overflow-visible w-full">
-                  {/* Month labels */}
                   <div className="flex mb-1 text-xs text-muted-foreground">
                     {monthLabels.map((month, i) => (
                       <div
@@ -242,7 +173,6 @@ export function GitHubActivity({
                     )}
                   </div>
 
-                  {/* Legend */}
                   <div className="flex items-center justify-end mt-4 text-xs text-muted-foreground border-t border-border pt-4">
                     <span className="mr-2">Less</span>
                     <div className="flex gap-[3px] mx-2">

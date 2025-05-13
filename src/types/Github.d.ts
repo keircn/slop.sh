@@ -1,3 +1,8 @@
+export type GitHubContributionData = {
+  weeks: ContributionWeek[];
+  totalContributions: number;
+};
+
 export type ContributionDay = {
   date: string;
   contributionCount: number;
@@ -9,7 +14,7 @@ export type ContributionWeek = {
   contributionDays: ContributionDay[];
 };
 
-export type GitHubContributionData = {
-  weeks: ContributionWeek[];
-  totalContributions: number;
-};
+interface GitHubActivityProps {
+  username?: string;
+  isLoading?: boolean;
+}
