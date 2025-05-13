@@ -1,24 +1,15 @@
 "use client";
 
-import React from "react";
 import { PageTransition } from "~/components/PageTransition";
 import { ContactForm } from "~/components/ContactForm";
 import { SocialLinks } from "~/components/SocialLinks";
 import { Card } from "~/components/ui/card";
 import { motion } from "framer-motion";
-import { useNavbar } from "~/context/NavbarContext";
 
 export default function ContactPage() {
-  const { setNavbarVisible } = useNavbar();
-
-  React.useEffect(() => {
-    setNavbarVisible(false);
-    return () => setNavbarVisible(true);
-  }, [setNavbarVisible]);
-
   return (
     <PageTransition>
-      <main className="relative min-h-screen w-full">
+      <main className="relative min-h-screen w-full pt-8">
         <div className="container mx-auto flex flex-col items-center justify-center mt-16 pb-16">
           <div className="max-w-3xl w-full relative z-10">
             <motion.div
