@@ -5,7 +5,11 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "~/components/ui/card";
 import { Skeleton } from "~/components/ui/skeleton";
 import { GitHubActivityProps, ContributionWeek } from "~/types/Github";
-import { getMonthLabels, getDayOfWeekLabels, getTooltipText } from "~/lib/github-utils";
+import {
+  getMonthLabels,
+  getDayOfWeekLabels,
+  getTooltipText,
+} from "~/lib/github-utils";
 
 export function GitHubActivity({
   username,
