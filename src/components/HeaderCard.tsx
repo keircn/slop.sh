@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useCallback, memo } from "react";
-import { Card, CardContent } from "~/components/ui/card";
-import { motion } from "framer-motion";
-import { GitHubStatsData, HeaderCardProps } from "~/types/HeaderCard";
-import { ProfileInfo } from "~/components/ProfileInfo";
-import { GitHubStats } from "~/components/GitHubStats";
-import { RepositoryList } from "~/components/RepositoryList";
-import { Weather } from "~/components/Weather";
-import { DiscordPresence } from "~/components/DiscordPresence";
-import { useMobile } from "~/hooks/useMobile";
+import { useEffect, useState, useCallback, memo } from 'react';
+import { Card, CardContent } from '~/components/ui/card';
+import { motion } from 'framer-motion';
+import { GitHubStatsData, HeaderCardProps } from '~/types/HeaderCard';
+import { ProfileInfo } from '~/components/ProfileInfo';
+import { GitHubStats } from '~/components/GitHubStats';
+import { RepositoryList } from '~/components/RepositoryList';
+import { Weather } from '~/components/Weather';
+import { DiscordPresence } from '~/components/DiscordPresence';
+import { useMobile } from '~/hooks/useMobile';
 
 export const HeaderCard = memo(function HeaderCard({
   name,
@@ -49,7 +49,7 @@ export const HeaderCard = memo(function HeaderCard({
 
     try {
       setIsLoading(true);
-      const response = await fetch("/api/github/stats");
+      const response = await fetch('/api/github/stats');
 
       if (!response.ok) {
         throw new Error(`API returned status: ${response.status}`);
@@ -58,7 +58,7 @@ export const HeaderCard = memo(function HeaderCard({
       const data = await response.json();
       setGithubData(data);
     } catch (err) {
-      console.error("Failed to fetch GitHub stats:", err);
+      console.error('Failed to fetch GitHub stats:', err);
     } finally {
       setIsLoading(false);
     }
@@ -72,7 +72,7 @@ export const HeaderCard = memo(function HeaderCard({
 
     try {
       setIsLoadingCustomRepos(true);
-      const reposList = customRepositories.join(",");
+      const reposList = customRepositories.join(',');
       const response = await fetch(`/api/github/stats?repos=${reposList}`);
 
       if (!response.ok) {
@@ -82,7 +82,7 @@ export const HeaderCard = memo(function HeaderCard({
       const data = await response.json();
       setCustomRepoData(data);
     } catch (err) {
-      console.error("Failed to fetch custom repository data:", err);
+      console.error('Failed to fetch custom repository data:', err);
     } finally {
       setIsLoadingCustomRepos(false);
     }
@@ -119,24 +119,24 @@ export const HeaderCard = memo(function HeaderCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`relative flex flex-col justify-center ${isMobile ? "px-4" : ""}`}
+      className={`relative flex flex-col justify-center ${isMobile ? 'px-4' : ''}`}
     >
-      <Card className="overflow-hidden border-2 relative backdrop-blur-sm max-w-6xl bg-card/30">
-        <div className="absolute inset-0 opacity-5 pointer-events-none">
-          <div className="absolute -top-12 -right-12 w-40 h-40 border border-primary/30 rounded-full" />
-          <div className="absolute top-20 -right-8 w-24 h-24 border border-primary/20 rounded-full" />
-          <div className="absolute -bottom-20 -left-20 w-60 h-60 border border-primary/20 rounded-full" />
+      <Card className='bg-card/30 relative max-w-6xl overflow-hidden border-2 backdrop-blur-sm'>
+        <div className='pointer-events-none absolute inset-0 opacity-5'>
+          <div className='border-primary/30 absolute -top-12 -right-12 h-40 w-40 rounded-full border' />
+          <div className='border-primary/20 absolute top-20 -right-8 h-24 w-24 rounded-full border' />
+          <div className='border-primary/20 absolute -bottom-20 -left-20 h-60 w-60 rounded-full border' />
         </div>
 
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col space-y-14">
+        <CardContent className='p-6'>
+          <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+            <div className='flex flex-col space-y-14'>
               <ProfileInfo
                 name={githubData?.user.name || name}
                 githubUsername={githubUsername}
                 title={title}
                 bio={displayBio}
-                dateOfBirth={new Date("2009-03-25")}
+                dateOfBirth={new Date('2009-03-25')}
                 avatarUrl={displayAvatar}
                 links={{
                   github: links.github,
@@ -148,16 +148,16 @@ export const HeaderCard = memo(function HeaderCard({
               {discordUserId ? (
                 <DiscordPresence
                   userId={discordUserId}
-                  weatherLocation="London,UK"
+                  weatherLocation='London,UK'
                   onConnectionChange={handleDiscordConnectionChange}
                   disabled={isLoading || !discordConnected}
                 />
               ) : (
-                <Weather location="London,UK" />
+                <Weather location='London,UK' />
               )}
             </div>
 
-            <div className="space-y-4">
+            <div className='space-y-4'>
               <GitHubStats
                 isLoading={isLoading}
                 stats={stats}

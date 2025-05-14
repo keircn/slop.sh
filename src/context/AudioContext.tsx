@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   createContext,
@@ -6,7 +6,7 @@ import {
   useState,
   useEffect,
   ReactNode,
-} from "react";
+} from 'react';
 
 interface AudioContextType {
   isAudioEnabled: boolean;
@@ -22,7 +22,7 @@ const AudioContext = createContext<AudioContextType | undefined>(undefined);
 export function useAudio() {
   const context = useContext(AudioContext);
   if (context === undefined) {
-    throw new Error("useAudio must be used within an AudioProvider");
+    throw new Error('useAudio must be used within an AudioProvider');
   }
   return context;
 }

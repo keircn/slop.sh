@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "framer-motion";
+import React from 'react';
+import { motion } from 'framer-motion';
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const variants = {
@@ -12,7 +12,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       transition: {
         duration: 0.4,
         ease: [0.33, 1, 0.68, 1],
-        when: "beforeChildren",
+        when: 'beforeChildren',
         staggerChildren: 0.1,
       },
     },
@@ -28,10 +28,10 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   return (
     <motion.main
       variants={variants}
-      initial="hidden"
-      animate="enter"
-      exit="exit"
-      className="flex-1"
+      initial='hidden'
+      animate='enter'
+      exit='exit'
+      className='flex-1'
     >
       {children}
     </motion.main>

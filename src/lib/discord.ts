@@ -7,19 +7,19 @@ import {
   rawPresenceSchema,
   activitySchema,
   presenceSchema,
-} from "~/types/Presence";
+} from '~/types/Presence';
 
 export const transformActivity = (activity: RawActivityData): Activity => {
   const validatedRaw = rawActivitySchema.parse(activity);
 
   const transformed = {
-    applicationId: validatedRaw.applicationId || "",
-    details: validatedRaw.details || "",
-    emoji: validatedRaw.emoji || "",
-    name: validatedRaw.name || "",
-    state: validatedRaw.state || "",
-    title: validatedRaw.title || "",
-    type: validatedRaw.type || "",
+    applicationId: validatedRaw.applicationId || '',
+    details: validatedRaw.details || '',
+    emoji: validatedRaw.emoji || '',
+    name: validatedRaw.name || '',
+    state: validatedRaw.state || '',
+    title: validatedRaw.title || '',
+    type: validatedRaw.type || '',
     timestamps: {
       start: validatedRaw.timestamps?.start
         ? new Date(validatedRaw.timestamps.start)
@@ -48,25 +48,25 @@ export const transformPresence = (data: RawPresenceData): Presence => {
     if (Array.isArray(validatedRaw.platform)) {
       platformArray = validatedRaw.platform;
     } else if (
-      typeof validatedRaw.platform === "object" &&
+      typeof validatedRaw.platform === 'object' &&
       validatedRaw.platform !== null
     ) {
       platformArray = Object.entries(validatedRaw.platform).map(
-        ([key, value]) => `${key}:${value}`,
+        ([key, value]) => `${key}:${value}`
       );
     }
   }
 
   const transformed = {
-    _id: validatedRaw._id || "",
-    tag: validatedRaw.tag || "",
-    pfp: validatedRaw.pfp || "",
+    _id: validatedRaw._id || '',
+    tag: validatedRaw.tag || '',
+    pfp: validatedRaw.pfp || '',
     platform: platformArray,
-    status: validatedRaw.status || "offline",
+    status: validatedRaw.status || 'offline',
     activities: (validatedRaw.activities || []).map(transformActivity),
     badges: validatedRaw.badges || [],
     customStatus: {
-      name: validatedRaw.customStatus?.name || "",
+      name: validatedRaw.customStatus?.name || '',
       createdTimestamp: validatedRaw.customStatus?.createdTimestamp || 0,
       emoji: validatedRaw.customStatus?.emoji || null,
     },
@@ -96,20 +96,20 @@ export function normalizePresenceData(presenceData: RawPresenceData): Presence {
         }
 
         return {
-          applicationId: activity.applicationId || "",
+          applicationId: activity.applicationId || '',
           assets: {
             largeImage: activity.assets?.largeImage || null,
             largeText: activity.assets?.largeText || null,
             smallImage: activity.assets?.smallImage || null,
             smallText: activity.assets?.smallText || null,
           },
-          details: activity.details || "",
-          emoji: activity.emoji || "",
-          name: activity.name || "",
-          state: activity.state || "",
-          title: activity.title || activity.name || "",
+          details: activity.details || '',
+          emoji: activity.emoji || '',
+          name: activity.name || '',
+          state: activity.state || '',
+          title: activity.title || activity.name || '',
           timestamps: activity.timestamps || { start: null, end: null },
-          type: activity.type || "",
+          type: activity.type || '',
         };
       });
     } else {
@@ -119,44 +119,44 @@ export function normalizePresenceData(presenceData: RawPresenceData): Presence {
     if (data.platform && !Array.isArray(data.platform)) {
       if (data.platform === null || data.platform === undefined) {
         data.platform = [];
-      } else if (typeof data.platform === "object") {
+      } else if (typeof data.platform === 'object') {
         data.platform = Object.keys(data.platform).filter(
-          (key) => data.platform[key] === true,
+          (key) => data.platform[key] === true
         );
       } else {
         data.platform = [String(data.platform)];
       }
     }
 
-    data._id = data._id || "";
-    data.tag = data.tag || "";
-    data.pfp = data.pfp || "";
-    data.status = data.status || "offline";
+    data._id = data._id || '';
+    data.tag = data.tag || '';
+    data.pfp = data.pfp || '';
+    data.status = data.status || 'offline';
     data.badges = data.badges || [];
-    data.customStatus = data.customStatus || { name: "", createdTimestamp: 0 };
+    data.customStatus = data.customStatus || { name: '', createdTimestamp: 0 };
 
     return presenceSchema.parse(data);
   } catch (error) {
-    console.error("Failed to normalize presence data:", error);
-    throw new Error("Invalid presence data format");
+    console.error('Failed to normalize presence data:', error);
+    throw new Error('Invalid presence data format');
   }
 }
 
 export function connectToDiscordWebSocket(
   url: string,
-  userId: string,
+  userId: string
 ): Promise<WebSocket> {
   return new Promise((resolve, reject) => {
     try {
       const socket = new WebSocket(url);
 
-      socket.addEventListener("open", () => {
+      socket.addEventListener('open', () => {
         socket.send(JSON.stringify({ userId }));
         resolve(socket);
       });
 
-      socket.addEventListener("error", () => {
-        reject(new Error("WebSocket connection failed"));
+      socket.addEventListener('error', () => {
+        reject(new Error('WebSocket connection failed'));
       });
     } catch (error) {
       reject(error);
@@ -166,11 +166,11 @@ export function connectToDiscordWebSocket(
 
 export function createKeepAlive(
   socket: WebSocket,
-  interval = 10000,
+  interval = 10000
 ): () => void {
   const pingInterval = setInterval(() => {
     if (socket.readyState === WebSocket.OPEN) {
-      socket.send("ping");
+      socket.send('ping');
     }
   }, interval);
 

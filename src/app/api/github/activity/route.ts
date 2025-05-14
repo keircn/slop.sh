@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
-import { githubContributionsCache } from "~/lib/github-cache";
-import { GitHubContributionData } from "~/types/Github";
+import { NextRequest, NextResponse } from 'next/server';
+import { githubContributionsCache } from '~/lib/github-cache';
+import { GitHubContributionData } from '~/types/Github';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "N/A";
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'N/A';
 
 if (!GITHUB_TOKEN) {
-  console.warn("GITHUB_TOKEN not found in environment variables");
+  console.warn('GITHUB_TOKEN not found in environment variables');
 }
 
 const getContributionsQuery = `
@@ -32,7 +32,7 @@ const getContributionsQuery = `
 async function fetchGithubContributions(
   username: string,
   fromDate: string,
-  toDate: string,
+  toDate: string
 ): Promise<GitHubContributionData> {
   const cacheKey = `contributions-${username}-${fromDate}-${toDate}`;
   const cachedData = githubContributionsCache.get(cacheKey);
@@ -41,11 +41,11 @@ async function fetchGithubContributions(
   }
 
   try {
-    const response = await fetch("https://api.github.com/graphql", {
-      method: "POST",
+    const response = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${GITHUB_TOKEN}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         query: getContributionsQuery,
@@ -69,7 +69,7 @@ async function fetchGithubContributions(
       !data.user.contributionsCollection ||
       !data.user.contributionsCollection.contributionCalendar
     ) {
-      throw new Error("GitHub API returned invalid data");
+      throw new Error('GitHub API returned invalid data');
     }
 
     const contributionData = {
@@ -83,7 +83,7 @@ async function fetchGithubContributions(
 
     return contributionData;
   } catch (error) {
-    console.error("Error fetching GitHub contributions:", error);
+    console.error('Error fetching GitHub contributions:', error);
     throw error;
   }
 }
@@ -91,28 +91,28 @@ async function fetchGithubContributions(
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
-    const username = url.searchParams.get("username") || GITHUB_USERNAME;
+    const username = url.searchParams.get('username') || GITHUB_USERNAME;
 
     const toDate = new Date().toISOString();
     const fromDate = new Date();
     fromDate.setFullYear(fromDate.getFullYear() - 1);
 
-    const from = url.searchParams.get("from") || fromDate.toISOString();
-    const to = url.searchParams.get("to") || toDate;
+    const from = url.searchParams.get('from') || fromDate.toISOString();
+    const to = url.searchParams.get('to') || toDate;
 
     const contributionData = await fetchGithubContributions(username, from, to);
 
     return NextResponse.json(contributionData, {
       status: 200,
       headers: {
-        "Cache-Control": "max-age=3600, s-maxage=3600",
+        'Cache-Control': 'max-age=3600, s-maxage=3600',
       },
     });
   } catch (error) {
-    console.error("GitHub activity API error:", error);
+    console.error('GitHub activity API error:', error);
     return NextResponse.json(
-      { error: "Failed to fetch GitHub activity" },
-      { status: 500 },
+      { error: 'Failed to fetch GitHub activity' },
+      { status: 500 }
     );
   }
 }

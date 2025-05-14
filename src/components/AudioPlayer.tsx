@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { FaPause, FaPlay, FaVolumeUp, FaVolumeMute } from "react-icons/fa";
-import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
-import { Variants } from "framer-motion";
-import { useAudio } from "~/context/AudioContext";
+import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { FaPause, FaPlay, FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
+import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
+import { Variants } from 'framer-motion';
+import { useAudio } from '~/context/AudioContext';
 
 interface AudioPlayerProps {
   audioSrc: string;
@@ -18,9 +18,9 @@ interface AudioPlayerProps {
 export function AudioPlayer({
   audioSrc,
   autoPlay = false,
-  className = "",
+  className = '',
   variants,
-  trackName = "Background Music",
+  trackName = 'Background Music',
 }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -39,7 +39,7 @@ export function AudioPlayer({
       audio.play().catch(console.error);
     };
 
-    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener('ended', handleEnded);
 
     if (autoPlay || contextAutoPlay) {
       const playPromise = audio.play();
@@ -49,7 +49,7 @@ export function AudioPlayer({
             setIsPlaying(true);
           })
           .catch((error) => {
-            console.log("Audio autoplay was prevented:", error);
+            console.log('Audio autoplay was prevented:', error);
             setIsPlaying(false);
           });
       }
@@ -58,7 +58,7 @@ export function AudioPlayer({
     return () => {
       if (audio) {
         audio.pause();
-        audio.removeEventListener("ended", handleEnded);
+        audio.removeEventListener('ended', handleEnded);
       }
     };
   }, [audioSrc, autoPlay, volume, isMuted, contextAutoPlay, isAudioEnabled]);
@@ -84,13 +84,13 @@ export function AudioPlayer({
 
     if (isPlaying) {
       audio.pause();
-      audio.dataset.userPaused = "true";
+      audio.dataset.userPaused = 'true';
     } else {
       delete audio.dataset.userPaused;
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
-          console.log("Audio play was prevented:", error);
+          console.log('Audio play was prevented:', error);
         });
       }
     }
@@ -132,13 +132,13 @@ export function AudioPlayer({
       variants={variants}
     >
       <audio ref={audioRef} src={audioSrc} loop />
-      <div className="bg-card border border-border/30 p-1.5 rounded shadow-sm flex items-center gap-2 relative ml-4">
-        <div className="flex items-center gap-1">
+      <div className='bg-card border-border/30 relative ml-4 flex items-center gap-2 rounded border p-1.5 shadow-sm'>
+        <div className='flex items-center gap-1'>
           <motion.button
             onClick={skipTrack}
-            className="w-6 h-6 rounded-full text-muted-foreground flex items-center justify-center hover:text-foreground transition-colors"
-            aria-label="Previous track"
-            whileHover={{ scale: 1.1, color: "#fff" }}
+            className='text-muted-foreground hover:text-foreground flex h-6 w-6 items-center justify-center rounded-full transition-colors'
+            aria-label='Previous track'
+            whileHover={{ scale: 1.1, color: '#fff' }}
             whileTap={{ scale: 0.9 }}
           >
             <MdSkipPrevious size={16} />
@@ -146,39 +146,39 @@ export function AudioPlayer({
 
           <motion.button
             onClick={togglePlayPause}
-            className={`w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors ${isPlaying ? "shadow-inner" : "shadow-sm"}`}
-            aria-label={isPlaying ? "Pause" : "Play"}
+            className={`bg-primary text-primary-foreground hover:bg-primary/90 flex h-7 w-7 items-center justify-center rounded-full transition-colors ${isPlaying ? 'shadow-inner' : 'shadow-sm'}`}
+            aria-label={isPlaying ? 'Pause' : 'Play'}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             {isPlaying ? (
               <FaPause size={10} />
             ) : (
-              <FaPlay size={10} className="ml-0.5" />
+              <FaPlay size={10} className='ml-0.5' />
             )}
           </motion.button>
 
           <motion.button
             onClick={skipTrack}
-            className="w-6 h-6 rounded-full text-muted-foreground flex items-center justify-center hover:text-foreground transition-colors"
-            aria-label="Next track"
-            whileHover={{ scale: 1.1, color: "#fff" }}
+            className='text-muted-foreground hover:text-foreground flex h-6 w-6 items-center justify-center rounded-full transition-colors'
+            aria-label='Next track'
+            whileHover={{ scale: 1.1, color: '#fff' }}
             whileTap={{ scale: 0.9 }}
           >
             <MdSkipNext size={16} />
           </motion.button>
         </div>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className='hidden items-center gap-2 md:flex'>
           <motion.div
-            className="text-xs text-muted-foreground whitespace-nowrap w-16 overflow-hidden"
+            className='text-muted-foreground w-16 overflow-hidden text-xs whitespace-nowrap'
             animate={isPlaying ? { opacity: [0.7, 1, 0.7] } : { opacity: 0.7 }}
             transition={
               isPlaying
                 ? {
                     duration: 2,
                     repeat: Infinity,
-                    ease: "easeInOut",
+                    ease: 'easeInOut',
                   }
                 : {}
             }
@@ -195,8 +195,8 @@ export function AudioPlayer({
                 transition={{
                   duration: trackName.length * 0.5,
                   repeat: Infinity,
-                  repeatType: "loop",
-                  ease: "linear",
+                  repeatType: 'loop',
+                  ease: 'linear',
                   delay: 1,
                   repeatDelay: 1,
                 }}
@@ -208,13 +208,13 @@ export function AudioPlayer({
             )}
           </motion.div>
 
-          <div className="relative group">
+          <div className='group relative'>
             <motion.button
               onClick={toggleMute}
-              className="w-6 h-6 rounded-full text-muted-foreground flex items-center justify-center hover:text-foreground transition-colors"
+              className='text-muted-foreground hover:text-foreground flex h-6 w-6 items-center justify-center rounded-full transition-colors'
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              aria-label={isMuted ? "Unmute" : "Mute"}
+              aria-label={isMuted ? 'Unmute' : 'Mute'}
             >
               {isMuted || volume === 0 ? (
                 <FaVolumeMute size={14} />
@@ -223,17 +223,17 @@ export function AudioPlayer({
               )}
             </motion.button>
 
-            <div className="absolute opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto top-full right-0 pt-2 z-20 transition-opacity">
-              <div className="bg-card border border-border/30 shadow-md rounded-md p-2 flex items-center">
+            <div className='pointer-events-none absolute top-full right-0 z-20 pt-2 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100'>
+              <div className='bg-card border-border/30 flex items-center rounded-md border p-2 shadow-md'>
                 <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
+                  type='range'
+                  min='0'
+                  max='1'
+                  step='0.01'
                   value={volume}
                   onChange={handleVolumeChange}
-                  className="w-20 h-2 accent-primary"
-                  aria-label="Volume"
+                  className='accent-primary h-2 w-20'
+                  aria-label='Volume'
                 />
               </div>
             </div>

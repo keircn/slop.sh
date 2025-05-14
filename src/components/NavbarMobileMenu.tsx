@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { NavClock } from "./NavClock";
+import React from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { NavClock } from './NavClock';
 
 interface NavbarMobileMenuProps {
   isOpen: boolean;
@@ -18,12 +18,12 @@ export function NavbarMobileMenu({
     hidden: { opacity: 0, height: 0 },
     visible: {
       opacity: 1,
-      height: "auto",
+      height: 'auto',
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 300,
         damping: 25,
-        when: "beforeChildren",
+        when: 'beforeChildren',
         staggerChildren: 0.1,
       },
     },
@@ -31,7 +31,7 @@ export function NavbarMobileMenu({
       opacity: 0,
       height: 0,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 300,
         damping: 25,
       },
@@ -44,7 +44,7 @@ export function NavbarMobileMenu({
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 300,
         damping: 20,
       },
@@ -63,23 +63,23 @@ export function NavbarMobileMenu({
   return (
     <motion.div
       variants={mobileMenuVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="md:hidden pt-4 pb-2 border-t border-border/20 mt-2"
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      className='border-border/20 mt-2 border-t pt-4 pb-2 md:hidden'
     >
-      <nav className="flex flex-col space-y-1">
+      <nav className='flex flex-col space-y-1'>
         <motion.div
           variants={itemVariants}
-          className="flex justify-center my-2"
+          className='my-2 flex justify-center'
         >
           <NavClock />
         </motion.div>
 
         <motion.div variants={itemVariants}>
           <Link
-            href="/"
-            className="flex items-center text-sm font-medium transition-colors hover:text-primary px-3 py-2.5 rounded-md hover:bg-accent/50"
+            href='/'
+            className='hover:text-primary hover:bg-accent/50 flex items-center rounded-md px-3 py-2.5 text-sm font-medium transition-colors'
             onClick={onLinkClickAction}
           >
             Home
@@ -88,8 +88,8 @@ export function NavbarMobileMenu({
 
         <motion.div variants={itemVariants}>
           <Link
-            href="/contact"
-            className="flex items-center text-sm font-medium transition-colors hover:text-primary px-3 py-2.5 rounded-md hover:bg-accent/50"
+            href='/contact'
+            className='hover:text-primary hover:bg-accent/50 flex items-center rounded-md px-3 py-2.5 text-sm font-medium transition-colors'
             onClick={onLinkClickAction}
           >
             Contact

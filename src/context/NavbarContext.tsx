@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode } from 'react';
 
 interface NavbarContextType {
   isNavbarVisible: boolean;
@@ -22,7 +22,7 @@ export function NavbarProvider({ children }: { children: ReactNode }) {
 export function useNavbar() {
   const context = useContext(NavbarContext);
   if (context === undefined) {
-    throw new Error("useNavbar must be used within a NavbarProvider");
+    throw new Error('useNavbar must be used within a NavbarProvider');
   }
   return context;
 }

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useAudio } from "~/context/AudioContext";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAudio } from '~/context/AudioContext';
 
 interface EntranceOverlayProps {
   onEnter?: () => void;
@@ -21,13 +21,13 @@ export function EntranceOverlay({ onEnter }: EntranceOverlayProps) {
 
   useEffect(() => {
     if (isVisible) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     }
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [isVisible]);
 
@@ -38,9 +38,9 @@ export function EntranceOverlay({ onEnter }: EntranceOverlayProps) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
+          className='bg-background fixed inset-0 z-[100] flex items-center justify-center'
           onClick={handleEnter}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: 'pointer' }}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -48,13 +48,13 @@ export function EntranceOverlay({ onEnter }: EntranceOverlayProps) {
             transition={{
               delay: 0.2,
               duration: 0.5,
-              type: "spring",
+              type: 'spring',
               stiffness: 100,
             }}
-            className="text-center p-8 max-w-2xl translate-y-[-40vh]"
+            className='max-w-2xl translate-y-[-40vh] p-8 text-center'
           >
-            <h1 className="text-4xl font-bold mb-4">Welcome to slop.sh</h1>
-            <p className="text-xl mb-8 text-muted-foreground">Click anywhere</p>
+            <h1 className='mb-4 text-4xl font-bold'>Welcome to slop.sh</h1>
+            <p className='text-muted-foreground mb-8 text-xl'>Click anywhere</p>
           </motion.div>
         </motion.div>
       )}

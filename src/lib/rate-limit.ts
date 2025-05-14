@@ -1,4 +1,4 @@
-import { LRUCache } from "lru-cache";
+import { LRUCache } from 'lru-cache';
 
 export function rateLimit({
   interval,
@@ -24,7 +24,7 @@ export function rateLimit({
       const isRateLimited = currentUsage >= limit;
 
       if (isRateLimited) {
-        throw new Error("Rate limit exceeded");
+        throw new Error('Rate limit exceeded');
       }
 
       return Promise.resolve();

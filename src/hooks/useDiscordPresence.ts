@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { Presence, Activity } from "~/types/Presence";
+import { useState, useEffect, useCallback } from 'react';
+import { Presence, Activity } from '~/types/Presence';
 
 export function useDiscordPresence(userId?: string) {
   const [presence, setPresence] = useState<Presence | null>(null);
@@ -14,13 +14,13 @@ export function useDiscordPresence(userId?: string) {
 
     if (normalizedActivity.timestamps?.start) {
       normalizedActivity.timestamps.start = new Date(
-        normalizedActivity.timestamps.start,
+        normalizedActivity.timestamps.start
       );
     }
 
     if (normalizedActivity.timestamps?.end) {
       normalizedActivity.timestamps.end = new Date(
-        normalizedActivity.timestamps.end,
+        normalizedActivity.timestamps.end
       );
     }
 
@@ -28,13 +28,13 @@ export function useDiscordPresence(userId?: string) {
   };
 
   const normalizePlatform = (
-    platform: string[] | Record<string, boolean> | string | null | undefined,
+    platform: string[] | Record<string, boolean> | string | null | undefined
   ): string[] => {
     if (!platform) return [];
 
     if (Array.isArray(platform)) return platform;
 
-    if (typeof platform === "object") {
+    if (typeof platform === 'object') {
       return Object.entries(platform)
         .filter(([, state]) => state !== false)
         .map(([platform]) => platform);
@@ -49,8 +49,8 @@ export function useDiscordPresence(userId?: string) {
 
     const wsUrl = process.env.NEXT_PUBLIC_DISCORD_WS_URL;
     if (!wsUrl) {
-      console.error("WebSocket URL not configured in .env");
-      setError("WebSocket URL not configured");
+      console.error('WebSocket URL not configured in .env');
+      setError('WebSocket URL not configured');
       setIsLoading(false);
       return;
     }
@@ -70,13 +70,13 @@ export function useDiscordPresence(userId?: string) {
               socket.send(JSON.stringify({ userId }));
             }
           } catch (err) {
-            console.error("Error sending userId:", err);
+            console.error('Error sending userId:', err);
           }
         }
       };
 
       socket.onmessage = (event) => {
-        if (event.data === "connected" || event.data === "pong") return;
+        if (event.data === 'connected' || event.data === 'pong') return;
 
         try {
           const data = JSON.parse(event.data);
@@ -91,13 +91,13 @@ export function useDiscordPresence(userId?: string) {
 
           setPresence(data as Presence);
         } catch (err) {
-          console.error("Failed to parse message data:", err);
+          console.error('Failed to parse message data:', err);
         }
       };
 
       socket.onerror = (event) => {
-        console.error("WebSocket error:", event);
-        setError("Connection error");
+        console.error('WebSocket error:', event);
+        setError('Connection error');
         setIsConnected(false);
         setIsLoading(false);
       };
@@ -110,7 +110,7 @@ export function useDiscordPresence(userId?: string) {
 
       const pingInterval = setInterval(() => {
         if (socket && socket.readyState === WebSocket.OPEN) {
-          socket.send("ping");
+          socket.send('ping');
         }
       }, 10000);
 
@@ -132,8 +132,8 @@ export function useDiscordPresence(userId?: string) {
         }
       };
     } catch (err) {
-      console.error("Failed to create WebSocket:", err);
-      setError("Failed to create connection");
+      console.error('Failed to create WebSocket:', err);
+      setError('Failed to create connection');
       setIsLoading(false);
       setIsConnected(false);
       return () => {};

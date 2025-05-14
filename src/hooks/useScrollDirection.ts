@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 interface ScrollInfo {
   isScrollingUp: boolean;
@@ -40,8 +40,8 @@ export function useScrollDirection(): ScrollInfo {
       }
     };
 
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, [scrollInfo.lastScrollY]);
 
   return scrollInfo;

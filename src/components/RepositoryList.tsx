@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { FaStar, FaCodeBranch } from "react-icons/fa";
-import { Skeleton } from "~/components/ui/skeleton";
-import Link from "next/link";
+import { motion } from 'framer-motion';
+import { FaStar, FaCodeBranch } from 'react-icons/fa';
+import { Skeleton } from '~/components/ui/skeleton';
+import Link from 'next/link';
 
 interface Repository {
   name: string;
@@ -33,18 +33,18 @@ export function RepositoryList({
       : []
     : repositories;
   const displayTitle = usePinnedRepos
-    ? "Featured Repositories"
-    : "Top Repositories";
+    ? 'Featured Repositories'
+    : 'Top Repositories';
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.7, duration: 0.4 }}
-      className="mt-6 pt-6 border-t border-border"
+      className='border-border mt-6 border-t pt-6'
     >
-      <h3 className="text-sm font-medium mb-3">{displayTitle}</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <h3 className='mb-3 text-sm font-medium'>{displayTitle}</h3>
+      <div className='grid grid-cols-1 gap-3 md:grid-cols-2'>
         {isLoading ? (
           <>
             {Array(4)
@@ -58,22 +58,22 @@ export function RepositoryList({
             <Link
               key={repo.name}
               href={repo.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 border border-border rounded hover:bg-primary/5 transition-colors"
+              target='_blank'
+              rel='noopener noreferrer'
+              className='border-border hover:bg-primary/5 rounded border p-3 transition-colors'
             >
-              <h4 className="font-medium text-sm">{repo.name}</h4>
+              <h4 className='text-sm font-medium'>{repo.name}</h4>
               {repo.description && (
-                <p className="text-xs text-muted-foreground line-clamp-1 mt-1">
+                <p className='text-muted-foreground mt-1 line-clamp-1 text-xs'>
                   {repo.description}
                 </p>
               )}
-              <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1">
+              <div className='text-muted-foreground mt-2 flex items-center gap-3 text-xs'>
+                <span className='flex items-center gap-1'>
                   <FaStar size={12} />
                   {repo.stars}
                 </span>
-                <span className="flex items-center gap-1">
+                <span className='flex items-center gap-1'>
                   <FaCodeBranch size={12} />
                   {repo.forks}
                 </span>
@@ -81,7 +81,7 @@ export function RepositoryList({
             </Link>
           ))
         ) : (
-          <div className="p-3 border border-border rounded-lg col-span-2 text-center text-sm text-muted-foreground">
+          <div className='border-border text-muted-foreground col-span-2 rounded-lg border p-3 text-center text-sm'>
             No repositories found
           </div>
         )}
@@ -92,12 +92,12 @@ export function RepositoryList({
 
 function RepositorySkeleton() {
   return (
-    <div className="p-3 border border-border rounded-lg">
-      <Skeleton className="h-5 w-1/2 mb-2" />
-      <Skeleton className="h-3 w-5/6 mb-3" />
-      <div className="flex items-center gap-3">
-        <Skeleton className="h-3 w-16" />
-        <Skeleton className="h-3 w-16" />
+    <div className='border-border rounded-lg border p-3'>
+      <Skeleton className='mb-2 h-5 w-1/2' />
+      <Skeleton className='mb-3 h-3 w-5/6' />
+      <div className='flex items-center gap-3'>
+        <Skeleton className='h-3 w-16' />
+        <Skeleton className='h-3 w-16' />
       </div>
     </div>
   );

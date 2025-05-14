@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Button } from "~/components/ui/button";
-import { FaGithub, FaEnvelope, FaDiscord, FaTwitter } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { links } from "~/lib/data/social";
+import { Button } from '~/components/ui/button';
+import { FaGithub, FaEnvelope, FaDiscord, FaTwitter } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { links } from '~/lib/data/social';
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -18,19 +18,19 @@ const itemVariants = {
 
 export function SocialLinks() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4'>
       {links.map((link, i) => (
         <motion.div
           key={link.name}
           custom={i}
-          initial="hidden"
-          animate="visible"
+          initial='hidden'
+          animate='visible'
           variants={itemVariants}
         >
           <Button
-            variant="outline"
-            className="w-full gap-2 text-foreground/80 hover:text-primary"
-            onClick={() => window.open(link.url, "_blank")}
+            variant='outline'
+            className='text-foreground/80 hover:text-primary w-full gap-2'
+            onClick={() => window.open(link.url, '_blank')}
           >
             {getLinkIcon(link.type)}
           </Button>
@@ -42,13 +42,13 @@ export function SocialLinks() {
 
 function getLinkIcon(type: string) {
   switch (type) {
-    case "github":
+    case 'github':
       return <FaGithub size={16} />;
-    case "email":
+    case 'email':
       return <FaEnvelope size={16} />;
-    case "discord":
+    case 'discord':
       return <FaDiscord size={16} />;
-    case "twitter":
+    case 'twitter':
       return <FaTwitter size={16} />;
     default:
       return null;

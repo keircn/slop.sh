@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 function getLondonTime() {
   return new Date(
-    new Date().toLocaleString("en-US", { timeZone: "Europe/London" }),
+    new Date().toLocaleString('en-US', { timeZone: 'Europe/London' })
   );
 }
 
@@ -23,13 +23,13 @@ export function NavClock() {
     return () => clearInterval(interval);
   }, []);
 
-  const pad = (n: number) => n.toString().padStart(2, "0");
+  const pad = (n: number) => n.toString().padStart(2, '0');
 
   if (!mounted || !time) {
     return (
       <span
-        className="font-mono text-base md:text-lg text-center px-4 select-none opacity-0"
-        aria-hidden="true"
+        className='px-4 text-center font-mono text-base opacity-0 select-none md:text-lg'
+        aria-hidden='true'
       >
         00:00:00
       </span>
@@ -42,8 +42,8 @@ export function NavClock() {
 
   return (
     <span
-      className="font-mono text-base md:text-lg text-center px-4 select-none"
-      title="London time"
+      className='px-4 text-center font-mono text-base select-none md:text-lg'
+      title='London time'
     >
       {hh}:{mm}:{ss}
     </span>

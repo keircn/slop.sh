@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const activityAssetsSchema = z.object({
   largeImage: z.string().nullable(),

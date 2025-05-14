@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiMenu, FiX } from "react-icons/fi";
-import { useMobile } from "~/hooks/useMobile";
-import { useNavbar } from "~/context/NavbarContext";
-import { useAudio } from "~/context/AudioContext";
-import { Button } from "~/components/ui/button";
-import { NavClock } from "~/components/NavClock";
-import { NavbarLogo } from "~/components/NavbarLogo";
-import { NavbarWeather } from "~/components/NavbarWeather";
-import { NavbarMobileMenu } from "~/components/NavbarMobileMenu";
-import { AudioPlayer } from "~/components/AudioPlayer";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiMenu, FiX } from 'react-icons/fi';
+import { useMobile } from '~/hooks/useMobile';
+import { useNavbar } from '~/context/NavbarContext';
+import { useAudio } from '~/context/AudioContext';
+import { Button } from '~/components/ui/button';
+import { NavClock } from '~/components/NavClock';
+import { NavbarLogo } from '~/components/NavbarLogo';
+import { NavbarWeather } from '~/components/NavbarWeather';
+import { NavbarMobileMenu } from '~/components/NavbarMobileMenu';
+import { AudioPlayer } from '~/components/AudioPlayer';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +30,7 @@ export function Navbar() {
       opacity: 1,
       y: 0,
       transition: {
-        when: "beforeChildren",
+        when: 'beforeChildren',
         staggerChildren: 0.1,
         duration: 0.5,
       },
@@ -43,7 +43,7 @@ export function Navbar() {
       opacity: 1,
       scale: 1,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 400,
         damping: 15,
         delay: 0.2,
@@ -57,7 +57,7 @@ export function Navbar() {
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 300,
         damping: 20,
       },
@@ -66,63 +66,63 @@ export function Navbar() {
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 z-50 w-full pointer-events-none ${!isNavbarVisible ? "hidden" : ""}`}
+      className={`pointer-events-none fixed top-0 right-0 left-0 z-50 w-full ${!isNavbarVisible ? 'hidden' : ''}`}
     >
       <motion.header
-        className="w-full backdrop-blur-md bg-background/90 border-b border-border/40 shadow-sm pointer-events-auto transition-all duration-300 ease-in-out"
+        className='bg-background/90 border-border/40 pointer-events-auto w-full border-b shadow-sm backdrop-blur-md transition-all duration-300 ease-in-out'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
           duration: 0.4,
           ease: [0.16, 1, 0.3, 1],
         }}
-        style={{ willChange: "transform, opacity" }}
+        style={{ willChange: 'transform, opacity' }}
       >
         <motion.div
-          className="container mx-auto px-4 py-2"
+          className='container mx-auto px-4 py-2'
           variants={navVariants}
-          initial="hidden"
-          animate="visible"
+          initial='hidden'
+          animate='visible'
         >
-          <div className="flex items-center justify-between">
+          <div className='flex items-center justify-between'>
             <motion.div
-              className="flex items-center space-x-4"
+              className='flex items-center space-x-4'
               variants={itemVariants}
             >
               <NavbarLogo variants={logoVariants} />
             </motion.div>
 
             <motion.div
-              className="hidden md:flex items-center justify-center flex-1 px-4"
+              className='hidden flex-1 items-center justify-center px-4 md:flex'
               variants={itemVariants}
             >
-              <div className="min-w-[85px] justify-center absolute left-1/2 -translate-x-1/2 -mx-9 hidden">
+              <div className='absolute left-1/2 -mx-9 hidden min-w-[85px] -translate-x-1/2 justify-center'>
                 <NavClock />
               </div>
             </motion.div>
 
             <motion.div
-              className="flex items-center gap-6 justify-end"
+              className='flex items-center justify-end gap-6'
               variants={itemVariants}
             >
-              <div className="hidden md:block h-6 w-px bg-border/40" />
+              <div className='bg-border/40 hidden h-6 w-px md:block' />
               <AudioPlayer
-                audioSrc="/music.mp3"
-                className="mr-4"
+                audioSrc='/music.mp3'
+                className='mr-4'
                 variants={itemVariants}
-                trackName="Clara"
+                trackName='Clara'
                 autoPlay={true}
               />
-              <div className="hidden md:block h-6 w-px bg-border/40" />
-              <NavbarWeather location="London,UK" />
+              <div className='bg-border/40 hidden h-6 w-px md:block' />
+              <NavbarWeather location='London,UK' />
 
-              <div className="md:hidden">
+              <div className='md:hidden'>
                 <Button
-                  variant="outline"
-                  size="sm"
+                  variant='outline'
+                  size='sm'
                   onClick={() => setIsOpen(!isOpen)}
-                  aria-label="Toggle Menu"
-                  className="border border-border/40 bg-background/20"
+                  aria-label='Toggle Menu'
+                  className='border-border/40 bg-background/20 border'
                 >
                   {isOpen ? <FiX size={18} /> : <FiMenu size={18} />}
                 </Button>

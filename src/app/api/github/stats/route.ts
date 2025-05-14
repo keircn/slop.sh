@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
-import { GitHubStatsData } from "~/types/HeaderCard";
-import { RepoNode } from "~/types/RepoNode";
+import { NextRequest, NextResponse } from 'next/server';
+import { GitHubStatsData } from '~/types/HeaderCard';
+import { RepoNode } from '~/types/RepoNode';
 
-import { githubStatsCache } from "~/lib/github-cache";
+import { githubStatsCache } from '~/lib/github-cache';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "N/A";
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'N/A';
 
 if (!GITHUB_TOKEN) {
-  console.warn("GITHUB_TOKEN not found in environment variables");
+  console.warn('GITHUB_TOKEN not found in environment variables');
 }
 
 const getUserStatsQuery = `
@@ -100,11 +100,11 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
   }
 
   try {
-    const response = await fetch("https://api.github.com/graphql", {
-      method: "POST",
+    const response = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${GITHUB_TOKEN}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         query: getUserStatsQuery,
@@ -119,17 +119,17 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
     const { data } = await response.json();
 
     if (!data || !data.user) {
-      throw new Error("GitHub API returned invalid data");
+      throw new Error('GitHub API returned invalid data');
     }
 
     const totalStars = data.user.repositories.nodes.reduce(
       (acc: number, repo: RepoNode) => acc + repo.stargazerCount,
-      0,
+      0
     );
 
     const totalForks = data.user.repositories.nodes.reduce(
       (acc: number, repo: RepoNode) => acc + repo.forkCount,
-      0,
+      0
     );
 
     const languages: Record<string, number> = {};
@@ -161,7 +161,7 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
         url: repo.url,
         stars: repo.stargazerCount,
         forks: repo.forkCount,
-      }),
+      })
     );
 
     const statsData: GitHubStatsData = {
@@ -196,14 +196,14 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
 
     return statsData;
   } catch (error) {
-    console.error("Error fetching GitHub stats:", error);
+    console.error('Error fetching GitHub stats:', error);
     throw error;
   }
 }
 
 async function fetchSpecificRepos(
   username: string,
-  repoNames: string[],
+  repoNames: string[]
 ): Promise<
   Array<{
     name: string;
@@ -215,18 +215,18 @@ async function fetchSpecificRepos(
 > {
   try {
     const processedRepoNames = repoNames.map((repo) => {
-      if (repo.includes("/")) {
-        return repo.split("/").pop() || repo;
+      if (repo.includes('/')) {
+        return repo.split('/').pop() || repo;
       }
       return repo;
     });
 
     const promises = processedRepoNames.map(async (repoName) => {
-      const response = await fetch("https://api.github.com/graphql", {
-        method: "POST",
+      const response = await fetch('https://api.github.com/graphql', {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${GITHUB_TOKEN}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           query: getSpecificRepoQuery,
@@ -239,7 +239,7 @@ async function fetchSpecificRepos(
 
       if (!response.ok) {
         console.warn(
-          `Could not fetch repo ${repoName}: Status ${response.status}`,
+          `Could not fetch repo ${repoName}: Status ${response.status}`
         );
         return null;
       }
@@ -271,7 +271,7 @@ async function fetchSpecificRepos(
       forks: number;
     }>;
   } catch (error) {
-    console.error("Error fetching specific repositories:", error);
+    console.error('Error fetching specific repositories:', error);
     throw error;
   }
 }
@@ -279,16 +279,16 @@ async function fetchSpecificRepos(
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
-    const repoNames = url.searchParams.get("repos");
+    const repoNames = url.searchParams.get('repos');
     const username = GITHUB_USERNAME;
 
     if (repoNames) {
-      const reposList = repoNames.split(",");
+      const reposList = repoNames.split(',');
       const specificRepos = await fetchSpecificRepos(username, reposList);
       return NextResponse.json(specificRepos, {
         status: 200,
         headers: {
-          "Cache-Control": "max-age=3600, s-maxage=3600",
+          'Cache-Control': 'max-age=3600, s-maxage=3600',
         },
       });
     }
@@ -297,14 +297,14 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(githubStats, {
       status: 200,
       headers: {
-        "Cache-Control": "max-age=3600, s-maxage=3600",
+        'Cache-Control': 'max-age=3600, s-maxage=3600',
       },
     });
   } catch (error) {
-    console.error("GitHub stats API error:", error);
+    console.error('GitHub stats API error:', error);
     return NextResponse.json(
-      { error: "Failed to fetch GitHub stats" },
-      { status: 500 },
+      { error: 'Failed to fetch GitHub stats' },
+      { status: 500 }
     );
   }
 }
