@@ -10,7 +10,7 @@
     "dev": "cross-env NODE_ENV=development next dev --turbopack",
     "build": "cross-env NODE_ENV=production next build",
     "start": "cross-env NODE_ENV=production next start",
-    "lint": "oxlint",
+    "lint": "oxlint --fix --fix-suggestions",
     "checktypes": "tsc --noEmit",
     "check": "tsc --noEmit ; oxlint",
     "format": "prettier --write src"
