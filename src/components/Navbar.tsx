@@ -5,16 +5,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useMobile } from "~/hooks/useMobile";
 import { useNavbar } from "~/context/NavbarContext";
+import { useAudio } from "~/context/AudioContext";
 import { Button } from "~/components/ui/button";
 import { NavClock } from "~/components/NavClock";
 import { NavbarLogo } from "~/components/NavbarLogo";
 import { NavbarWeather } from "~/components/NavbarWeather";
 import { NavbarMobileMenu } from "~/components/NavbarMobileMenu";
+import { AudioPlayer } from "~/components/AudioPlayer";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isMobile } = useMobile();
   const { isNavbarVisible } = useNavbar();
+  const { hasInteracted, autoPlay } = useAudio();
 
   const navVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -98,6 +101,18 @@ export function Navbar() {
               variants={itemVariants}
             >
               <div className="hidden md:block h-6 w-px bg-border/40" />
+              {hasInteracted && (
+                <>
+                  <AudioPlayer
+                    audioSrc="/music.mp3"
+                    className="mr-4"
+                    variants={itemVariants}
+                    trackName="Clara"
+                    autoPlay={autoPlay}
+                  />
+                  <div className="hidden md:block h-6 w-px bg-border/40" />
+                </>
+              )}
               <NavbarWeather location="London,UK" />
 
               <div className="md:hidden">

@@ -36,10 +36,9 @@ class GitHubCache<T> {
   }
 }
 
-// Create two separate cache instances
 const githubStatsCache = new GitHubCache<GitHubStatsData>();
 const githubContributionsCache = new GitHubCache<GitHubContributionData>(
   3600 * 1000,
-); // 1 hour TTL
+);
 
 export { githubStatsCache, githubContributionsCache };

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Navbar } from "~/components/Navbar";
 import { NavbarProvider } from "~/context/NavbarContext";
+import { AudioProvider } from "~/context/AudioContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -79,10 +80,12 @@ export default function RootLayout({
         className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col isolate overflow-x-hidden`}
       >
         <NavbarProvider>
-          <div className="relative flex-grow flex flex-col z-0">
-            <Navbar />
-            {children}
-          </div>
+          <AudioProvider>
+            <div className="relative flex-grow flex flex-col z-0">
+              <Navbar />
+              {children}
+            </div>
+          </AudioProvider>
         </NavbarProvider>
       </body>
     </html>

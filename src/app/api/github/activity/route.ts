@@ -79,7 +79,6 @@ async function fetchGithubContributions(
           .totalContributions,
     };
 
-    // Cache for 1 hour
     githubContributionsCache.set(cacheKey, contributionData);
 
     return contributionData;
@@ -94,7 +93,6 @@ export async function GET(request: NextRequest) {
     const url = new URL(request.url);
     const username = url.searchParams.get("username") || GITHUB_USERNAME;
 
-    // Default to showing the last year
     const toDate = new Date().toISOString();
     const fromDate = new Date();
     fromDate.setFullYear(fromDate.getFullYear() - 1);
