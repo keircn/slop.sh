@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useMobile } from "~/hooks/useMobile";
@@ -17,7 +17,12 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isMobile } = useMobile();
   const { isNavbarVisible } = useNavbar();
-  const { hasInteracted, autoPlay } = useAudio();
+  const { setHasInteracted, setAudioEnabled } = useAudio();
+
+  useEffect(() => {
+    setHasInteracted(true);
+    setAudioEnabled(true);
+  }, [setHasInteracted, setAudioEnabled]);
 
   const navVariants = {
     hidden: { opacity: 0, y: -20 },
@@ -101,18 +106,14 @@ export function Navbar() {
               variants={itemVariants}
             >
               <div className="hidden md:block h-6 w-px bg-border/40" />
-              {hasInteracted && (
-                <>
-                  <AudioPlayer
-                    audioSrc="/music.mp3"
-                    className="mr-4"
-                    variants={itemVariants}
-                    trackName="Clara"
-                    autoPlay={autoPlay}
-                  />
-                  <div className="hidden md:block h-6 w-px bg-border/40" />
-                </>
-              )}
+              <AudioPlayer
+                audioSrc="/music.mp3"
+                className="mr-4"
+                variants={itemVariants}
+                trackName="Clara"
+                autoPlay={true}
+              />
+              <div className="hidden md:block h-6 w-px bg-border/40" />
               <NavbarWeather location="London,UK" />
 
               <div className="md:hidden">

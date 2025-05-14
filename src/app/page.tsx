@@ -7,7 +7,6 @@ import { Suspense } from "react";
 import { Card } from "~/components/ui/card";
 import { Footer } from "~/components/Footer";
 import { GitHubActivity } from "~/components/GitHubActivity";
-import { EntranceOverlay } from "~/components/EntranceOverlay";
 
 const HeaderCard = dynamic(
   () =>
@@ -38,7 +37,6 @@ const ProjectsContainer = dynamic(
 export default function Home() {
   return (
     <PageTransition>
-      <EntranceOverlay />
       <main className="relative min-h-screen w-full flex flex-col">
         <div className="container mx-auto flex flex-col items-center justify-center mt-16 pb-16 flex-grow">
           <div className="max-w-6xl w-full relative z-10 mt-16">
