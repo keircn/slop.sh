@@ -10,10 +10,9 @@
     "dev": "cross-env NODE_ENV=development next dev --turbopack",
     "build": "cross-env NODE_ENV=production next build",
     "start": "cross-env NODE_ENV=production next start",
-    "lint": "next lint",
-    "ox": "oxlint",
+    "lint": "oxlint",
     "checktypes": "tsc --noEmit",
-    "check": "tsc --noEmit ; eslint src/**/*.{ts,tsx}",
+    "check": "tsc --noEmit ; oxlint",
     "format": "prettier --write src"
   },
   "dependencies": {
@@ -33,15 +32,12 @@
     "zod": "3.24.4"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.6",
     "@types/node": "^22.15.18",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
     "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3",
-    "eslint": "^9.26.0",
-    "eslint-config-next": "15.3.2",
     "oxlint": "0.16.10",
     "prettier": "^3.5.3",
     "tailwindcss": "^4.1.6",
