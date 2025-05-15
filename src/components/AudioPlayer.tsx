@@ -4,16 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaPause, FaPlay, FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
 import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
-import { Variants } from 'framer-motion';
 import { useAudio } from '~/context/AudioContext';
-
-interface AudioPlayerProps {
-  audioSrc: string;
-  autoPlay?: boolean;
-  className?: string;
-  variants?: Variants;
-  trackName?: string;
-}
+import { AudioPlayerProps } from '~/types/Audio';
 
 export function AudioPlayer({
   audioSrc,

@@ -5,13 +5,7 @@ import { Button } from '~/components/ui/button';
 import { Card } from '~/components/ui/card';
 import { motion } from 'framer-motion';
 import { BiSend } from 'react-icons/bi';
-
-interface FormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
+import { FormData } from '~/types/Contact';
 
 export function ContactForm() {
   const [formData, setFormData] = useState<FormData>({

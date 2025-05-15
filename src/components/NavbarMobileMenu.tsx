@@ -3,12 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { NavClock } from './NavClock';
-
-interface NavbarMobileMenuProps {
-  isOpen: boolean;
-  onLinkClickAction: () => void;
-}
+import { NavClock } from '~/components/NavClock';
+import { NavbarMobileMenuProps } from '~/types/Navbar';
 
 export function NavbarMobileMenu({
   isOpen,

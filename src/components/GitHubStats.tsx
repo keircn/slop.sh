@@ -3,21 +3,7 @@
 import { motion } from 'framer-motion';
 import { FaCode, FaStar, FaCodeBranch } from 'react-icons/fa';
 import { Skeleton } from '~/components/ui/skeleton';
-
-interface GitHubStatsProps {
-  isLoading: boolean;
-  stats: {
-    projects: number;
-    stars: number;
-    contributions: number;
-    pullRequests?: number;
-    issues?: number;
-  };
-  languages?: Array<{
-    name: string;
-    count: number;
-  }>;
-}
+import { GitHubStatsProps } from '~/types/GitHub';
 
 export function GitHubStats({
   isLoading,

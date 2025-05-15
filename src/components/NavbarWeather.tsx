@@ -11,22 +11,14 @@ import {
   WiFog,
   WiNightClear,
 } from 'react-icons/wi';
-
-interface WeatherData {
-  location: string;
-  temperature: number;
-  description: string;
-  icon: string;
-}
-
-interface NavbarWeatherProps {
-  location?: string;
-}
+import { NavbarWeatherData, NavbarWeatherProps } from '~/types/Navbar';
 
 export const NavbarWeather = memo(function NavbarWeather({
   location = 'London,UK',
 }: NavbarWeatherProps) {
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [weatherData, setWeatherData] = useState<NavbarWeatherData | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

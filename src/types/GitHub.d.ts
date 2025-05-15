@@ -18,3 +18,18 @@ interface GitHubActivityProps {
   username?: string;
   isLoading?: boolean;
 }
+
+export interface GitHubStatsProps {
+  isLoading: boolean;
+  stats: {
+    projects: number;
+    stars: number;
+    contributions: number;
+    pullRequests?: number;
+    issues?: number;
+  };
+  languages?: Array<{
+    name: string;
+    count: number;
+  }>;
+}

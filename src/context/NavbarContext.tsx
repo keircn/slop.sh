@@ -1,11 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, ReactNode } from 'react';
-
-interface NavbarContextType {
-  isNavbarVisible: boolean;
-  setNavbarVisible: (visible: boolean) => void;
-}
+import { NavbarContextType } from '~/types/Navbar';
 
 const NavbarContext = createContext<NavbarContextType | undefined>(undefined);
 

@@ -7,15 +7,7 @@ import {
   useEffect,
   ReactNode,
 } from 'react';
-
-interface AudioContextType {
-  isAudioEnabled: boolean;
-  setAudioEnabled: (enabled: boolean) => void;
-  hasInteracted: boolean;
-  setHasInteracted: (interacted: boolean) => void;
-  autoPlay: boolean;
-  setAutoPlay: (autoPlay: boolean) => void;
-}
+import { AudioContextType } from '~/types/Audio';
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 

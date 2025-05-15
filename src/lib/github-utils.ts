@@ -1,4 +1,4 @@
-import { ContributionDay } from '~/types/Github';
+import { ContributionDay } from '~/types/GitHub';
 
 export function formatDate(dateString: string) {
   const date = new Date(dateString);

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { githubContributionsCache } from '~/lib/github-cache';
-import { GitHubContributionData } from '~/types/Github';
+import { GitHubContributionData } from '~/types/GitHub';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'N/A';

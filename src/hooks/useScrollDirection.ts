@@ -1,12 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-interface ScrollInfo {
-  isScrollingUp: boolean;
-  isScrolledDown: boolean;
-  lastScrollY: number;
-}
+import { ScrollInfo } from '~/types/Scroll';
 
 export function useScrollDirection(): ScrollInfo {
   const [scrollInfo, setScrollInfo] = useState<ScrollInfo>({

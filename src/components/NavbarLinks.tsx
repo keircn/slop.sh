@@ -1,18 +1,15 @@
 'use client';
 
 import React from 'react';
-import { motion, Variants } from 'framer-motion';
-
-interface NavbarLinksProps {
-  variants?: Variants;
-}
+import { motion } from 'framer-motion';
+import { NavbarVariantsProps } from '~/types/Navbar';
 
 const links = [
   { href: '/contact', label: 'Contact' },
   { href: '/clara', label: 'Clara' },
 ] as const;
 
-export function NavbarLinks({ variants }: NavbarLinksProps) {
+export function NavbarLinks({ variants }: NavbarVariantsProps) {
   return (
     <div className='ml-6 hidden items-center space-x-6 md:flex'>
       {links.map((link) => (

@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '~/components/ui/card';
 import { Skeleton } from '~/components/ui/skeleton';
-import { GitHubActivityProps, ContributionWeek } from '~/types/Github';
+import { GitHubActivityProps, ContributionWeek } from '~/types/GitHub';
 import {
   getMonthLabels,
   getDayOfWeekLabels,

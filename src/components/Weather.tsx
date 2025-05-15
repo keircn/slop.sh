@@ -17,22 +17,7 @@ import {
 } from 'react-icons/wi';
 import { Skeleton } from '~/components/ui/skeleton';
 import { useMobile } from '~/hooks/useMobile';
-
-interface WeatherData {
-  location: string;
-  temperature: number;
-  feelsLike: number;
-  description: string;
-  icon: string;
-  humidity: number;
-  windSpeed: number;
-  updatedAt: Date;
-}
-
-interface WeatherProps {
-  location?: string;
-  disabled?: boolean;
-}
+import { WeatherData, WeatherProps } from '~/types/Weather';
 
 export function Weather({
   location = 'London,UK',

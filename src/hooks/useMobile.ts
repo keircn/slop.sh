@@ -1,14 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-export interface BreakpointState {
-  isMobile: boolean;
-  isTablet: boolean;
-  isDesktop: boolean;
-  isLargeDesktop: boolean;
-  width: number | null;
-}
+import { BreakpointState } from '~/types/Mobile';
 
 export function useMobile(): BreakpointState {
   const [breakpoint, setBreakpoint] = useState<BreakpointState>({

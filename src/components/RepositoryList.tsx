@@ -4,22 +4,7 @@ import { motion } from 'framer-motion';
 import { FaStar, FaCodeBranch } from 'react-icons/fa';
 import { Skeleton } from '~/components/ui/skeleton';
 import Link from 'next/link';
-
-interface Repository {
-  name: string;
-  description: string | null;
-  url: string;
-  stars: number;
-  forks: number;
-}
-
-interface RepositoryListProps {
-  repositories?: Repository[];
-  pinnedRepositories?: Repository[];
-  customRepositories?: Repository[];
-  isLoading: boolean;
-  usePinnedRepos?: boolean;
-}
+import { RepositoryListProps } from '~/types/Repository';
 
 export function RepositoryList({
   repositories,

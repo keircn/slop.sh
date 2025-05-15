@@ -1,5 +1,5 @@
 import { GitHubStatsData } from '~/types/HeaderCard';
-import type { GitHubContributionData } from '~/types/Github';
+import type { GitHubContributionData } from '~/types/GitHub';
 
 type CacheEntry<T> = {
   data: T;
