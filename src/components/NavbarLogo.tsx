@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { NavbarVariantsProps } from '~/types/Navbar';
 
@@ -20,18 +19,13 @@ export function NavbarLogo({ variants }: NavbarVariantsProps) {
         prefetch={false}
       >
         <div className='relative ml-4 overflow-hidden'>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-          >
-            <Image
-              src='/slop-transparent.png'
-              alt='Logo'
-              width={50}
-              height={50}
-              className='transition-all duration-300 group-hover:brightness-110'
-            />
-          </motion.div>
+          <div className='flex flex-col items-center'>
+            <div className='relative font-mono text-3xl font-bold tracking-tighter'>
+              <span className='text-primary hover:text-primary/80 relative z-10 transition-colors duration-300'>
+                スロプ
+              </span>
+            </div>
+          </div>
         </div>
       </Link>
     </motion.div>
