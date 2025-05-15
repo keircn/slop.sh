@@ -8,7 +8,7 @@
   "homepage": "https://slop.sh",
   "scripts": {
     "dev": "cross-env NODE_ENV=development next dev --turbopack",
-    "build": "cross-env NODE_ENV=production next build",
+    "build": "cross-env NODE_ENV=production next build --no-lint",
     "start": "cross-env NODE_ENV=production next start",
     "lint": "oxlint --fix --fix-suggestions",
     "checktypes": "tsc --noEmit",
