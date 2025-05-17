@@ -21,7 +21,7 @@
     "@radix-ui/react-slot": "^1.2.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.11.3",
+    "framer-motion": "^12.12.1",
     "lru-cache": "^11.1.0",
     "next": "15.3.2",
     "react": "^19.1.0",
@@ -32,16 +32,16 @@
     "zod": "3.24.4"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.6",
+    "@tailwindcss/postcss": "^4.1.7",
     "@types/node": "^22.15.18",
     "@types/react": "^19.1.4",
     "@types/react-dom": "^19.1.5",
     "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3",
-    "oxlint": "0.16.10",
+    "oxlint": "0.16.11",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "0.6.11",
-    "tailwindcss": "^4.1.6",
+    "tailwindcss": "^4.1.7",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.8.3"
   },
