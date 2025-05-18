@@ -66,6 +66,19 @@ export interface DayLabel {
   index: number;
 }
 
+export interface GitHubStatsProps {
+  isLoading?: boolean;
+  stats: {
+    projects: number;
+    stars: number;
+    contributions: number;
+  };
+  languages?: Array<{
+    name: string;
+    count: number;
+  }>;
+}
+
 export interface GitHubApiResponse {
   data?: {
     user?: {

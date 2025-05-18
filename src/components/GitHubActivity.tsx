@@ -179,7 +179,6 @@ export function GitHubActivity({
             </div>
           ) : contributionData ? (
             <div className='relative'>
-              {/* Custom tooltip */}
               <AnimatePresence>
                 {activeTooltip.visible && activeTooltip.content && (
                   <motion.div

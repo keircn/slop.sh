@@ -96,7 +96,7 @@ export function GitHubStats({
           </div>
         ) : languages.length > 0 ? (
           <div className='flex flex-wrap gap-1.5'>
-            {languages.slice(0, 5).map((lang) => (
+            {languages.slice(0, 5).map((lang: { name: string }) => (
               <span
                 key={lang.name}
                 className='bg-primary/10 text-primary rounded-full px-2 py-1 text-xs'
