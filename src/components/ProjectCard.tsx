@@ -20,7 +20,7 @@ export const ProjectCard = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className='bg-card/90 border-border/50 w-full rounded-lg border p-6 shadow-sm mx-auto max-w-6xl'
+        className='bg-card/90 border-border/50 mx-auto w-full max-w-6xl rounded-lg border p-6 shadow-sm'
       >
         <div className='flex h-full flex-col gap-4 md:flex-row'>
           <div className='flex-shrink-0'>

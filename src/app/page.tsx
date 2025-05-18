@@ -57,6 +57,12 @@ export default function Home() {
               >
                 <GitHubActivity
                   username={HeaderCardProps[0].githubUsername || ''}
+                  showLegend
+                  showTotal
+                  colorScheme='default'
+                  onError={(error) => {
+                    console.error('GitHub activity error:', error);
+                  }}
                 />
               </Suspense>
             </div>

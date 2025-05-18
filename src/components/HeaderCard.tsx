@@ -119,16 +119,16 @@ export const HeaderCard = memo(function HeaderCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`relative flex flex-col justify-center items-center ${isMobile ? 'px-4' : ''}`}
+      className={`relative flex flex-col items-center justify-center ${isMobile ? 'px-4' : ''}`}
     >
-      <Card className='bg-card/30 relative max-w-6xl overflow-hidden border-2 backdrop-blur-sm w-full'>
+      <Card className='bg-card/30 relative w-full max-w-6xl overflow-hidden border-2 backdrop-blur-sm'>
         <div className='pointer-events-none absolute inset-0 opacity-5'>
           <div className='border-primary/30 absolute -top-12 -right-12 h-40 w-40 rounded-full border' />
           <div className='border-primary/20 absolute top-20 -right-8 h-24 w-24 rounded-full border' />
           <div className='border-primary/20 absolute -bottom-20 -left-20 h-60 w-60 rounded-full border' />
         </div>
 
-        <CardContent className='p-6 mx-auto w-full'>
+        <CardContent className='mx-auto w-full p-6'>
           <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
             <div className='flex flex-col space-y-14'>
               <ProfileInfo

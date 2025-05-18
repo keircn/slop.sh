@@ -16,9 +16,9 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className='space-y-6 flex flex-col items-center w-full'
+              className='flex w-full flex-col items-center space-y-6'
             >
-              <Card className='p-6 w-full'>
+              <Card className='w-full p-6'>
                 <h1 className='mb-6 text-3xl font-bold'>Contact Me</h1>
                 <div className='space-y-8'>
                   <SocialLinks />
