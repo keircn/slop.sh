@@ -1,5 +1,5 @@
 import { GitHubStatsData } from '~/types/HeaderCard';
-import type { GitHubContributionData } from '~/types/GitHub';
+import type { ContributionData } from '~/types/GitHub';
 
 type CacheEntry<T> = {
   data: T;
@@ -37,7 +37,7 @@ class GitHubCache<T> {
 }
 
 const githubStatsCache = new GitHubCache<GitHubStatsData>();
-const githubContributionsCache = new GitHubCache<GitHubContributionData>(
+const githubContributionsCache = new GitHubCache<ContributionData>(
   3600 * 1000
 );
 
