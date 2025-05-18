@@ -66,16 +66,16 @@ export function ShrineCard() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`relative mt-12 flex flex-col justify-center ${isMobile ? 'px-4' : ''}`}
+      className={`relative mt-12 flex flex-col justify-center items-center ${isMobile ? 'px-4' : ''}`}
     >
-      <Card className='bg-card relative max-w-6xl overflow-hidden border-2 backdrop-blur-sm'>
+      <Card className='bg-card relative max-w-6xl overflow-hidden border-2 backdrop-blur-sm w-full'>
         <div className='pointer-events-none absolute inset-0 opacity-5'>
           <div className='border-primary/30 absolute -top-12 -right-12 h-40 w-40 animate-pulse rounded-full border' />
           <div className='border-primary/20 absolute top-20 -right-8 h-24 w-24 animate-pulse rounded-full border' />
           <div className='border-primary/20 absolute -bottom-20 -left-20 h-60 w-60 animate-pulse rounded-full border' />
         </div>
 
-        <CardContent className='p-6 pt-4'>
+        <CardContent className='p-6 pt-4 mx-auto w-full flex flex-col items-center'>
           <motion.h2
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
