@@ -35,7 +35,7 @@ export function Footer() {
             Keiran
           </a>
         </p>
-        <p className='text-xs'>Last updated: 14th May, 2025</p>
+        <p className='text-xs'>Last updated: 19th May, 2025</p>
       </div>
     </motion.footer>
   );
