@@ -162,7 +162,7 @@ export function GitHubActivity({
               size='sm'
               onClick={fetchGitHubActivity}
               disabled={isLoading}
-              className='h-8'
+              className='h-10 w-26'
             >
               <TbRefresh
                 className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
