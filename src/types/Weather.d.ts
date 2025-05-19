@@ -13,3 +13,8 @@ export interface WeatherProps {
   location?: string;
   disabled?: boolean;
 }
+
+export interface CacheEntry {
+  data: WeatherData;
+  timestamp: number;
+}

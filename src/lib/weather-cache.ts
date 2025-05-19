@@ -1,18 +1,4 @@
-interface WeatherData {
-  location: string;
-  temperature: number;
-  feelsLike: number;
-  description: string;
-  icon: string;
-  humidity: number;
-  windSpeed: number;
-  updatedAt: Date;
-}
-
-interface CacheEntry {
-  data: WeatherData;
-  timestamp: number;
-}
+import type { WeatherData, CacheEntry } from '~/types/Weather';
 
 class WeatherCache {
   private cache: Map<string, CacheEntry>;

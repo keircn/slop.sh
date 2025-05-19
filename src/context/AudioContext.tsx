@@ -1,13 +1,7 @@
 'use client';
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from 'react';
-import { AudioContextType } from '~/types/Audio';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { AudioContextType, AudioProviderProps } from '~/types/Audio';
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
@@ -17,10 +11,6 @@ export function useAudio() {
     throw new Error('useAudio must be used within an AudioProvider');
   }
   return context;
-}
-
-interface AudioProviderProps {
-  children: ReactNode;
 }
 
 export function AudioProvider({ children }: AudioProviderProps) {
