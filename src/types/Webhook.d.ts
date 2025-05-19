@@ -1,3 +1,3 @@
 export interface WebhookRequestBody {
-    ref: string;
+  ref: string;
 }
