@@ -40,7 +40,8 @@ export async function POST(request: Request): Promise<Response> {
     console.log(receivedMessage);
 
     if (body && body.ref === 'refs/heads/main') {
-      const deployInitiatedMessage = 'Received push to main. Initiating deployment...';
+      const deployInitiatedMessage =
+        'Received push to main. Initiating deployment...';
       appendLog(deployInitiatedMessage);
       console.log(deployInitiatedMessage);
 
