@@ -6,3 +6,4 @@ git reset --hard origin/main
 pnpm i
 pnpm build
 pm2 restart 3
+echo DEPLOYMENT SUCCESSFUL
