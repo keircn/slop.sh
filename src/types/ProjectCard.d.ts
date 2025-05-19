@@ -6,3 +6,8 @@ export interface ProjectCardProps {
   logo: string;
   website?: string;
 }
+
+export interface ProjectsContainerProps {
+  title: string;
+  projects: ProjectCardProps[];
+}

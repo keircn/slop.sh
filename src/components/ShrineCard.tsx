@@ -10,11 +10,7 @@ import {
   FaChevronRight,
   FaChevronLeft,
 } from 'react-icons/fa6';
-
-interface ImageData {
-  url: string;
-  caption: string;
-}
+import { ImageData } from '~/types/ShrineCard';
 
 const images: ImageData[] = [
   {

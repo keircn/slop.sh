@@ -1,14 +1,9 @@
 'use client';
 
 import { ProjectCard } from '~/components/ProjectCard';
-import { ProjectCardProps } from '~/types/ProjectCard';
+import { ProjectsContainerProps } from '~/types/ProjectCard';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-
-interface ProjectsContainerProps {
-  title: string;
-  projects: ProjectCardProps[];
-}
 
 export const ProjectsContainer = ({
   title,

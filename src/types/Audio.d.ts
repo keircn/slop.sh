@@ -14,3 +14,7 @@ export interface AudioPlayerProps {
   variants?: Variants;
   trackName?: string;
 }
+
+export interface AudioProviderProps {
+  children: ReactNode;
+}
