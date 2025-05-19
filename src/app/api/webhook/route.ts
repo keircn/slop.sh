@@ -1,11 +1,8 @@
 import { NextResponse } from 'next/server';
 import { exec } from 'child_process';
+import { WebhookRequestBody } from '~/types/Webhook';
 
-const deployScript = '~/deploy.sh';
-
-interface WebhookRequestBody {
-  ref: string;
-}
+const deployScript = '/home/keiran/prod/slop-new/deploy.sh';
 
 export async function POST(request: Request): Promise<Response> {
   const body: WebhookRequestBody = await request.json();
