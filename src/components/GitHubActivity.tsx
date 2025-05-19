@@ -142,35 +142,33 @@ export function GitHubActivity({
         </div>
 
         <CardContent className='w-full p-6'>
-          <div className='mx-auto flex w-full flex-col gap-4'>
-            <div className='flex w-full flex-wrap items-center justify-between px-2'>
-              <div className='text-muted-foreground flex items-center gap-2 text-sm'>
-                {contributionData && showTotal && (
-                  <span>
-                    {contributionData.totalContributions.toLocaleString()}{' '}
-                    contributions in the last year
-                  </span>
-                )}
-                {error && (
-                  <div className='text-destructive flex items-center gap-1'>
-                    <BiErrorCircle className='h-4 w-4' />
-                    <span>{error}</span>
-                  </div>
-                )}
-              </div>
-              <Button
-                variant='ghost'
-                size='sm'
-                onClick={fetchGitHubActivity}
-                disabled={isLoading}
-                className='h-8'
-              >
-                <TbRefresh
-                  className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
-                />
-                Refresh
-              </Button>
+          <div className='mb-4 flex w-full items-center justify-between'>
+            <div className='text-muted-foreground flex items-center gap-2 text-sm'>
+              {contributionData && showTotal && (
+                <span>
+                  {contributionData.totalContributions.toLocaleString()}{' '}
+                  contributions in the last year
+                </span>
+              )}
+              {error && (
+                <div className='text-destructive flex items-center gap-1'>
+                  <BiErrorCircle className='h-4 w-4' />
+                  <span>{error}</span>
+                </div>
+              )}
             </div>
+            <Button
+              variant='ghost'
+              size='sm'
+              onClick={fetchGitHubActivity}
+              disabled={isLoading}
+              className='h-8'
+            >
+              <TbRefresh
+                className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`}
+              />
+              Refresh
+            </Button>
           </div>
 
           {isLoading ? (
@@ -221,133 +219,129 @@ export function GitHubActivity({
                 )}
               </AnimatePresence>
 
-              <div
-                className='relative mt-4 flex justify-center'
-                style={{ isolation: 'isolate', position: 'relative' }}
-              >
-                <div className='flex'>
-                  <div className='text-muted-foreground mr-3 flex shrink-0 flex-col pt-6 text-xs'>
-                    {dayLabels.map((day, index) => (
+              <div className='flex flex-col'>
+                <div className='flex justify-center'>
+                  <div className='flex'>
+                    <div className='text-muted-foreground mr-3 flex shrink-0 flex-col pt-6 text-xs'>
+                      {dayLabels.map((day, index) => (
+                        <div
+                          key={index}
+                          className='mb-[4px] h-[12px] pr-3 text-right'
+                        >
+                          {index % 2 === 0 ? day.day : ''}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className='relative overflow-visible' style={{ width: 'fit-content' }}>
                       <div
-                        key={index}
-                        className='mb-[4px] h-[12px] pr-3 text-right'
+                        className='text-muted-foreground relative mb-1 flex text-xs'
+                        style={{
+                          width: `${Math.max(...monthLabels.map((m) => m.index)) * 16 + 100}px`,
+                        }}
                       >
-                        {index % 2 === 0 ? day.day : ''}
+                        {monthLabels.map((month, i) => (
+                          <div
+                            key={i}
+                            className='absolute text-center'
+                            style={{ left: `${month.index * 16}px` }}
+                          >
+                            {month.month}
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
 
-                  <div
-                    className='relative overflow-visible'
-                    style={{ width: 'fit-content', position: 'relative' }}
-                  >
-                    <div
-                      className='text-muted-foreground relative mb-1 flex text-xs'
-                      style={{
-                        width: `${Math.max(...monthLabels.map((m) => m.index)) * 16 + 100}px`,
-                      }}
-                    >
-                      {monthLabels.map((month, i) => (
-                        <div
-                          key={i}
-                          className='absolute text-center'
-                          style={{ left: `${month.index * 16}px` }}
-                        >
-                          {month.month}
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className='mt-6 flex' style={{ position: 'relative' }}>
-                      {contributionData.weeks.map((week, weekIndex) => (
-                        <div
-                          key={weekIndex}
-                          className='mr-[4px] flex flex-col gap-[4px]'
-                        >
-                          {week.contributionDays.map((day, dayIndex) => (
-                            <motion.div
-                              key={dayIndex}
-                              className='relative h-[12px] w-[12px] cursor-pointer rounded-[4px] transition-colors duration-200'
-                              style={{
-                                backgroundColor: getContributionColor(
-                                  day.contributionCount,
-                                  colorScheme
-                                ),
-                              }}
-                              aria-label={getTooltipText(day)}
-                              role='gridcell'
-                              tabIndex={0}
-                              whileHover={{ scale: 1.5, zIndex: 50 }}
-                              transition={{
-                                type: 'spring',
-                                stiffness: 400,
-                                damping: 10,
-                              }}
-                              onMouseEnter={(e) => handleMouseEnter(e, day)}
-                              onMouseLeave={handleHideTooltip}
-                              onFocus={(e) => handleFocus(e, day)}
-                              onBlur={handleHideTooltip}
-                            />
-                          ))}
-                        </div>
-                      ))}
+                      <div className='mt-6 flex'>
+                        {contributionData.weeks.map((week, weekIndex) => (
+                          <div
+                            key={weekIndex}
+                            className='mr-[4px] flex flex-col gap-[4px]'
+                          >
+                            {week.contributionDays.map((day, dayIndex) => (
+                              <motion.div
+                                key={dayIndex}
+                                className='relative h-[12px] w-[12px] cursor-pointer rounded-[4px] transition-colors duration-200'
+                                style={{
+                                  backgroundColor: getContributionColor(
+                                    day.contributionCount,
+                                    colorScheme
+                                  ),
+                                }}
+                                aria-label={getTooltipText(day)}
+                                role='gridcell'
+                                tabIndex={0}
+                                whileHover={{ scale: 1.5, zIndex: 50 }}
+                                transition={{
+                                  type: 'spring',
+                                  stiffness: 400,
+                                  damping: 10,
+                                }}
+                                onMouseEnter={(e) => handleMouseEnter(e, day)}
+                                onMouseLeave={handleHideTooltip}
+                                onFocus={(e) => handleFocus(e, day)}
+                                onBlur={handleHideTooltip}
+                              />
+                            ))}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-
-                  {showLegend && (
-                    <div className='text-muted-foreground border-border mt-4 flex w-full items-center justify-center border-t pt-4 text-xs'>
-                      <span className='mr-2'>Less</span>
-                      <div className='mx-2 flex gap-[3px]'>
-                        <div
-                          className='h-[12px] w-[12px] rounded-[4px]'
-                          style={{
-                            backgroundColor: getContributionColor(
-                              0,
-                              colorScheme
-                            ),
-                          }}
-                        />
-                        <div
-                          className='h-[12px] w-[12px] rounded-[4px]'
-                          style={{
-                            backgroundColor: getContributionColor(
-                              1,
-                              colorScheme
-                            ),
-                          }}
-                        />
-                        <div
-                          className='h-[12px] w-[12px] rounded-[4px]'
-                          style={{
-                            backgroundColor: getContributionColor(
-                              4,
-                              colorScheme
-                            ),
-                          }}
-                        />
-                        <div
-                          className='h-[12px] w-[12px] rounded-[4px]'
-                          style={{
-                            backgroundColor: getContributionColor(
-                              7,
-                              colorScheme
-                            ),
-                          }}
-                        />
-                        <div
-                          className='h-[12px] w-[12px] rounded-[4px]'
-                          style={{
-                            backgroundColor: getContributionColor(
-                              10,
-                              colorScheme
-                            ),
-                          }}
-                        />
-                      </div>
-                      <span>More</span>
-                    </div>
-                  )}
                 </div>
+
+                {showLegend && (
+                  <div className='text-muted-foreground mt-6 flex w-full items-center justify-center gap-2 text-xs'>
+                    <span>Less</span>
+                    <div className='flex gap-[3px]'>
+                      <div
+                        className='h-[12px] w-[12px] rounded-[4px]'
+                        style={{
+                          backgroundColor: getContributionColor(
+                            0,
+                            colorScheme
+                          ),
+                        }}
+                      />
+                      <div
+                        className='h-[12px] w-[12px] rounded-[4px]'
+                        style={{
+                          backgroundColor: getContributionColor(
+                            1,
+                            colorScheme
+                          ),
+                        }}
+                      />
+                      <div
+                        className='h-[12px] w-[12px] rounded-[4px]'
+                        style={{
+                          backgroundColor: getContributionColor(
+                            4,
+                            colorScheme
+                          ),
+                        }}
+                      />
+                      <div
+                        className='h-[12px] w-[12px] rounded-[4px]'
+                        style={{
+                          backgroundColor: getContributionColor(
+                            7,
+                            colorScheme
+                          ),
+                        }}
+                      />
+                      <div
+                        className='h-[12px] w-[12px] rounded-[4px]'
+                        style={{
+                          backgroundColor: getContributionColor(
+                            10,
+                            colorScheme
+                          ),
+                        }}
+                      />
+                    </div>
+                    <span>More</span>
+                  </div>
+                )}
               </div>
             </div>
           ) : (
