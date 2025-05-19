@@ -37,8 +37,6 @@ class GitHubCache<T> {
 }
 
 const githubStatsCache = new GitHubCache<GitHubStatsData>();
-const githubContributionsCache = new GitHubCache<ContributionData>(
-  3600 * 1000
-);
+const githubContributionsCache = new GitHubCache<ContributionData>(3600 * 1000);
 
 export { githubStatsCache, githubContributionsCache };
