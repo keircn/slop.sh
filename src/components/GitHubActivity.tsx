@@ -32,20 +32,17 @@ export function GitHubActivity({
     useState<ContributionData | null>(null);
   const [isLoading, setIsLoading] = useState(initialLoading);
   const [error, setError] = useState<string | null>(null);
-  const [activeTooltip, setActiveTooltip] = useState<{
-    visible: boolean;
-    x: number;
-    y: number;
-    content: {
-      count: number;
-      date: string;
-    } | null;
-  }>({
-    visible: false,
-    x: 0,
-    y: 0,
-    content: null,
-  });
+
+  const [tooltipContent, setTooltipContent] = useState<string>('');
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  const handleMouseMove = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left + 10;
+    const y = event.clientY - rect.top - 40;
+    setTooltipPosition({ x, y });
+  }, []);
 
   const fetchGitHubActivity = useCallback(async () => {
     if (!username) {
@@ -89,40 +86,6 @@ export function GitHubActivity({
   useEffect(() => {
     fetchGitHubActivity();
   }, [fetchGitHubActivity]);
-
-  const handleShowTooltip = (element: HTMLDivElement, day: ContributionDay) => {
-    const rect = element.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const topY = rect.top;
-
-    setActiveTooltip({
-      visible: true,
-      x: centerX,
-      y: topY,
-      content: {
-        count: day.contributionCount,
-        date: day.date,
-      },
-    });
-  };
-
-  const handleMouseEnter = (
-    event: React.MouseEvent<HTMLDivElement>,
-    day: ContributionDay
-  ) => {
-    handleShowTooltip(event.currentTarget, day);
-  };
-
-  const handleFocus = (
-    event: React.FocusEvent<HTMLDivElement>,
-    day: ContributionDay
-  ) => {
-    handleShowTooltip(event.currentTarget, day);
-  };
-
-  const handleHideTooltip = () => {
-    setActiveTooltip((prev) => ({ ...prev, visible: false }));
-  };
 
   const monthLabels = contributionData ? getMonthLabels(contributionData) : [];
   const dayLabels = getDayOfWeekLabels();
@@ -177,48 +140,6 @@ export function GitHubActivity({
             </div>
           ) : contributionData ? (
             <div className='relative'>
-              <AnimatePresence>
-                {activeTooltip.visible && activeTooltip.content && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 5 }}
-                    transition={{ duration: 0.15 }}
-                    className='bg-popover text-popover-foreground fixed z-50 rounded-md px-3 py-2 text-sm shadow-md outline-none'
-                    style={{
-                      left: `${activeTooltip.x}px`,
-                      top: `${activeTooltip.y - 10}px`,
-                      transform: 'translate(-50%, -100%)',
-                    }}
-                  >
-                    <div className='flex flex-col items-center gap-1'>
-                      <span className='font-semibold'>
-                        {activeTooltip.content.count}
-                      </span>
-                      <span className='text-muted-foreground text-xs'>
-                        contribution
-                        {activeTooltip.content.count !== 1 ? 's' : ''} on{' '}
-                        {new Date(
-                          activeTooltip.content.date
-                        ).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
-                      </span>
-                    </div>
-                    <div
-                      className='bg-popover absolute h-2 w-2 rotate-45'
-                      style={{
-                        bottom: '-4px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                      }}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
               <div className='flex flex-col'>
                 <div className='flex justify-center'>
                   <div className='flex'>
@@ -251,7 +172,11 @@ export function GitHubActivity({
                         ))}
                       </div>
 
-                      <div className='mt-6 flex'>
+                      <div
+                        className='relative mt-6 flex'
+                        onMouseMove={handleMouseMove}
+                        onMouseLeave={() => setShowTooltip(false)}
+                      >
                         {contributionData.weeks.map((week, weekIndex) => (
                           <div
                             key={weekIndex}
@@ -276,14 +201,35 @@ export function GitHubActivity({
                                   stiffness: 400,
                                   damping: 10,
                                 }}
-                                onMouseEnter={(e) => handleMouseEnter(e, day)}
-                                onMouseLeave={handleHideTooltip}
-                                onFocus={(e) => handleFocus(e, day)}
-                                onBlur={handleHideTooltip}
+                                onMouseEnter={() => {
+                                  setTooltipContent(getTooltipText(day));
+                                  setShowTooltip(true);
+                                }}
+                                onMouseLeave={() => setShowTooltip(false)}
+                                onFocus={() => {
+                                  setTooltipContent(getTooltipText(day));
+                                  setShowTooltip(true);
+                                }}
+                                onBlur={() => setShowTooltip(false)}
                               />
                             ))}
                           </div>
                         ))}
+
+                        {showTooltip && (
+                          <div
+                            className='pointer-events-none absolute z-[100]'
+                            style={{
+                              top: tooltipPosition.y,
+                              left: tooltipPosition.x,
+                              transform: 'translateY(-100%)',
+                            }}
+                          >
+                            <div className='border-border bg-popover/95 rounded-lg border px-2 py-1 text-xs whitespace-nowrap shadow-md'>
+                              {tooltipContent}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
