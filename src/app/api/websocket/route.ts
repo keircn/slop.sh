@@ -15,18 +15,28 @@ export async function POST(request: Request): Promise<Response> {
   if (body && body.ref === 'refs/heads/main') {
     console.log('Received push to main. Deploying...');
 
-    exec(deployScript, (error: Error | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
+    exec(
+      deployScript,
+      (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+        }
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
       }
-      console.log(`stdout: ${stdout}`);
-      console.error(`stderr: ${stderr}`);
-    });
+    );
 
-    return NextResponse.json({ message: 'Deployment initiated' }, { status: 200 });
-
+    return NextResponse.json(
+      { message: 'Deployment initiated' },
+      { status: 200 }
+    );
   } else {
-    console.log(`Not a push to main. Received ref: ${body ? body.ref : 'undefined'}`);
-    return NextResponse.json({ message: 'Not a push to main, ignoring' }, { status: 200 });
+    console.log(
+      `Not a push to main. Received ref: ${body ? body.ref : 'undefined'}`
+    );
+    return NextResponse.json(
+      { message: 'Not a push to main, ignoring' },
+      { status: 200 }
+    );
   }
 }
