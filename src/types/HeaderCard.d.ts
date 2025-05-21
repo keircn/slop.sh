@@ -40,23 +40,24 @@ export interface GitHubStatsData {
 }
 
 export interface HeaderCardProps {
-  name: string;
-  title: string;
-  bio: string;
-  avatarUrl: string;
-  githubUsername?: string | null;
-  discordUserId?: string;
-  usePinnedRepos?: boolean;
-  customRepositories?: string[];
+  name: string
+  githubUsername?: string
+  title: string
+  bio: string
+  avatarUrl: string
+  discordUserId?: string
+  usePinnedRepos?: boolean
+  customRepositories?: string[]
   links?: {
-    discord: string | undefined;
-    github?: string;
-    email?: string;
-    kofi?: string;
-  };
+    discord?: string
+    github?: string
+    email?: string
+    kofi?: string
+  }
   stats?: {
-    projects?: number;
-    stars?: number;
-    contributions?: number;
-  };
+    projects?: number
+    stars?: number
+    contributions?: number
+  }
+  children?: ReactNode
 }

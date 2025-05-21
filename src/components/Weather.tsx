@@ -72,35 +72,49 @@ export function Weather({
     return () => clearInterval(refreshInterval);
   }, [location, disabled]);
 
+  const [iconSize, setIconSize] = useState(isMobile ? 28 : 32);
+
+  useEffect(() => {
+    const updateIconSize = () => {
+      const size = isMobile ? 28 : window.innerWidth > 1280 ? 48 : window.innerWidth > 768 ? 40 : 32;
+      setIconSize(size);
+    };
+
+    updateIconSize();
+    window.addEventListener('resize', updateIconSize);
+
+    return () => window.removeEventListener('resize', updateIconSize);
+  }, [isMobile]);
+
   const getWeatherIcon = (iconCode: string) => {
     const iconMap: Record<string, React.ReactElement> = {
       '01d': (
-        <WiDaySunny size={isMobile ? 28 : 32} className='text-yellow-500' />
+        <WiDaySunny size={iconSize} className='text-yellow-500' />
       ),
-      '02d': <WiCloudy size={isMobile ? 28 : 32} className='text-gray-500' />,
-      '03d': <WiCloudy size={isMobile ? 28 : 32} className='text-gray-500' />,
-      '04d': <WiCloudy size={isMobile ? 28 : 32} className='text-gray-500' />,
-      '09d': <WiRain size={isMobile ? 28 : 32} className='text-blue-500' />,
-      '10d': <WiRain size={isMobile ? 28 : 32} className='text-blue-500' />,
+      '02d': <WiCloudy size={iconSize} className='text-gray-500' />,
+      '03d': <WiCloudy size={iconSize} className='text-gray-500' />,
+      '04d': <WiCloudy size={iconSize} className='text-gray-500' />,
+      '09d': <WiRain size={iconSize} className='text-blue-500' />,
+      '10d': <WiRain size={iconSize} className='text-blue-500' />,
       '11d': (
-        <WiThunderstorm size={isMobile ? 28 : 32} className='text-gray-700' />
+        <WiThunderstorm size={iconSize} className='text-gray-700' />
       ),
-      '13d': <WiSnow size={isMobile ? 28 : 32} className='text-blue-200' />,
-      '50d': <WiFog size={isMobile ? 28 : 32} className='text-gray-400' />,
+      '13d': <WiSnow size={iconSize} className='text-blue-200' />,
+      '50d': <WiFog size={iconSize} className='text-gray-400' />,
 
       '01n': (
-        <WiNightClear size={isMobile ? 28 : 32} className='text-indigo-300' />
+        <WiNightClear size={iconSize} className='text-indigo-300' />
       ),
-      '02n': <WiCloudy size={isMobile ? 28 : 32} className='text-gray-600' />,
-      '03n': <WiCloudy size={isMobile ? 28 : 32} className='text-gray-600' />,
-      '04n': <WiCloudy size={isMobile ? 28 : 32} className='text-gray-600' />,
-      '09n': <WiRain size={isMobile ? 28 : 32} className='text-blue-600' />,
-      '10n': <WiRain size={isMobile ? 28 : 32} className='text-blue-600' />,
+      '02n': <WiCloudy size={iconSize} className='text-gray-600' />,
+      '03n': <WiCloudy size={iconSize} className='text-gray-600' />,
+      '04n': <WiCloudy size={iconSize} className='text-gray-600' />,
+      '09n': <WiRain size={iconSize} className='text-blue-600' />,
+      '10n': <WiRain size={iconSize} className='text-blue-600' />,
       '11n': (
-        <WiThunderstorm size={isMobile ? 28 : 32} className='text-gray-800' />
+        <WiThunderstorm size={iconSize} className='text-gray-800' />
       ),
-      '13n': <WiSnow size={isMobile ? 28 : 32} className='text-blue-100' />,
-      '50n': <WiFog size={isMobile ? 28 : 32} className='text-gray-500' />,
+      '13n': <WiSnow size={iconSize} className='text-blue-100' />,
+      '50n': <WiFog size={iconSize} className='text-gray-500' />,
     };
 
     return (
@@ -144,7 +158,7 @@ export function Weather({
   };
 
   const getWeatherCardHeight = (): string => {
-    return isMobile ? '8.5rem' : '8rem';
+    return isMobile ? '8.5rem' : '10rem';
   };
 
   return (
@@ -156,81 +170,81 @@ export function Weather({
           initial='hidden'
           animate='visible'
           exit='exit'
-          className={`overflow-hidden ${isMobile ? 'px-2 pt-2' : ''}`}
+          className='overflow-hidden w-full p-4  md:p-6 lg:p-8 h-full flex flex-col'
         >
           <motion.div
             variants={itemVariants}
-            className='mb-2 flex items-center justify-between'
+            className='mb-3 md:mb-4 flex items-center justify-between'
           >
-            <div className='flex items-center gap-2'>
-              <WiDaySunny className='text-primary' size={18} />
-              <h3 className='text-sm font-medium'>Weather</h3>
+            <div className='flex items-center gap-2 md:gap-3'>
+              <WiDaySunny className='text-primary' size={20} />
+              <h3 className='text-sm md:text-base lg:text-lg font-medium'>Weather</h3>
             </div>
 
             {!isLoading && !error && weatherData && (
-              <div className='text-muted-foreground text-xs'>
+              <div className='text-muted-foreground text-xs md:text-sm'>
                 Updated at {formatUpdatedTime(weatherData.updatedAt)}
               </div>
             )}
           </motion.div>
 
-          <div className='relative' style={{ height: getWeatherCardHeight() }}>
+          <div className='relative my-auto' style={{ height: getWeatherCardHeight() }}>
             {isLoading ? (
               <motion.div
                 variants={itemVariants}
-                className='absolute inset-0 space-y-2'
+                className='absolute inset-0 space-y-3 md:space-y-4'
               >
                 <div className='flex items-center justify-between'>
-                  <Skeleton className='h-8 w-40' />
-                  <Skeleton className='h-8 w-10 rounded-full' />
+                  <Skeleton className='h-8 md:h-10 lg:h-12 w-40 md:w-48 lg:w-56' />
+                  <Skeleton className='h-8 md:h-10 lg:h-12 w-10 md:w-12 lg:w-14 rounded-full' />
                 </div>
-                <div className='mt-2 flex items-center justify-between'>
-                  <Skeleton className='h-4 w-20' />
-                  <Skeleton className='h-4 w-20' />
+                <div className='mt-2 md:mt-3 flex items-center justify-between'>
+                  <Skeleton className='h-4 md:h-5 lg:h-6 w-20 md:w-28 lg:w-32' />
+                  <Skeleton className='h-4 md:h-5 lg:h-6 w-20 md:w-28 lg:w-32' />
                 </div>
-                <div className='mt-1 grid grid-cols-2 gap-2'>
-                  <Skeleton className='h-4 w-full' />
-                  <Skeleton className='h-4 w-full' />
+                <div className='mt-1 md:mt-2 grid grid-cols-2 gap-2 md:gap-4'>
+                  <Skeleton className='h-4 md:h-5 lg:h-6 w-full' />
+                  <Skeleton className='h-4 md:h-5 lg:h-6 w-full' />
                 </div>
               </motion.div>
             ) : error ? (
               <motion.div
                 variants={itemVariants}
-                className='absolute inset-0 rounded-md border border-red-200 bg-red-50 p-3 dark:border-red-900/30 dark:bg-red-950/20'
+                className='absolute inset-0 rounded-md border border-red-200 bg-red-50 p-3 md:p-4 lg:p-6 flex items-center justify-center dark:border-red-900/30 dark:bg-red-950/20'
               >
-                <p className='text-sm text-red-600 dark:text-red-400'>
+                <p className='text-sm md:text-base lg:text-lg text-red-600 dark:text-red-400'>
                   {error}
                 </p>
               </motion.div>
             ) : weatherData ? (
               <motion.div
                 variants={itemVariants}
-                className='absolute inset-0 space-y-3'
+                className='absolute inset-0 space-y-3 md:space-y-4 lg:space-y-5 flex flex-col'
               >
                 <div className='flex items-center justify-between'>
                   <div className='min-w-0 flex-1'>
-                    <h4 className='truncate text-base font-medium'>
+                    <h4 className='truncate text-base md:text-lg lg:text-xl font-medium'>
                       {weatherData.location}
                     </h4>
-                    <p className='text-muted-foreground truncate text-sm'>
+                    <p className='text-muted-foreground truncate text-sm md:text-base'>
                       {weatherData.description}
                     </p>
                   </div>
-                  <div className='ml-2 flex flex-shrink-0 items-center'>
+                  <div className='ml-2 md:ml-4 flex flex-shrink-0 items-center'>
                     {getWeatherIcon(weatherData.icon)}
                   </div>
                 </div>
 
                 <div className='flex items-center justify-between'>
-                  <div className='flex items-center gap-1'>
+                  <div className='flex items-center gap-1 md:gap-2'>
                     <WiThermometer
-                      size={isMobile ? 18 : 20}
+                      size={isMobile ? 18 : iconSize * 0.6}
                       className='text-primary'
                     />
-                    <span className={`${isMobile ? 'text-xs' : 'text-sm'}`}>
+                    <span className={`${isMobile ? 'text-xs' : 'text-sm md:text-base lg:text-lg'}`}>
                       {weatherData.temperature}°C
                       <span
-                        className={`${isMobile ? 'text-[10px]' : 'text-xs'} text-muted-foreground ml-1`}
+                        className={`${isMobile ? 'text-[10px]' : 'text-xs md:text-sm'} text-muted-foreground ml-1 md:ml-2`}
                       >
                         Feels like {weatherData.feelsLike}°C
                       </span>
@@ -238,34 +252,36 @@ export function Weather({
                   </div>
                 </div>
 
-                <div className='border-border mt-1 grid grid-cols-2 gap-2 border-t pt-2'>
-                  <div className='flex items-center gap-1'>
+                <div className='border-border mt-1 md:mt-3 grid grid-cols-2 gap-2 md:gap-4 border-t pt-2 md:pt-3'>
+                  <div className='flex items-center gap-1 md:gap-2'>
                     <WiHumidity
-                      size={isMobile ? 16 : 18}
+                      size={isMobile ? 16 : iconSize * 0.5}
                       className='text-blue-400'
                     />
-                    <span className={`${isMobile ? 'text-[10px]' : 'text-xs'}`}>
+                    <span className={`${isMobile ? 'text-[10px]' : 'text-xs md:text-sm lg:text-base'}`}>
                       {weatherData.humidity}% Humidity
                     </span>
                   </div>
-                  <div className='flex items-center gap-1'>
+                  <div className='flex items-center gap-1 md:gap-2'>
                     <WiWindy
-                      size={isMobile ? 16 : 18}
+                      size={isMobile ? 16 : iconSize * 0.5}
                       className='text-blue-400'
                     />
-                    <span className={`${isMobile ? 'text-[10px]' : 'text-xs'}`}>
+                    <span className={`${isMobile ? 'text-[10px]' : 'text-xs md:text-sm lg:text-base'}`}>
                       {weatherData.windSpeed} km/h Wind
                     </span>
                   </div>
                 </div>
               </motion.div>
             ) : (
-              <motion.p
+              <motion.div
                 variants={itemVariants}
-                className='text-muted-foreground absolute inset-0 flex items-center justify-center text-sm'
+                className='text-muted-foreground absolute inset-0 flex items-center justify-center p-4 md:p-6'
               >
-                Weather information unavailable
-              </motion.p>
+                <p className="text-sm md:text-base lg:text-lg">
+                  Weather information unavailable
+                </p>
+              </motion.div>
             )}
           </div>
         </motion.div>

@@ -1,116 +1,205 @@
-'use client';
+"use client"
 
-import { motion } from 'framer-motion';
-import { FaCode, FaStar, FaCodeBranch } from 'react-icons/fa';
-import { Skeleton } from '~/components/ui/skeleton';
-import { GitHubStatsProps } from '~/types/GitHub';
+import { motion } from "framer-motion"
+import {
+  FaCode,
+  FaStar,
+  FaCodeBranch,
+  FaUserFriends,
+  FaGithub,
+  FaExclamationCircle,
+} from "react-icons/fa"
+import { Skeleton } from "~/components/ui/skeleton"
+import { Progress } from "~/components/ui/progress"
+import { Separator } from "~/components/ui/separator"
+import type { GitHubStatsProps } from "~/types/GitHub"
+import Link from "next/link"
+import { FaCodePullRequest } from "react-icons/fa6"
 
-export function GitHubStats({
-  isLoading,
-  stats,
-  languages = [],
-}: GitHubStatsProps) {
+export function GitHubStats({ isLoading, stats, languages = [] }: GitHubStatsProps) {
+  const { repositories = 0, stars = 0, contributions = 0, pullRequests = 0, issues = 0 } = stats || {}
+
+  const mockFollowers = stats?.followers || 0
+  const mockFollowing = stats?.following || 0
+
+  const topLanguages = languages.slice(0, 5).map((lang, index) => ({
+    ...lang,
+    percentage: 100 / (index + 1.5),
+  }))
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.6, duration: 0.4 }}
-      className='border-border hidden h-full flex-col justify-center border-l py-2 pl-6 md:flex'
+      className="border-border hidden h-full flex-col justify-start border-x px-6 py-2 pt-4 md:flex"
     >
-      <h3 className='text-muted-foreground mb-4 text-sm font-medium'>
-        GitHub Stats{' '}
-        {isLoading && <span className='ml-2 animate-pulse'>Loading...</span>}
+      <h3 className="text-muted-foreground mb-6 text-sm font-medium flex items-center">
+        <FaGithub className="mr-2" />
+        GitHub Stats
+        {isLoading && <span className="ml-2 animate-pulse">Loading...</span>}
       </h3>
-      <div className='space-y-4'>
-        <div className='flex items-center gap-3'>
-          <div className='bg-primary/10 rounded p-2'>
-            <FaCode size={16} className='text-primary' />
+
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 rounded p-2">
+            <FaCode size={16} className="text-primary" />
           </div>
           <div>
             {isLoading ? (
               <>
-                <Skeleton className='mb-1 h-4 w-24' />
-                <Skeleton className='h-3 w-16' />
+                <Skeleton className="mb-1 h-4 w-24" />
+                <Skeleton className="h-3 w-16" />
               </>
             ) : (
               <>
-                <p className='text-sm font-medium'>
-                  {stats.projects} Repositories
-                </p>
-                <p className='text-muted-foreground text-xs'>Created</p>
+                <p className="text-sm font-medium">{repositories} Repositories</p>
+                <p className="text-muted-foreground text-xs">Created</p>
               </>
             )}
           </div>
         </div>
-        <div className='flex items-center gap-3'>
-          <div className='bg-primary/10 rounded p-2'>
-            <FaStar size={16} className='text-primary' />
+
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 rounded p-2">
+            <FaStar size={16} className="text-primary" />
           </div>
           <div>
             {isLoading ? (
               <>
-                <Skeleton className='mb-1 h-4 w-20' />
-                <Skeleton className='h-3 w-16' />
+                <Skeleton className="mb-1 h-4 w-20" />
+                <Skeleton className="h-3 w-16" />
               </>
             ) : (
               <>
-                <p className='text-sm font-medium'>{stats.stars} Stars</p>
-                <p className='text-muted-foreground text-xs'>Received</p>
+                <p className="text-sm font-medium">{stars} Stars</p>
+                <p className="text-muted-foreground text-xs">Received</p>
               </>
             )}
           </div>
         </div>
-        <div className='flex items-center gap-3'>
-          <div className='bg-primary/10 rounded p-2'>
-            <FaCodeBranch size={16} className='text-primary' />
+
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 rounded p-2">
+            <FaCodeBranch size={16} className="text-primary" />
           </div>
           <div>
             {isLoading ? (
               <>
-                <Skeleton className='mb-1 h-4 w-32' />
-                <Skeleton className='h-3 w-16' />
+                <Skeleton className="mb-1 h-4 w-32" />
+                <Skeleton className="h-3 w-16" />
               </>
             ) : (
               <>
-                <p className='text-sm font-medium'>
-                  {stats.contributions} Contributions
-                </p>
-                <p className='text-muted-foreground text-xs'>Last year</p>
+                <p className="text-sm font-medium">{contributions} Contributions</p>
+                <p className="text-muted-foreground text-xs">Last year</p>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 rounded p-2">
+            <FaUserFriends size={16} className="text-primary" />
+          </div>
+          <div>
+            {isLoading ? (
+              <>
+                <Skeleton className="mb-1 h-4 w-28" />
+                <Skeleton className="h-3 w-16" />
+              </>
+            ) : (
+              <>
+                <p className="text-sm font-medium">{mockFollowers} Followers</p>
+                <p className="text-muted-foreground text-xs">{mockFollowing} Following</p>
               </>
             )}
           </div>
         </div>
       </div>
 
-      <div className='border-border mt-6 w-full border-t pt-4'>
-        <h4 className='text-muted-foreground mb-3 text-xs font-medium'>
-          Top Languages
-        </h4>
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 rounded p-2">
+            <FaCodePullRequest size={16} className="text-primary" />
+          </div>
+          <div>
+            {isLoading ? (
+              <>
+                <Skeleton className="mb-1 h-4 w-24" />
+                <Skeleton className="h-3 w-16" />
+              </>
+            ) : (
+              <>
+                <p className="text-sm font-medium">{pullRequests} Pull Requests</p>
+                <p className="text-muted-foreground text-xs">Submitted</p>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 rounded p-2">
+            <FaExclamationCircle size={16} className="text-primary" />
+          </div>
+          <div>
+            {isLoading ? (
+              <>
+                <Skeleton className="mb-1 h-4 w-20" />
+                <Skeleton className="h-3 w-16" />
+              </>
+            ) : (
+              <>
+                <p className="text-sm font-medium">{issues} Issues</p>
+                <p className="text-muted-foreground text-xs">Opened</p>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <h4 className="text-muted-foreground mb-3 text-xs font-medium">Language Distribution</h4>
         {isLoading ? (
-          <div className='flex flex-wrap gap-1.5'>
-            {Array(5)
+          <div className="space-y-2">
+            {Array(3)
               .fill(0)
               .map((_, idx) => (
-                <Skeleton key={idx} className='h-6 w-16 rounded-full' />
+                <div key={idx} className="space-y-1">
+                  <Skeleton className="h-3 w-20" />
+                  <Skeleton className="h-2 w-full" />
+                </div>
               ))}
           </div>
         ) : languages.length > 0 ? (
-          <div className='flex flex-wrap gap-1.5'>
-            {languages.slice(0, 5).map((lang: { name: string }) => (
-              <span
-                key={lang.name}
-                className='bg-primary/10 text-primary rounded-full px-2 py-1 text-xs'
-              >
-                {lang.name}
-              </span>
+          <div className="space-y-2">
+            {topLanguages.map((lang) => (
+              <div key={lang.name} className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span>{lang.name}</span>
+                  <span>{Math.round(lang.percentage)}%</span>
+                </div>
+                <Progress value={lang.percentage} className="h-1.5" />
+              </div>
             ))}
           </div>
         ) : (
-          <p className='text-muted-foreground text-xs'>
-            No language data available
-          </p>
+          <p className="text-muted-foreground text-xs">No language data available</p>
         )}
       </div>
+
+      <div className="mt-auto pt-4">
+        <Separator className="mb-6" />
+        <Link
+          href={`https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME || ""}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-primary hover:underline flex items-center"
+        >
+          <FaGithub className="mr-1" size={14} />
+          View full GitHub profile
+        </Link>
+      </div>
     </motion.div>
-  );
+  )
 }

@@ -59,10 +59,9 @@ export function getDayOfWeekLabels(): DayLabel[] {
 
 export function getTooltipText(day: ContributionDay): string {
   const date = new Date(day.date);
-  const formattedDate = date.toLocaleDateString('en-US', {
-    weekday: 'long',
+  const formattedDate = date.toLocaleDateString('en-GB', {
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric',
   });
 
