@@ -1,142 +1,151 @@
-'use client';
+"use client"
 
-import { motion } from 'framer-motion';
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
-import { Button } from '~/components/ui/button';
-import { FaGithub, FaEnvelope, FaCoffee, FaDiscord } from 'react-icons/fa';
-import { ProfileInfoProps } from '~/types/ProfileInfo';
-import Link from 'next/link';
-import { BiCode } from 'react-icons/bi';
-import { getAge } from '~/lib/utils';
+import { motion } from "framer-motion"
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
+import { Button } from "~/components/ui/button"
+import { Card, CardContent } from "~/components/ui/card"
+import { FaGithub, FaEnvelope, FaCoffee, FaDiscord } from "react-icons/fa"
+import { BiCode } from "react-icons/bi"
+import { LuCalendarDays } from "react-icons/lu"
+import Link from "next/link"
+import { getAge } from "~/lib/utils"
+import { Typewriter } from "react-simple-typewriter"
+import type { ProfileInfoProps } from "~/types/ProfileInfo"
+import { Badge } from "~/components/ui/badge"
 
-export function ProfileInfo({
-  name,
-  title,
-  bio,
-  dateOfBirth,
-  avatarUrl,
-  links,
-  githubUsername,
-}: ProfileInfoProps) {
+export function ProfileInfo({ name, title, bio, dateOfBirth, avatarUrl, links, githubUsername }: ProfileInfoProps) {
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  }
+
+  const slideIn = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 },
+  }
+
   return (
-    <div className='flex flex-col space-y-6'>
-      <div className='flex flex-col items-center space-y-6 md:flex-row md:space-y-0 md:space-x-6'>
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-          className='relative'
-        >
-          <div className='from-primary/30 to-primary/10 absolute -inset-1.5 animate-pulse rounded-full bg-gradient-to-tr blur-sm' />
-          <Avatar className='border-primary/20 relative h-32 w-32 border-4'>
-            <AvatarImage src={avatarUrl} alt={`${name}'s avatar`} />
-            <AvatarFallback>{name[0]}</AvatarFallback>
-          </Avatar>
-        </motion.div>
-
-        <div className='flex-1 space-y-4 text-center md:text-left'>
+    <Card className="w-full overflow-hidden">
+      <CardContent className="p-6">
+        <div className="flex flex-col space-y-8 md:flex-row md:space-y-0 md:space-x-8">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col items-center space-y-4"
           >
-            <h1 className='text-3xl font-bold tracking-tight'>
-              {name}
-              {githubUsername && (
-                <span className='text-muted-foreground ml-2 text-lg font-normal'>
-                  @{githubUsername}
-                </span>
-              )}
-            </h1>
-            <p className='text-muted-foreground text-lg'>{title}</p>
-          </motion.div>
+            <div className="relative">
+              <div className="absolute -inset-1.5 animate-pulse rounded-full bg-gradient-to-tr from-primary/30 to-primary/10 blur-sm" />
+              <Avatar className="relative h-36 w-36 border-4 border-primary/20">
+                <AvatarImage src={avatarUrl || "/placeholder.svg"} alt={`${name}'s avatar`} />
+                <AvatarFallback className="text-2xl font-bold">{name[0]}</AvatarFallback>
+              </Avatar>
+            </div>
 
-          {dateOfBirth && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.4 }}
-              className='text-muted-foreground flex items-center gap-2 text-sm'
-            >
-              <span>{getAge(new Date(dateOfBirth))} years old</span>
-            </motion.p>
-          )}
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
-            className='text-muted-foreground'
-          >
-            {bio}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.4 }}
-            className='flex flex-wrap justify-center gap-2 md:justify-start'
-          >
-            {links.github && (
-              <Button variant='outline' size='sm' asChild className='gap-1.5'>
-                <Link
-                  href={links.github}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <FaGithub size={16} />
-                </Link>
-              </Button>
-            )}
-
-            {links.discord && (
-              <Button variant='outline' size='sm' asChild className='gap-1.5'>
-                <Link
-                  href={links.discord}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <FaDiscord size={16} />
-                </Link>
-              </Button>
-            )}
-
-            {links.kofi && (
-              <Button variant='outline' size='sm' asChild className='gap-1.5'>
-                <Link
-                  href={links.kofi}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <FaCoffee size={16} />
-                </Link>
-              </Button>
-            )}
-
-            {links.email && (
-              <Button variant='outline' size='sm' asChild className='gap-1.5'>
-                <Link
-                  href={links.email}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <FaEnvelope size={16} />
-                </Link>
-              </Button>
-            )}
-
-            <Button variant='outline' size='sm' asChild className='gap-1.5'>
-              <Link
-                href='https://kdev.pw/src'
-                target='_blank'
-                rel='noopener noreferrer'
+            {githubUsername && (
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                transition={{ delay: 0.3, duration: 0.4 }}
               >
-                <BiCode size={16} />
-              </Link>
-            </Button>
+                <Badge variant="secondary" className="flex items-center gap-1.5 px-3 py-1.5 text-sm">
+                  <FaGithub className="mt-0.5 mr-1" size={14} />@{githubUsername}
+                </Badge>
+              </motion.div>
+            )}
           </motion.div>
+
+          <div className="flex-1 space-y-6">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={slideIn}
+              transition={{ delay: 0.2, duration: 0.4 }}
+              className="space-y-2"
+            >
+              <h1 className="text-3xl font-bold tracking-tight md:text-4xl">{name}</h1>
+              <p className="text-xl font-medium text-primary">
+                <Typewriter words={[title]} />
+              </p>
+            </motion.div>
+
+            {dateOfBirth && (
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                transition={{ delay: 0.3, duration: 0.4 }}
+                className="flex items-center gap-2 text-muted-foreground"
+              >
+                <LuCalendarDays size={16} />
+                <span>{getAge(new Date(dateOfBirth))} years old</span>
+              </motion.div>
+            )}
+
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+              transition={{ delay: 0.4, duration: 0.4 }}
+              className="space-y-4"
+            >
+              <div className="prose prose-sm max-w-none dark:prose-invert">
+                <p className="leading-relaxed text-muted-foreground">{bio}</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+              transition={{ delay: 0.5, duration: 0.4 }}
+              className="pt-2"
+            >
+              <div className="flex flex-wrap gap-2">
+                {links.github && (
+                  <Button variant="outline" size="icon" asChild>
+                    <Link href={links.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                      <FaGithub size={18} />
+                    </Link>
+                  </Button>
+                )}
+
+                {links.discord && (
+                  <Button variant="outline" size="icon" asChild>
+                    <Link href={links.discord} target="_blank" rel="noopener noreferrer" aria-label="Discord">
+                      <FaDiscord size={18} />
+                    </Link>
+                  </Button>
+                )}
+
+                {links.kofi && (
+                  <Button variant="outline" size="icon" asChild>
+                    <Link href={links.kofi} target="_blank" rel="noopener noreferrer" aria-label="Ko-fi">
+                      <FaCoffee size={18} />
+                    </Link>
+                  </Button>
+                )}
+
+                {links.email && (
+                  <Button variant="outline" size="icon" asChild>
+                    <Link href={links.email} target="_blank" rel="noopener noreferrer" aria-label="Email">
+                      <FaEnvelope size={18} />
+                    </Link>
+                  </Button>
+                )}
+
+                <Button variant="outline" size="icon" asChild>
+                  <Link href="https://kdev.pw/src" target="_blank" rel="noopener noreferrer" aria-label="Source code">
+                    <BiCode size={18} />
+                  </Link>
+                </Button>
+              </div>
+            </motion.div>
+          </div>
         </div>
-      </div>
-    </div>
-  );
+      </CardContent>
+    </Card>
+  )
 }
