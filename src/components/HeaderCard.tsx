@@ -128,9 +128,9 @@ export const HeaderCard = memo(function HeaderCard({
           <div className='border-primary/20 absolute -bottom-20 -left-20 h-60 w-60 rounded-full border' />
         </div>
 
-        <CardContent className='mx-auto w-full p-6'>
+        <CardContent className='mx-auto w-full p-6 pt-0'>
           <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
-            <div className='flex flex-col space-y-14'>
+            <div className='flex flex-col space-y-2'>
               <ProfileInfo
                 name={githubData?.user.name || name}
                 githubUsername={githubUsername}
