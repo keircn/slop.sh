@@ -116,90 +116,128 @@ export function GitHubStats({
         <div className='flex items-center gap-3'>
           <div className='bg-primary/10 rounded p-2'>
             <FaUserFriends size={16} className='text-primary' />
+            <div className='flex items-center gap-3'>
+              <div className='bg-primary/10 rounded p-2'>
+                <FaUserFriends size={16} className='text-primary' />
+              </div>
+              <div>
+                {isLoading ? (
+                  <>
+                    <Skeleton className='mb-1 h-4 w-28' />
+                    <Skeleton className='h-3 w-16' />
+                    <Skeleton className='mb-1 h-4 w-28' />
+                    <Skeleton className='h-3 w-16' />
+                  </>
+                ) : (
+                  <>
+                    <p className='text-sm font-medium'>{mockFollowers} Followers</p>
+                    <p className='text-muted-foreground text-xs'>
+                      {mockFollowing} Following
+                    </p>
+                    <p className='text-sm font-medium'>{mockFollowers} Followers</p>
+                    <p className='text-muted-foreground text-xs'>
+                      {mockFollowing} Following
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-          <div>
-            {isLoading ? (
-              <>
-                <Skeleton className='mb-1 h-4 w-28' />
-                <Skeleton className='h-3 w-16' />
-              </>
-            ) : (
-              <>
-                <p className='text-sm font-medium'>{mockFollowers} Followers</p>
-                <p className='text-muted-foreground text-xs'>
-                  {mockFollowing} Following
-                </p>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
 
-      <div className='mb-6 grid grid-cols-2 gap-4'>
-        <div className='flex items-center gap-3'>
-          <div className='bg-primary/10 rounded p-2'>
-            <FaCodePullRequest size={16} className='text-primary' />
-          </div>
-          <div>
-            {isLoading ? (
-              <>
-                <Skeleton className='mb-1 h-4 w-24' />
-                <Skeleton className='h-3 w-16' />
-              </>
-            ) : (
-              <>
-                <p className='text-sm font-medium'>
-                  {pullRequests} Pull Requests
-                </p>
-                <p className='text-muted-foreground text-xs'>Submitted</p>
-              </>
-            )}
-          </div>
-        </div>
+          <div className='mb-6 grid grid-cols-2 gap-4'>
+            <div className='flex items-center gap-3'>
+              <div className='bg-primary/10 rounded p-2'>
+                <FaCodePullRequest size={16} className='text-primary' />
+                <div className='mb-6 grid grid-cols-2 gap-4'>
+                  <div className='flex items-center gap-3'>
+                    <div className='bg-primary/10 rounded p-2'>
+                      <FaCodePullRequest size={16} className='text-primary' />
+                    </div>
+                    <div>
+                      {isLoading ? (
+                        <>
+                          <Skeleton className='mb-1 h-4 w-24' />
+                          <Skeleton className='h-3 w-16' />
+                          <Skeleton className='mb-1 h-4 w-24' />
+                          <Skeleton className='h-3 w-16' />
+                        </>
+                      ) : (
+                        <>
+                          <p className='text-sm font-medium'>
+                            {pullRequests} Pull Requests
+                          </p>
+                          <p className='text-muted-foreground text-xs'>Submitted</p>
+                          <p className='text-sm font-medium'>
+                            {pullRequests} Pull Requests
+                          </p>
+                          <p className='text-muted-foreground text-xs'>Submitted</p>
+                        </>
+                      )}
+                    </div>
+                  </div>
 
-        <div className='flex items-center gap-3'>
-          <div className='bg-primary/10 rounded p-2'>
-            <FaExclamationCircle size={16} className='text-primary' />
-          </div>
-          <div>
-            {isLoading ? (
-              <>
-                <Skeleton className='mb-1 h-4 w-20' />
-                <Skeleton className='h-3 w-16' />
-              </>
-            ) : (
-              <>
-                <p className='text-sm font-medium'>{issues} Issues</p>
-                <p className='text-muted-foreground text-xs'>Opened</p>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
+                  <div className='flex items-center gap-3'>
+                    <div className='bg-primary/10 rounded p-2'>
+                      <FaExclamationCircle size={16} className='text-primary' />
+                      <div className='flex items-center gap-3'>
+                        <div className='bg-primary/10 rounded p-2'>
+                          <FaExclamationCircle size={16} className='text-primary' />
+                        </div>
+                        <div>
+                          {isLoading ? (
+                            <>
+                              <Skeleton className='mb-1 h-4 w-20' />
+                              <Skeleton className='h-3 w-16' />
+                              <Skeleton className='mb-1 h-4 w-20' />
+                              <Skeleton className='h-3 w-16' />
+                            </>
+                          ) : (
+                            <>
+                              <p className='text-sm font-medium'>{issues} Issues</p>
+                              <p className='text-muted-foreground text-xs'>Opened</p>
+                              <p className='text-sm font-medium'>{issues} Issues</p>
+                              <p className='text-muted-foreground text-xs'>Opened</p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
 
-      <div className='mb-6'>
-        <h4 className='text-muted-foreground mb-3 text-xs font-medium'>
-          Language Distribution
-        </h4>
-        {isLoading ? (
-          <div className='space-y-2'>
-            {Array(3)
-              .fill(0)
-              .map((_, idx) => (
-                <div key={idx} className='space-y-1'>
-                  <Skeleton className='h-3 w-20' />
-                  <Skeleton className='h-2 w-full' />
-                </div>
+                    <div className='mb-6'>
+                      <h4 className='text-muted-foreground mb-3 text-xs font-medium'>
+                        Language Distribution
+                      </h4>
+                      <div className='mb-6'>
+                        <h4 className='text-muted-foreground mb-3 text-xs font-medium'>
+                          Language Distribution
+                        </h4>
+                        {isLoading ? (
+                          <div className='space-y-2'>
+                            <div className='space-y-2'>
+                              {Array(3)
+                                .fill(0)
+                                .map((_, idx) => (
+                                  <div key={idx} className='space-y-1'>
+                                    <Skeleton className='h-3 w-20' />
+                                    <Skeleton className='h-2 w-full' />
+                                    <div key={idx} className='space-y-1'>
+                                      <Skeleton className='h-3 w-20' />
+                                      <Skeleton className='h-2 w-full' />
+                                    </div>
               ))}
-          </div>
-        ) : languages.length > 0 ? (
-          <div className='space-y-2'>
-            {topLanguages.map((lang) => (
+                                  </div>
+                                ) : languages.length > 0 ? (
+                              <div className='space-y-2'>
+                                <div className='space-y-2'>
+                                  {topLanguages.map((lang) => (
+              <div key={lang.name} className='space-y-1'>
+                <div className='flex justify-between text-xs'>
               <div key={lang.name} className='space-y-1'>
                 <div className='flex justify-between text-xs'>
                   <span>{lang.name}</span>
                   <span>{Math.round(lang.percentage)}%</span>
                 </div>
+                <Progress value={lang.percentage} className='h-1.5' />
                 <Progress value={lang.percentage} className='h-1.5' />
               </div>
             ))}
@@ -208,9 +246,14 @@ export function GitHubStats({
           <p className='text-muted-foreground text-xs'>
             No language data available
           </p>
+          <p className='text-muted-foreground text-xs'>
+            No language data available
+          </p>
         )}
       </div>
 
+      <div className='mt-auto pt-4'>
+        <Separator className='mb-6' />
       <div className='mt-auto pt-4'>
         <Separator className='mb-6' />
         <Link
@@ -218,11 +261,17 @@ export function GitHubStats({
           target='_blank'
           rel='noopener noreferrer'
           className='text-primary flex items-center text-xs hover:underline'
+          href={`https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME || ''}`}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='text-primary flex items-center text-xs hover:underline'
         >
+          <FaGithub className='mr-1' size={14} />
           <FaGithub className='mr-1' size={14} />
           View full GitHub profile
         </Link>
       </div>
     </motion.div>
-  );
+                                  );
+                                  );
 }
