@@ -6,10 +6,6 @@ import { motion } from 'framer-motion';
 import type { GitHubStatsData } from '~/types/GitHub';
 import type { HeaderCardProps } from '~/types/HeaderCard';
 import { ProfileInfo } from '~/components/ProfileInfo';
-<<<<<<< HEAD
-=======
-import { GitHubStats } from '~/components/GitHubStats';
->>>>>>> refs/remotes/origin/main
 import { RepositoryList } from '~/components/RepositoryList';
 import { Weather } from '~/components/Weather';
 import { DiscordPresence } from '~/components/DiscordPresence';
@@ -61,11 +57,7 @@ export const HeaderCard = memo(function HeaderCard({
       const data = await response.json();
       setGithubData(data);
     } catch (err) {
-<<<<<<< HEAD
       console.error('Failed to fetch GitHub data:', err);
-=======
-      console.error('Failed to fetch GitHub stats:', err);
->>>>>>> refs/remotes/origin/main
     } finally {
       setIsLoading(false);
     }
@@ -96,13 +88,8 @@ export const HeaderCard = memo(function HeaderCard({
   }, [usePinnedRepos, customRepositories, links.github]);
 
   useEffect(() => {
-<<<<<<< HEAD
     fetchGitHubData();
   }, [fetchGitHubData]);
-=======
-    fetchGitHubStats();
-  }, [fetchGitHubStats]);
->>>>>>> refs/remotes/origin/main
 
   useEffect(() => {
     fetchCustomRepos();
@@ -110,21 +97,6 @@ export const HeaderCard = memo(function HeaderCard({
 
   const isLoadingRepos = isLoading || (usePinnedRepos && isLoadingCustomRepos);
 
-<<<<<<< HEAD
-=======
-  const enhancedStats = {
-    repositories: githubData?.stats.repositories || propStats?.projects || 0,
-    stars: githubData?.stats.stars || propStats?.stars || 0,
-    contributions:
-      githubData?.stats.contributions || propStats?.contributions || 0,
-    pullRequests: githubData?.stats.pullRequests || 0,
-    issues: githubData?.stats.issues || 0,
-    forks: githubData?.stats.forks || 0,
-    followers: githubData?.user?.followers || 0,
-    following: githubData?.user?.following || 0,
-  };
-
->>>>>>> refs/remotes/origin/main
   const displayAvatar = avatarUrl;
   const displayBio = githubData?.user?.bio || bio;
 
@@ -147,7 +119,6 @@ export const HeaderCard = memo(function HeaderCard({
         </div>
 
         <CardContent className='mx-auto w-full p-6 pt-0'>
-<<<<<<< HEAD
           <div className='mb-6'>
             <ProfileInfo
               name={githubData?.user?.name || name}
@@ -162,46 +133,6 @@ export const HeaderCard = memo(function HeaderCard({
                 kofi: links.kofi,
                 discord: links.discord,
               }}
-=======
-          <div className='grid grid-cols-1 gap-6 md:grid-cols-[1fr,auto]'>
-            <div className='flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-6'>
-              <ProfileInfo
-                name={githubData?.user?.name || name}
-                githubUsername={githubUsername}
-                title={title}
-                bio={displayBio}
-                dateOfBirth={new Date('2009-03-25')}
-                avatarUrl={displayAvatar}
-                links={{
-                  github: links.github,
-                  email: links.email,
-                  kofi: links.kofi,
-                  discord: links.discord,
-                }}
-              />
-              {discordUserId ? (
-                <DiscordPresence
-                  userId={discordUserId}
-                  weatherLocation='London,UK'
-                  onConnectionChange={handleDiscordConnectionChange}
-                  disabled={isLoading || !discordConnected}
-                />
-              ) : (
-                <Weather location='London,UK' />
-              )}
-            </div>
-
-            <GitHubStats
-              isLoading={isLoading}
-              stats={enhancedStats}
-              languages={
-                githubData?.languages?.map((lang) => ({
-                  name: lang.name,
-                  count: lang.count,
-                  percentage: 0,
-                })) || []
-              }
->>>>>>> refs/remotes/origin/main
             />
           </div>
 

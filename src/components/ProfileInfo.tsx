@@ -19,7 +19,6 @@ export function ProfileInfo({
   dateOfBirth,
   avatarUrl,
   links,
-  githubUsername,
 }: ProfileInfoProps) {
   const fadeIn = {
     hidden: { opacity: 0 },
