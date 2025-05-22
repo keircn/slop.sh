@@ -3,10 +3,12 @@
 import dynamic from 'next/dynamic';
 import { HeaderCardProps } from '~/lib/data/home';
 import { PageTransition } from '~/components/PageTransition';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Card } from '~/components/ui/card';
 import { Footer } from '~/components/Footer';
 import { GitHubActivity } from '~/components/GitHubActivity';
+import { GitHubStatsCard } from '~/components/GitHubStatsCard';
+import type { GitHubStatsData } from '~/types/GitHub';
 
 const HeaderCard = dynamic(
   () =>
@@ -21,7 +23,7 @@ const HeaderCard = dynamic(
   }
 );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line typescript/no-unused-vars
 const ProjectsContainer = dynamic(
   () =>
     import('~/components/ProjectsContainer').then((mod) => ({
@@ -35,6 +37,32 @@ const ProjectsContainer = dynamic(
 );
 
 export default function Home() {
+  const [githubData, setGithubData] = useState<GitHubStatsData | null>(null);
+  const [isLoadingGithub, setIsLoadingGithub] = useState(true);
+
+  useEffect(() => {
+    async function loadGitHubData() {
+      setIsLoadingGithub(true);
+      try {
+        const response = await fetch('/api/github/stats');
+        if (!response.ok) {
+          throw new Error(`API returned status: ${response.status}`);
+        }
+        const data = await response.json();
+        setGithubData(data);
+      } catch (error) {
+        console.error('Failed to load GitHub data for page:', error);
+      } finally {
+        setIsLoadingGithub(false);
+      }
+    }
+    if (HeaderCardProps[0].links?.github) {
+      loadGitHubData();
+    } else {
+      setIsLoadingGithub(false);
+    }
+  }, [HeaderCardProps[0].links?.github]);
+
   return (
     <PageTransition>
       <main className='relative flex min-h-screen w-full flex-col'>
@@ -46,8 +74,54 @@ export default function Home() {
               }
             >
               <span id='header' />
-              <HeaderCard {...HeaderCardProps[0]} />
+              <HeaderCard
+                name={HeaderCardProps[0].name}
+                githubUsername={HeaderCardProps[0].githubUsername}
+                title={HeaderCardProps[0].title}
+                bio={HeaderCardProps[0].bio}
+                avatarUrl={HeaderCardProps[0].avatarUrl}
+                discordUserId={HeaderCardProps[0].discordUserId}
+                links={HeaderCardProps[0].links}
+                usePinnedRepos={HeaderCardProps[0].usePinnedRepos}
+                customRepositories={HeaderCardProps[0].customRepositories}
+              />
             </Suspense>
+
+            {HeaderCardProps[0].links?.github && (
+              <div className='mt-8'>
+                <GitHubStatsCard
+                  isLoading={isLoadingGithub}
+                  stats={{
+                    repositories:
+                      githubData?.stats.repositories ||
+                      HeaderCardProps[0].stats?.projects ||
+                      0,
+                    stars:
+                      githubData?.stats.stars ||
+                      HeaderCardProps[0].stats?.stars ||
+                      0,
+                    contributions:
+                      githubData?.stats.contributions ||
+                      HeaderCardProps[0].stats?.contributions ||
+                      0,
+                    pullRequests: githubData?.stats.pullRequests || 0,
+                    issues: githubData?.stats.issues || 0,
+                    forks: githubData?.stats.forks || 0,
+                    followers: githubData?.user?.followers || 0,
+                    following: githubData?.user?.following || 0,
+                  }}
+                  languages={
+                    githubData?.languages?.map(
+                      (lang: { name: string; count: number }) => ({
+                        name: lang.name,
+                        count: lang.count,
+                        percentage: 0,
+                      })
+                    ) || []
+                  }
+                />
+              </div>
+            )}
 
             <div className='mt-8'>
               <Suspense
@@ -66,9 +140,12 @@ export default function Home() {
                 />
               </Suspense>
             </div>
+
+            {/* <div className="mt-8">
+              <ProjectsContainer title="Projects" projects={projects} />
+            </div> */}
           </div>
         </div>
-        <span id='footer' />
         <Footer />
       </main>
     </PageTransition>

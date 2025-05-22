@@ -11,7 +11,6 @@ import Link from 'next/link';
 import { getAge } from '~/lib/utils';
 import { Typewriter } from 'react-simple-typewriter';
 import type { ProfileInfoProps } from '~/types/ProfileInfo';
-import { Badge } from '~/components/ui/badge';
 
 export function ProfileInfo({
   name,
@@ -35,46 +34,29 @@ export function ProfileInfo({
   return (
     <Card className='w-full overflow-hidden'>
       <CardContent className='p-6'>
-        <div className='flex flex-col space-y-8 md:flex-row md:space-y-0 md:space-x-8'>
+        <div className='flex flex-col space-y-8 md:flex-row md:items-start md:space-y-0 md:space-x-8 lg:space-x-12'>
           <motion.div
             initial='hidden'
             animate='visible'
             variants={fadeIn}
             transition={{ duration: 0.5 }}
-            className='flex flex-col items-center space-y-4'
+            className='flex flex-col items-center space-y-4 md:w-auto md:flex-shrink-0'
           >
-            <div className='relative'>
+            <div className='relative ml-4'>
               <div className='from-primary/30 to-primary/10 absolute -inset-1.5 animate-pulse rounded-full bg-gradient-to-tr blur-sm' />
-              <Avatar className='border-primary/20 relative h-36 w-36 border-4'>
+              <Avatar className='border-primary/20 relative h-36 w-36 border-4 lg:h-44 lg:w-44'>
                 <AvatarImage
                   src={avatarUrl || '/placeholder.svg'}
                   alt={`${name}'s avatar`}
                 />
-                <AvatarFallback className='text-2xl font-bold'>
+                <AvatarFallback className='text-2xl font-bold lg:text-3xl'>
                   {name[0]}
                 </AvatarFallback>
               </Avatar>
             </div>
-
-            {githubUsername && (
-              <motion.div
-                initial='hidden'
-                animate='visible'
-                variants={fadeIn}
-                transition={{ delay: 0.3, duration: 0.4 }}
-              >
-                <Badge
-                  variant='secondary'
-                  className='flex items-center gap-1.5 px-3 py-1.5 text-sm'
-                >
-                  <FaGithub className='mt-0.5 mr-1' size={14} />@
-                  {githubUsername}
-                </Badge>
-              </motion.div>
-            )}
           </motion.div>
 
-          <div className='flex-1 space-y-6'>
+          <div className='flex-1 space-y-2'>
             <motion.div
               initial='hidden'
               animate='visible'
@@ -85,7 +67,7 @@ export function ProfileInfo({
               <h1 className='text-3xl font-bold tracking-tight md:text-4xl'>
                 {name}
               </h1>
-              <p className='text-primary text-xl font-medium'>
+              <p className='text-primary text-xl font-medium lg:text-2xl'>
                 <Typewriter words={[title]} />
               </p>
             </motion.div>
@@ -108,9 +90,8 @@ export function ProfileInfo({
               animate='visible'
               variants={fadeIn}
               transition={{ delay: 0.4, duration: 0.4 }}
-              className='space-y-4'
             >
-              <div className='prose prose-sm dark:prose-invert max-w-none'>
+              <div className='prose prose-sm dark:prose-invert lg:prose-base'>
                 <p className='text-muted-foreground leading-relaxed'>{bio}</p>
               </div>
             </motion.div>
@@ -120,7 +101,6 @@ export function ProfileInfo({
               animate='visible'
               variants={fadeIn}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className='pt-2'
             >
               <div className='flex flex-wrap gap-2'>
                 {links.github && (
