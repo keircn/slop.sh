@@ -113,13 +113,22 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
     });
 
     if (!response.ok) {
-      throw new Error(`GitHub API responded with status: ${response.status}`);
+      const errorBody = await response
+        .text()
+        .catch(() => 'Could not read error body');
+      const errorMessage = `GitHub API responded with status: ${response.status} ${response.statusText} for user stats of '${username}'. Body: ${errorBody}`;
+      console.error(errorMessage);
+      throw new Error(
+        `Failed to fetch from GitHub API (status ${response.status}). Check server logs for details.`
+      );
     }
 
     const { data } = await response.json();
 
     if (!data || !data.user) {
-      throw new Error('GitHub API returned invalid data');
+      const warningMessage = `GitHub API returned invalid or empty data structure for user '${username}'. This could be due to an incorrect username, or the user not existing.`;
+      console.warn(warningMessage);
+      throw new Error('GitHub API returned invalid data for user stats.');
     }
 
     const totalStars = data.user.repositories.nodes.reduce(
@@ -195,8 +204,12 @@ async function fetchGithubStats(username: string): Promise<GitHubStatsData> {
     githubStatsCache.set(username, statsData);
 
     return statsData;
-  } catch (error) {
-    console.error('Error fetching GitHub stats:', error);
+  } catch (error: any) {
+    console.error(
+      `Error fetching GitHub stats for ${username}:`,
+      error.message,
+      error.stack
+    );
     throw error;
   }
 }
@@ -238,8 +251,11 @@ async function fetchSpecificRepos(
       });
 
       if (!response.ok) {
+        const errorBody = await response
+          .text()
+          .catch(() => 'Could not read error body');
         console.warn(
-          `Could not fetch repo ${repoName}: Status ${response.status}`
+          `Could not fetch repo ${username}/${repoName}: Status ${response.status} ${response.statusText}. Body: ${errorBody}`
         );
         return null;
       }
@@ -247,7 +263,9 @@ async function fetchSpecificRepos(
       const { data } = await response.json();
 
       if (!data || !data.repository) {
-        console.warn(`Repository ${repoName} not found or not accessible`);
+        console.warn(
+          `Repository ${username}/${repoName} not found or not accessible. GraphQL query might have returned no data for this specific repository.`
+        );
         return null;
       }
 
@@ -270,8 +288,12 @@ async function fetchSpecificRepos(
       stars: number;
       forks: number;
     }>;
-  } catch (error) {
-    console.error('Error fetching specific repositories:', error);
+  } catch (error: any) {
+    console.error(
+      `Error fetching specific repositories for ${username}:`,
+      error.message,
+      error.stack
+    );
     throw error;
   }
 }
@@ -300,10 +322,18 @@ export async function GET(request: NextRequest) {
         'Cache-Control': 'max-age=3600, s-maxage=3600',
       },
     });
-  } catch (error) {
-    console.error('GitHub stats API error:', error);
+  } catch (error: any) {
+    console.error(
+      'GitHub stats API error in GET handler:',
+      error.message,
+      error.stack
+    );
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'An unexpected error occurred while fetching GitHub stats.';
     return NextResponse.json(
-      { error: 'Failed to fetch GitHub stats' },
+      { error: 'Failed to fetch GitHub stats', details: message },
       { status: 500 }
     );
   }
