@@ -9,6 +9,7 @@ import { Footer } from '~/components/Footer';
 import { GitHubActivity } from '~/components/GitHubActivity';
 import { GitHubStatsCard } from '~/components/GitHubStatsCard';
 import type { GitHubStatsData } from '~/types/GitHub';
+import { useMobile } from '~/hooks/useMobile';
 
 const HeaderCard = dynamic(
   () =>
@@ -39,6 +40,7 @@ const ProjectsContainer = dynamic(
 export default function Home() {
   const [githubData, setGithubData] = useState<GitHubStatsData | null>(null);
   const [isLoadingGithub, setIsLoadingGithub] = useState(true);
+  const { isMobile } = useMobile();
 
   useEffect(() => {
     async function loadGitHubData() {
@@ -87,7 +89,7 @@ export default function Home() {
               />
             </Suspense>
 
-            {HeaderCardProps[0].links?.github && (
+            {HeaderCardProps[0].links?.github && !isMobile && (
               <div className='mt-8'>
                 <GitHubStatsCard
                   isLoading={isLoadingGithub}
@@ -123,23 +125,25 @@ export default function Home() {
               </div>
             )}
 
-            <div className='mt-8'>
-              <Suspense
-                fallback={
-                  <Card className='bg-primary/5 h-[200px] w-full animate-pulse' />
-                }
-              >
-                <GitHubActivity
-                  username={HeaderCardProps[0].githubUsername || ''}
-                  showLegend
-                  showTotal
-                  colorScheme='default'
-                  onError={(error) => {
-                    console.error('GitHub activity error:', error);
-                  }}
-                />
-              </Suspense>
-            </div>
+            {!isMobile && (
+              <div className='mt-8'>
+                <Suspense
+                  fallback={
+                    <Card className='bg-primary/5 h-[200px] w-full animate-pulse' />
+                  }
+                >
+                  <GitHubActivity
+                    username={HeaderCardProps[0].githubUsername || ''}
+                    showLegend
+                    showTotal
+                    colorScheme='default'
+                    onError={(error) => {
+                      console.error('GitHub activity error:', error);
+                    }}
+                  />
+                </Suspense>
+              </div>
+            )}
 
             {/* <div className="mt-8">
               <ProjectsContainer title="Projects" projects={projects} />

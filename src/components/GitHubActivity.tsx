@@ -184,13 +184,12 @@ export function GitHubActivity({
                   </div>
 
                   <div
-                    className='relative overflow-visible'
-                    style={{ width: 'fit-content' }}
+                    className='relative overflow-x-auto'
                   >
                     <div
                       className='text-muted-foreground relative mb-1 flex text-xs md:mb-2 md:text-sm lg:text-base'
                       style={{
-                        width: `${Math.max(...monthLabels.map((m) => m.index)) * (squareSize + squareGap) + 100}px`,
+                        width: `${contributionData.weeks.length * (squareSize + squareGap)}px`,
                       }}
                     >
                       {monthLabels.map((month, i) => (

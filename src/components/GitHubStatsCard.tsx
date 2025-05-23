@@ -3,7 +3,6 @@
 import { Card, CardContent } from '~/components/ui/card';
 import { GitHubStats } from '~/components/GitHubStats';
 import { motion } from 'framer-motion';
-import { useMobile } from '~/hooks/useMobile';
 
 interface GitHubStatsCardProps {
   isLoading: boolean;
@@ -29,14 +28,12 @@ export const GitHubStatsCard = ({
   stats,
   languages,
 }: GitHubStatsCardProps) => {
-  const { isMobile } = useMobile();
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className={`relative mt-6 flex flex-col items-center justify-center ${isMobile ? 'px-4' : ''}`}
+      className='relative mt-6 flex flex-col items-center justify-center'
     >
       <Card className='bg-card/30 w-full max-w-6xl overflow-hidden border-2 backdrop-blur-sm'>
         <div className='pointer-events-none absolute inset-0 opacity-5'>

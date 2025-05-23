@@ -1,20 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+// import { FiMenu, FiX } from 'react-icons/fi';
 import { useMobile } from '~/hooks/useMobile';
 import { useNavbar } from '~/context/NavbarContext';
 import { useAudio } from '~/context/AudioContext';
-import { Button } from '~/components/ui/button';
+// import { Button } from '~/components/ui/button';
 import { NavClock } from '~/components/NavClock';
 import { NavbarLogo } from '~/components/NavbarLogo';
 import { NavbarWeather } from '~/components/NavbarWeather';
-import { NavbarMobileMenu } from '~/components/NavbarMobileMenu';
+// import { NavbarMobileMenu } from '~/components/NavbarMobileMenu';
 import { AudioPlayer } from '~/components/AudioPlayer';
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const { isMobile } = useMobile();
   const { isNavbarVisible } = useNavbar();
   const { setHasInteracted, setAudioEnabled } = useAudio();
@@ -102,7 +102,7 @@ export function Navbar() {
             </motion.div>
 
             <motion.div
-              className='flex items-center justify-end gap-6'
+              className={`flex items-center justify-end gap-6 ${isMobile ? 'hidden' : ''}`}
               variants={itemVariants}
             >
               <div className='bg-border/40 hidden h-6 w-px md:block' />
@@ -116,7 +116,7 @@ export function Navbar() {
               <div className='bg-border/40 hidden h-6 w-px md:block' />
               <NavbarWeather location='London,UK' />
 
-              <div className='md:hidden'>
+              {/* <div className='md:hidden'>
                 <Button
                   variant='outline'
                   size='sm'
@@ -126,18 +126,18 @@ export function Navbar() {
                 >
                   {isOpen ? <FiX size={18} /> : <FiMenu size={18} />}
                 </Button>
-              </div>
+              </div> */}
             </motion.div>
           </div>
 
-          <AnimatePresence>
+          {/* <AnimatePresence>
             {isOpen && isMobile && (
               <NavbarMobileMenu
                 isOpen={isOpen}
                 onLinkClickAction={() => setIsOpen(false)}
               />
             )}
-          </AnimatePresence>
+          </AnimatePresence> */}
         </motion.div>
       </motion.header>
     </div>

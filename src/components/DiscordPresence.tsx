@@ -128,7 +128,7 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
   const getMaxActivityHeight = useCallback((): string => {
     if (!presence || !presence.activities || presence.activities.length === 0)
       return 'auto';
-    return isMobile ? '8rem' : '10rem';
+    return isMobile ? '7rem' : '10rem';
   }, [presence, isMobile]);
 
   const rotateActivity = useCallback(
@@ -351,17 +351,6 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
                     {presence.customStatus.name}
                   </p>
                 )}
-                {presence?.platform && (
-                  <span className='text-muted-foreground hidden text-xs opacity-0 md:inline md:text-sm md:opacity-70'>
-                    {typeof presence.platform === 'object' &&
-                    !Array.isArray(presence.platform)
-                      ? `• ${Object.keys(presence.platform)[0] || 'web'}`
-                      : Array.isArray(presence.platform) &&
-                          presence.platform.length > 0
-                        ? `• ${presence.platform[0]}`
-                        : ''}
-                  </span>
-                )}
               </div>
             </div>
           </motion.div>
@@ -374,11 +363,10 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
                     {presence.activities.map((_: unknown, index: number) => (
                       <span
                         key={index}
-                        className={`h-1.5 w-1.5 rounded-full md:h-2 md:w-2 lg:h-2.5 lg:w-2.5 ${
-                          index === currentActivityIndex
-                            ? 'bg-primary'
-                            : 'bg-muted-foreground/30'
-                        }`}
+                        className={`h-1.5 w-1.5 rounded-full md:h-2 md:w-2 lg:h-2.5 lg:w-2.5 ${index === currentActivityIndex
+                          ? 'bg-primary'
+                          : 'bg-muted-foreground/30'
+                          }`}
                       />
                     ))}
                   </div>
@@ -420,7 +408,7 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
                     initial='enter'
                     animate='center'
                     exit='exit'
-                    className='bg-secondary/30 absolute h-full w-full rounded p-2 text-sm md:p-3 md:text-base lg:p-4'
+                    className='bg-secondary/30 absolute h-full w-full rounded p-4 text-sm md:p-6 md:text-base'
                   >
                     {(() => {
                       const activity =
