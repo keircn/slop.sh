@@ -7,7 +7,7 @@ import { githubStatsCache } from '~/lib/github-cache';
 export const dynamic = 'force-dynamic';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'N/A';
+const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'N/A';
 
 if (!GITHUB_TOKEN) {
   console.warn('GITHUB_TOKEN not found in environment variables');

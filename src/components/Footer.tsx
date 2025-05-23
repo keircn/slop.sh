@@ -7,18 +7,23 @@ import { LatestCommitData } from '~/lib/github-cache';
 import Link from 'next/link';
 
 export function Footer() {
-  const [latestCommit, setLatestCommit] = useState<LatestCommitData | null>(null);
+  const [latestCommit, setLatestCommit] = useState<LatestCommitData | null>(
+    null
+  );
 
   useEffect(() => {
     fetch('/api/github/latest-commit')
       .then((res) => res.json())
       .then((data) => {
         if (data && data.date) {
-          const formattedDate = new Date(data.date).toLocaleDateString('en-GB', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          });
+          const formattedDate = new Date(data.date).toLocaleDateString(
+            'en-GB',
+            {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            }
+          );
           setLatestCommit({ ...data, date: formattedDate });
         } else {
           setLatestCommit(null);
@@ -58,18 +63,20 @@ export function Footer() {
         >
           Keiran
         </Link>
-        <div className="w-full flex justify-center mt-1">
+        <div className='mt-1 flex w-full justify-center'>
           {latestCommit ? (
-            <span className="text-muted-foreground">
-              Last updated: {latestCommit.date} (<Link
+            <span className='text-muted-foreground'>
+              Last updated: {latestCommit.date} (
+              <Link
                 href={`https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'q4ow'}/${process.env.NEXT_PUBLIC_REPO_NAME || 'slop.sh'}/commit/${latestCommit.hash}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary/80 text-muted-foreground transition-colors"
+                target='_blank'
+                rel='noopener noreferrer'
+                className='hover:text-primary/80 text-muted-foreground transition-colors'
                 title={latestCommit.message}
               >
                 {latestCommit.hash}
-              </Link>)
+              </Link>
+              )
             </span>
           ) : (
             <span>Last updated: 23rd May, 2025</span>
