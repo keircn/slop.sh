@@ -12,10 +12,14 @@ const ENV_GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME;
 const GITHUB_USERNAME = ENV_GITHUB_USERNAME || 'N/A';
 
 if (!GITHUB_TOKEN) {
-  console.warn('STATS API: GITHUB_TOKEN environment variable is not set. GitHub API calls will likely fail.');
+  console.warn(
+    'STATS API: GITHUB_TOKEN environment variable is not set. GitHub API calls will likely fail.'
+  );
 }
 if (!ENV_GITHUB_USERNAME) {
-  console.warn(`STATS API: NEXT_PUBLIC_GITHUB_USERNAME environment variable is not set. Using default value: '${GITHUB_USERNAME}'. This may lead to API errors if this is not the intended user.`);
+  console.warn(
+    `STATS API: NEXT_PUBLIC_GITHUB_USERNAME environment variable is not set. Using default value: '${GITHUB_USERNAME}'. This may lead to API errors if this is not the intended user.`
+  );
 }
 
 const getUserStatsQuery = `
