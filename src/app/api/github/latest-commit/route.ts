@@ -4,11 +4,20 @@ import { githubLatestCommitCache, LatestCommitData } from '~/lib/github-cache';
 export const dynamic = 'force-dynamic';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'N/A';
-const REPO_NAME = process.env.REPO_NAME || 'slop.sh';
+const ENV_GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME;
+const ENV_REPO_NAME = process.env.REPO_NAME;
+
+const GITHUB_USERNAME = ENV_GITHUB_USERNAME || 'N/A';
+const REPO_NAME = ENV_REPO_NAME || 'slop.sh';
 
 if (!GITHUB_TOKEN) {
-    console.warn('GITHUB_TOKEN not found in environment variables');
+    console.warn('LATEST-COMMIT API: GITHUB_TOKEN environment variable is not set. GitHub API calls will likely fail.');
+}
+if (!ENV_GITHUB_USERNAME) {
+    console.warn(`LATEST-COMMIT API: NEXT_PUBLIC_GITHUB_USERNAME environment variable is not set. Using default value: '${GITHUB_USERNAME}'. This may lead to API errors.`);
+}
+if (!ENV_REPO_NAME) {
+    console.warn(`LATEST-COMMIT API: REPO_NAME environment variable is not set. Using default value: '${REPO_NAME}'. This may lead to API errors if this is not the intended repository.`);
 }
 
 const getLatestCommitQuery = `
