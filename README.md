@@ -1,23 +1,45 @@
 # slop.sh
 
-![slop.sh](https://hentai.expert/cw9umcx1.png)
+![slop.sh](https://hentai.expert/ktjsqecv.png)
 
-Environment variables are self explanatory:
+Welcome to **slop.sh** — my personal site and portfolio.
 
-```
+## Getting Started
+
+### 1. Environment Variables
+
+To get started, copy the example environment file and adjust as needed:
+
+```sh
 cp .env.example .env
 ```
 
-I use pnpm, npm and yarn should work but this is my preference
+See [.env.example](./.env.example) for reference.
 
+### 2. Install Dependencies
+
+I use [pnpm](https://pnpm.io/), but npm and yarn should work as well:
+
+```sh
+pnpm install
+pnpm dev
 ```
-pnpm i && pnpm dev
-```
 
-default port is localhost:3000 but you can customize it by appending `-p {port}` to `next start` in the package.json start script
+### 3. Running the App
 
-Most information that isn't fetched from github can be customised in the `src/lib/data/` directory
+The default port is [http://localhost:3000](http://localhost:3000).  
+To use a custom port, append `-p {port}` to the `next start` command in your `package.json` scripts.
+
+### 4. Customization
+
+Most information not fetched from API routes can be customized in [`src/lib/data/`](./src/lib/data/).
+
+---
+
+## Contributing
 
 Pull requests and issues are encouraged and appreciated!
 
-Contact me on [Discord](https://kdev.pw/discord) with any questions
+## Contact
+
+for questions or suggestions, [Contact me on Discord](https://kdev.pw/discord)
