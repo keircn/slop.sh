@@ -36,7 +36,15 @@ class GitHubCache<T> {
   }
 }
 
-const githubStatsCache = new GitHubCache<GitHubStatsData>();
-const githubContributionsCache = new GitHubCache<ContributionData>(3600 * 1000);
+// Define the type for the latest commit data
+export type LatestCommitData = {
+  message: string;
+  date: string;
+  hash: string; // Add hash property
+};
 
-export { githubStatsCache, githubContributionsCache };
+const githubStatsCache = new GitHubCache<GitHubStatsData>();
+const githubContributionsCache = new GitHubCache<ContributionData>(3600 * 1000); // 1 hour TTL for contributions
+const githubLatestCommitCache = new GitHubCache<LatestCommitData>(3600 * 1000); // 1 hour TTL for latest commit
+
+export { githubStatsCache, githubContributionsCache, githubLatestCommitCache };
