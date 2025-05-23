@@ -363,10 +363,11 @@ export function DiscordPresence(rawProps: DiscordPresenceProps) {
                     {presence.activities.map((_: unknown, index: number) => (
                       <span
                         key={index}
-                        className={`h-1.5 w-1.5 rounded-full md:h-2 md:w-2 lg:h-2.5 lg:w-2.5 ${index === currentActivityIndex
-                          ? 'bg-primary'
-                          : 'bg-muted-foreground/30'
-                          }`}
+                        className={`h-1.5 w-1.5 rounded-full md:h-2 md:w-2 lg:h-2.5 lg:w-2.5 ${
+                          index === currentActivityIndex
+                            ? 'bg-primary'
+                            : 'bg-muted-foreground/30'
+                        }`}
                       />
                     ))}
                   </div>

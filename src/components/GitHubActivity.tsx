@@ -183,9 +183,7 @@ export function GitHubActivity({
                     ))}
                   </div>
 
-                  <div
-                    className='relative overflow-x-auto'
-                  >
+                  <div className='relative overflow-x-auto'>
                     <div
                       className='text-muted-foreground relative mb-1 flex text-xs md:mb-2 md:text-sm lg:text-base'
                       style={{
