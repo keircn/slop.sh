@@ -156,7 +156,7 @@ export function ProfileInfo({
 
                 <Button variant='outline' size='icon' asChild>
                   <Link
-                    href='https://kdev.pw/src'
+                    href='https://kdev.pw/slop'
                     target='_blank'
                     rel='noopener noreferrer'
                     aria-label='Source code'
