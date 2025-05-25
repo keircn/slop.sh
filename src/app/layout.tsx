@@ -59,9 +59,9 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'slop.sh',
       images: [
         {
-          url: '/og-image.png',
-          width: 800,
-          height: 400,
+          url: '/pfp.jpg',
+          width: 460,
+          height: 460,
           alt: 'brrr',
         },
       ],

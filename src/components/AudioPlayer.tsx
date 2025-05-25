@@ -12,11 +12,15 @@ export function AudioPlayer({
   autoPlay = false,
   className = '',
   variants,
-  trackName = 'Background Music',
+  trackName = 'Clara',
 }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const gainNodeRef = useRef<GainNode | null>(null);
+  const sourceNodeRef = useRef<MediaElementAudioSourceNode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(1);
+  const [gain, setGain] = useState(2);
   const [isMuted, setIsMuted] = useState(false);
   const { isAudioEnabled, autoPlay: contextAutoPlay } = useAudio();
 
@@ -24,14 +28,38 @@ export function AudioPlayer({
     const audio = audioRef.current;
     if (!audio) return;
 
+    const initAudioContext = () => {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext ||
+          (window as any).webkitAudioContext)();
+        gainNodeRef.current = audioContextRef.current.createGain();
+        sourceNodeRef.current =
+          audioContextRef.current.createMediaElementSource(audio);
+
+        sourceNodeRef.current.connect(gainNodeRef.current);
+        gainNodeRef.current.connect(audioContextRef.current.destination);
+      }
+    };
+
     audio.volume = isMuted ? 0 : volume;
+    if (gainNodeRef.current) {
+      gainNodeRef.current.gain.value = isMuted ? 0 : gain;
+    }
 
     const handleEnded = () => {
       audio.currentTime = 0;
       audio.play().catch(console.error);
     };
 
+    const handlePlay = () => {
+      initAudioContext();
+      if (audioContextRef.current?.state === 'suspended') {
+        audioContextRef.current.resume();
+      }
+    };
+
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('play', handlePlay);
 
     if (autoPlay || contextAutoPlay) {
       const playPromise = audio.play();
@@ -51,9 +79,19 @@ export function AudioPlayer({
       if (audio) {
         audio.pause();
         audio.removeEventListener('ended', handleEnded);
+        audio.removeEventListener('play', handlePlay);
       }
     };
-  }, [audioSrc, autoPlay, volume, isMuted, contextAutoPlay, isAudioEnabled]);
+  }, [
+    audioSrc,
+    autoPlay,
+    volume,
+    gain,
+    isMuted,
+    contextAutoPlay,
+    isAudioEnabled,
+  ]);
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -100,12 +138,24 @@ export function AudioPlayer({
     }
   };
 
+  const handleGainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newGain = parseFloat(e.target.value);
+    setGain(newGain);
+
+    if (gainNodeRef.current) {
+      gainNodeRef.current.gain.value = isMuted ? 0 : newGain;
+    }
+  };
+
   const toggleMute = () => {
     const newMutedState = !isMuted;
     setIsMuted(newMutedState);
 
     if (audioRef.current) {
       audioRef.current.volume = newMutedState ? 0 : volume;
+    }
+    if (gainNodeRef.current) {
+      gainNodeRef.current.gain.value = newMutedState ? 0 : gain;
     }
   };
 
@@ -216,17 +266,43 @@ export function AudioPlayer({
             </motion.button>
 
             <div className='pointer-events-none absolute top-full right-0 z-20 pt-2 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100'>
-              <div className='bg-card border-border/30 flex items-center rounded-md border p-2 shadow-md'>
-                <input
-                  type='range'
-                  min='0'
-                  max='1'
-                  step='0.01'
-                  value={volume}
-                  onChange={handleVolumeChange}
-                  className='accent-primary h-2 w-20'
-                  aria-label='Volume'
-                />
+              <div className='bg-card border-border/30 flex flex-col gap-3 rounded-md border p-3 shadow-md'>
+                <div className='flex items-center gap-2'>
+                  <span className='text-muted-foreground w-12 text-xs'>
+                    Volume
+                  </span>
+                  <input
+                    type='range'
+                    min='0'
+                    max='1'
+                    step='0.01'
+                    value={volume}
+                    onChange={handleVolumeChange}
+                    className='accent-primary h-2 w-20'
+                    aria-label='Volume'
+                  />
+                  <span className='text-muted-foreground w-8 text-xs'>
+                    {Math.round(volume * 100)}%
+                  </span>
+                </div>
+                <div className='flex items-center gap-2'>
+                  <span className='text-muted-foreground w-12 text-xs'>
+                    Boost
+                  </span>
+                  <input
+                    type='range'
+                    min='0.1'
+                    max='5'
+                    step='0.1'
+                    value={gain}
+                    onChange={handleGainChange}
+                    className='accent-primary h-2 w-20'
+                    aria-label='Audio Gain Boost'
+                  />
+                  <span className='text-muted-foreground w-8 text-xs'>
+                    {gain.toFixed(1)}x
+                  </span>
+                </div>
               </div>
             </div>
           </div>

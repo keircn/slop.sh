@@ -1,145 +1,174 @@
 'use client';
 
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-// import { FiMenu, FiX } from 'react-icons/fi';
-import { useMobile } from '~/hooks/useMobile';
-import { useNavbar } from '~/context/NavbarContext';
-import { useAudio } from '~/context/AudioContext';
-// import { Button } from '~/components/ui/button';
-import { NavClock } from '~/components/NavClock';
-import { NavbarLogo } from '~/components/NavbarLogo';
-import { NavbarWeather } from '~/components/NavbarWeather';
-// import { NavbarMobileMenu } from '~/components/NavbarMobileMenu';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LuMenu } from 'react-icons/lu';
+import Link from 'next/link';
+import { Button } from '~/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '~/components/ui/sheet';
 import { AudioPlayer } from '~/components/AudioPlayer';
 
+function NavbarLogo() {
+  return (
+    <motion.div
+      className='relative'
+      whileHover={{ scale: 1.02 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+    >
+      <Link href='/' className='group relative z-10 flex items-center gap-2'>
+        <motion.div
+          className='relative overflow-hidden rounded-lg p-2'
+          transition={{ duration: 0.2 }}
+        >
+          <motion.span
+            className='from-primary to-primary/70 bg-gradient-to-r bg-clip-text font-mono text-2xl font-bold tracking-tight text-transparent'
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          >
+            Keiran
+          </motion.span>
+        </motion.div>
+      </Link>
+    </motion.div>
+  );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function MobileMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const menuItems = [
+    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
+    { href: '/projects', label: 'Projects' },
+    { href: '/contact', label: 'Contact' },
+  ];
+
+  return (
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
+        <Button
+          variant='outline'
+          size='sm'
+          className='bg-background/50 border-border/50 backdrop-blur-sm md:hidden'
+        >
+          <LuMenu className='h-4 w-4' />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side='right' className='w-[300px] sm:w-[400px]'>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className='mt-8 flex flex-col gap-6'
+        >
+          <nav className='flex flex-col gap-4'>
+            {menuItems.map((item, index) => (
+              <motion.div
+                key={item.href}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: index * 0.1, duration: 0.3 }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className='hover:bg-accent hover:text-accent-foreground flex items-center gap-3 rounded-lg px-3 py-2 text-lg font-medium transition-colors'
+                >
+                  {item.label}
+                </Link>
+              </motion.div>
+            ))}
+          </nav>
+        </motion.div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 export function Navbar() {
-  // const [isOpen, setIsOpen] = useState(false);
-  const { isMobile } = useMobile();
-  const { isNavbarVisible } = useNavbar();
-  const { setHasInteracted, setAudioEnabled } = useAudio();
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    setHasInteracted(true);
-    setAudioEnabled(true);
-  }, [setHasInteracted, setAudioEnabled]);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsVisible(currentScrollY < lastScrollY || currentScrollY < 10);
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const navVariants = {
-    hidden: { opacity: 0, y: -20 },
+    hidden: {
+      opacity: 0,
+      transition: { duration: 0.3, ease: 'easeInOut' },
+    },
     visible: {
       opacity: 1,
-      y: 0,
       transition: {
+        duration: 0.4,
+        ease: 'easeOut',
         when: 'beforeChildren',
         staggerChildren: 0.1,
-        duration: 0.5,
-      },
-    },
-  };
-
-  const logoVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 400,
-        damping: 15,
-        delay: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: -10 },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
       transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 20,
+        duration: 0.3,
+        ease: 'easeOut',
       },
     },
   };
 
   return (
-    <div
-      className={`pointer-events-none fixed top-0 right-0 left-0 z-50 w-full ${!isNavbarVisible ? 'hidden' : ''}`}
-    >
-      <motion.header
-        className='bg-background/90 border-border/40 pointer-events-auto w-full border-b shadow-sm backdrop-blur-md transition-all duration-300 ease-in-out'
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{
-          duration: 0.4,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-        style={{ willChange: 'transform, opacity' }}
-      >
-        <motion.div
-          className='container mx-auto px-4 py-2'
+    <AnimatePresence>
+      {isVisible && (
+        <motion.header
           variants={navVariants}
           initial='hidden'
           animate='visible'
+          exit='hidden'
+          className='fixed top-0 right-0 left-0 z-50 w-full'
         >
-          <div className='flex items-center justify-between'>
+          <motion.div
+            className='mx-auto max-w-[1215px] px-4 sm:px-6 lg:px-8'
+            layoutId='navbar-container'
+          >
             <motion.div
-              className='flex items-center space-x-4'
-              variants={itemVariants}
+              className='bg-background/80 border-border/50 relative mt-4 rounded-2xl border shadow-lg shadow-black/5 backdrop-blur-xl'
+              transition={{ duration: 0.2 }}
             >
-              <NavbarLogo variants={logoVariants} />
-            </motion.div>
+              <div className='flex items-center justify-between px-6 py-4'>
+                <motion.div
+                  variants={itemVariants}
+                  className='flex h-full items-center'
+                >
+                  <NavbarLogo />
+                </motion.div>
 
-            <motion.div
-              className='hidden flex-1 items-center justify-center px-4 md:flex'
-              variants={itemVariants}
-            >
-              <div className='absolute left-1/2 -mx-9 hidden min-w-[85px] -translate-x-1/2 justify-center'>
-                <NavClock />
+                <motion.div
+                  variants={itemVariants}
+                  className='flex h-full items-center gap-4'
+                >
+                  <div className='hidden items-center gap-4 md:flex'>
+                    <AudioPlayer audioSrc='/audio/music.mp3' />
+                  </div>
+
+                  {/* <MobileMenu /> */}
+                </motion.div>
               </div>
             </motion.div>
-
-            <motion.div
-              className={`flex items-center justify-end gap-6 ${isMobile ? 'hidden' : ''}`}
-              variants={itemVariants}
-            >
-              <div className='bg-border/40 hidden h-6 w-px md:block' />
-              <AudioPlayer
-                audioSrc='/music.mp3'
-                className='mr-4'
-                variants={itemVariants}
-                trackName='Clara'
-                autoPlay={true}
-              />
-              <div className='bg-border/40 hidden h-6 w-px md:block' />
-              <NavbarWeather location='London,UK' />
-
-              {/* <div className='md:hidden'>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  onClick={() => setIsOpen(!isOpen)}
-                  aria-label='Toggle Menu'
-                  className='border-border/40 bg-background/20 border'
-                >
-                  {isOpen ? <FiX size={18} /> : <FiMenu size={18} />}
-                </Button>
-              </div> */}
-            </motion.div>
-          </div>
-
-          {/* <AnimatePresence>
-            {isOpen && isMobile && (
-              <NavbarMobileMenu
-                isOpen={isOpen}
-                onLinkClickAction={() => setIsOpen(false)}
-              />
-            )}
-          </AnimatePresence> */}
-        </motion.div>
-      </motion.header>
-    </div>
+          </motion.div>
+        </motion.header>
+      )}
+    </AnimatePresence>
   );
 }
