@@ -13,6 +13,11 @@ const inter = Inter({
 export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL('https://slop.sh'),
+    verification: {
+      other: {
+        'p:domain_verify': '700dfd4a3272bcb80e09f5f78060035c',
+      },
+    },
     title: 'Keiran',
     description: 'I make things',
     icons: {
