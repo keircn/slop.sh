@@ -231,15 +231,19 @@ export function GitHubActivity({
                                   colorScheme
                                 ),
                               }}
+                              initial={{ opacity: 0, scale: 0 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{
+                                delay: (weekIndex * 7 + dayIndex) * 0.005,
+                                duration: 0.3,
+                                ease: [0.25, 0.46, 0.45, 0.94],
+                              }}
                               aria-label={getTooltipText(day)}
                               role='gridcell'
                               tabIndex={0}
                               whileHover={{ scale: 1.5, zIndex: 50 }}
-                              transition={{
-                                type: 'spring',
-                                stiffness: 400,
-                                damping: 10,
-                              }}
+                              whileFocus={{ scale: 1.5, zIndex: 50 }}
+                              whileTap={{ scale: 1.2 }}
                               onMouseEnter={() => {
                                 setTooltipContent(getTooltipText(day));
                                 setShowTooltip(true);

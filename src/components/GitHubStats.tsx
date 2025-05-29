@@ -37,22 +37,59 @@ export function GitHubStats({
     percentage: 100 / (index + 1.5),
   }));
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: {
+      opacity: 0,
+      x: -20,
+      scale: 0.9
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.6, duration: 0.4 }}
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
       className='border-border hidden h-full flex-col justify-start md:flex'
     >
-      <h3 className='text-foreground mb-1 flex items-center text-xl font-medium'>
+      <motion.h3
+        variants={itemVariants}
+        className='text-foreground mb-1 flex items-center text-xl font-medium'
+      >
         <FaGithub className='mr-2' />
         GitHub Stats
         {isLoading && <span className='ml-2 animate-pulse'>Loading...</span>}
-      </h3>
-      <div className='border-border/50 mb-6 -ml-1 max-w-40 border-b' />
+      </motion.h3>
+      <motion.div
+        variants={itemVariants}
+        className='border-border/50 mb-6 -ml-1 max-w-40 border-b'
+      />
 
-      <div className='mb-6 grid grid-cols-2 gap-4'>
-        <div className='flex items-center gap-3'>
+      <motion.div
+        variants={containerVariants}
+        className='mb-6 grid grid-cols-2 gap-4'
+      >
+        <motion.div variants={itemVariants} className='flex items-center gap-3'>
           <div className='bg-primary/10 rounded p-2'>
             <FaCode size={16} className='text-primary' />
           </div>
@@ -71,9 +108,9 @@ export function GitHubStats({
               </>
             )}
           </div>
-        </div>
+        </motion.div>
 
-        <div className='flex items-center gap-3'>
+        <motion.div variants={itemVariants} className='flex items-center gap-3'>
           <div className='bg-primary/10 rounded p-2'>
             <FaStar size={16} className='text-primary' />
           </div>
@@ -90,9 +127,9 @@ export function GitHubStats({
               </>
             )}
           </div>
-        </div>
+        </motion.div>
 
-        <div className='flex items-center gap-3'>
+        <motion.div variants={itemVariants} className='flex items-center gap-3'>
           <div className='bg-primary/10 rounded p-2'>
             <FaCodeBranch size={16} className='text-primary' />
           </div>
@@ -111,9 +148,9 @@ export function GitHubStats({
               </>
             )}
           </div>
-        </div>
+        </motion.div>
 
-        <div className='flex items-center gap-3'>
+        <motion.div variants={itemVariants} className='flex items-center gap-3'>
           <div className='bg-primary/10 rounded p-2'>
             <FaUserFriends size={16} className='text-primary' />
           </div>
@@ -132,9 +169,9 @@ export function GitHubStats({
               </>
             )}
           </div>
-        </div>
+        </motion.div>
 
-        <div className='flex items-center gap-3'>
+        <motion.div variants={itemVariants} className='flex items-center gap-3'>
           <div className='bg-primary/10 rounded p-2'>
             <FaCodePullRequest size={16} className='text-primary' />
           </div>
@@ -153,9 +190,9 @@ export function GitHubStats({
               </>
             )}
           </div>
-        </div>
+        </motion.div>
 
-        <div className='flex items-center gap-3'>
+        <motion.div variants={itemVariants} className='flex items-center gap-3'>
           <div className='bg-primary/10 rounded p-2'>
             <FaExclamationCircle size={16} className='text-primary' />
           </div>
@@ -172,10 +209,10 @@ export function GitHubStats({
               </>
             )}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className='mb-6'>
+      <motion.div variants={itemVariants} className='mb-6'>
         <h4 className='text-muted-foreground mb-3 text-xs font-medium'>
           Language Distribution
         </h4>
@@ -191,25 +228,33 @@ export function GitHubStats({
               ))}
           </div>
         ) : languages.length > 0 ? (
-          <div className='space-y-2'>
-            {topLanguages.map((lang) => (
-              <div key={lang.name} className='space-y-1'>
+          <motion.div
+            variants={containerVariants}
+            className='space-y-2'
+          >
+            {topLanguages.map((lang, index) => (
+              <motion.div
+                key={lang.name}
+                variants={itemVariants}
+                custom={index}
+                className='space-y-1'
+              >
                 <div className='flex justify-between text-xs'>
                   <span>{lang.name}</span>
                   <span>{Math.round(lang.percentage)}%</span>
                 </div>
                 <Progress value={lang.percentage} className='h-1.5' />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
           <p className='text-muted-foreground text-xs'>
             No language data available
           </p>
         )}
-      </div>
+      </motion.div>
 
-      <div className='mt-auto pt-4'>
+      <motion.div variants={itemVariants} className='mt-auto pt-4'>
         <Separator className='mb-6' />
         <Link
           href={`https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME || ''}`}
@@ -220,7 +265,7 @@ export function GitHubStats({
           <FaGithub className='mr-1' size={14} />
           View full GitHub profile
         </Link>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
