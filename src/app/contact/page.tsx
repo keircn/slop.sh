@@ -1,10 +1,10 @@
 'use client';
 
-import { PageTransition } from '~/components/PageTransition';
+import { motion } from 'framer-motion';
 import { ContactForm } from '~/components/ContactForm';
+import { PageTransition } from '~/components/PageTransition';
 import { SocialLinks } from '~/components/SocialLinks';
 import { Card } from '~/components/ui/card';
-import { motion } from 'framer-motion';
 
 export default function ContactPage() {
   return (

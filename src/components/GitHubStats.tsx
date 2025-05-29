@@ -1,20 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import {
   FaCode,
-  FaStar,
   FaCodeBranch,
-  FaUserFriends,
-  FaGithub,
   FaExclamationCircle,
+  FaGithub,
+  FaStar,
+  FaUserFriends,
 } from 'react-icons/fa';
-import { Skeleton } from '~/components/ui/skeleton';
+import { FaCodePullRequest } from 'react-icons/fa6';
 import { Progress } from '~/components/ui/progress';
 import { Separator } from '~/components/ui/separator';
+import { Skeleton } from '~/components/ui/skeleton';
 import type { GitHubStatsProps } from '~/types/GitHub';
-import Link from 'next/link';
-import { FaCodePullRequest } from 'react-icons/fa6';
 
 export function GitHubStats({
   isLoading,
@@ -52,7 +52,7 @@ export function GitHubStats({
     hidden: {
       opacity: 0,
       x: -20,
-      scale: 0.9
+      scale: 0.9,
     },
     visible: {
       opacity: 1,
@@ -67,8 +67,8 @@ export function GitHubStats({
 
   return (
     <motion.div
-      initial="hidden"
-      animate="visible"
+      initial='hidden'
+      animate='visible'
       variants={containerVariants}
       className='border-border hidden h-full flex-col justify-start md:flex'
     >
@@ -228,10 +228,7 @@ export function GitHubStats({
               ))}
           </div>
         ) : languages.length > 0 ? (
-          <motion.div
-            variants={containerVariants}
-            className='space-y-2'
-          >
+          <motion.div variants={containerVariants} className='space-y-2'>
             {topLanguages.map((lang, index) => (
               <motion.div
                 key={lang.name}

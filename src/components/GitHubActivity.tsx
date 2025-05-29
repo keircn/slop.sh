@@ -1,20 +1,20 @@
 'use client';
 
-import { useEffect, useState, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { BiErrorCircle } from 'react-icons/bi';
+import { TbRefresh } from 'react-icons/tb';
+import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
 import { Skeleton } from '~/components/ui/skeleton';
-import { Button } from '~/components/ui/button';
-import { TbRefresh } from 'react-icons/tb';
-import { BiErrorCircle } from 'react-icons/bi';
-import type { GitHubActivityProps, ContributionData } from '~/types/GitHub';
-import {
-  getMonthLabels,
-  getDayOfWeekLabels,
-  getTooltipText,
-  getContributionColor,
-} from '~/lib/github-utils';
 import { useMobile } from '~/hooks/useMobile';
+import {
+  getContributionColor,
+  getDayOfWeekLabels,
+  getMonthLabels,
+  getTooltipText,
+} from '~/lib/github-utils';
+import type { ContributionData, GitHubActivityProps } from '~/types/GitHub';
 
 export function GitHubActivity({
   username,

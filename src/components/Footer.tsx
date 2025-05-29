@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { FaHeart } from 'react-icons/fa6';
 import { LatestCommitData } from '~/lib/github-cache';
-import Link from 'next/link';
 
 export function Footer() {
   const [latestCommit, setLatestCommit] = useState<LatestCommitData | null>(

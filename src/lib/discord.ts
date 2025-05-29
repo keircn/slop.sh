@@ -1,12 +1,12 @@
 import {
-  Presence,
   Activity,
+  Presence,
   RawActivityData,
   RawPresenceData,
-  rawActivitySchema,
-  rawPresenceSchema,
   activitySchema,
   presenceSchema,
+  rawActivitySchema,
+  rawPresenceSchema,
 } from '~/types/Presence';
 
 export const transformActivity = (activity: RawActivityData): Activity => {

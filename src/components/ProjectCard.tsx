@@ -1,10 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Button } from '~/components/ui/button';
-import { LuExternalLink } from 'react-icons/lu';
-import { ProjectCardProps } from '~/types/ProjectCard';
 import Image from 'next/image';
+import { LuExternalLink } from 'react-icons/lu';
+import { Button } from '~/components/ui/button';
+import { ProjectCardProps } from '~/types/ProjectCard';
 
 export const ProjectCard = ({
   role,

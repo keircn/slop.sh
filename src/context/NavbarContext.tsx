@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
 import { NavbarContextType } from '~/types/Navbar';
 
 const NavbarContext = createContext<NavbarContextType | undefined>(undefined);

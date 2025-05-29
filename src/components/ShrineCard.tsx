@@ -3,13 +3,13 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
+import {
+  FaChevronLeft,
+  FaChevronRight,
+  FaHeart as Heart,
+} from 'react-icons/fa6';
 import { Card, CardContent } from '~/components/ui/card';
 import { useMobile } from '~/hooks/useMobile';
-import {
-  FaHeart as Heart,
-  FaChevronRight,
-  FaChevronLeft,
-} from 'react-icons/fa6';
 import { ImageData } from '~/types/ShrineCard';
 
 const images: ImageData[] = [

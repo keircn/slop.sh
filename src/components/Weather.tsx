@@ -1,19 +1,18 @@
 'use client';
 
-import React from 'react';
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
 import {
-  WiDaySunny,
   WiCloudy,
+  WiDaySunny,
+  WiFog,
+  WiHumidity,
+  WiNightClear,
   WiRain,
   WiSnow,
-  WiThunderstorm,
-  WiFog,
-  WiNightClear,
-  WiWindy,
-  WiHumidity,
   WiThermometer,
+  WiThunderstorm,
+  WiWindy,
 } from 'react-icons/wi';
 import { Skeleton } from '~/components/ui/skeleton';
 import { useMobile } from '~/hooks/useMobile';

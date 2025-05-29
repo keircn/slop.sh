@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect, useState, useCallback, memo } from 'react';
-import { Card, CardContent } from '~/components/ui/card';
 import { motion } from 'framer-motion';
-import type { GitHubStatsData } from '~/types/GitHub';
-import type { HeaderCardProps } from '~/types/HeaderCard';
+import { memo, useCallback, useEffect, useState } from 'react';
+import { DiscordPresence } from '~/components/DiscordPresence';
 import { ProfileInfo } from '~/components/ProfileInfo';
 import { RepositoryList } from '~/components/RepositoryList';
+import { Card, CardContent } from '~/components/ui/card';
 import { Weather } from '~/components/Weather';
-import { DiscordPresence } from '~/components/DiscordPresence';
 import { useMobile } from '~/hooks/useMobile';
+import type { GitHubStatsData } from '~/types/GitHub';
+import type { HeaderCardProps } from '~/types/HeaderCard';
 
 export const HeaderCard = memo(function HeaderCard({
   name,

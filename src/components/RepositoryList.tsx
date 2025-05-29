@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FaStar, FaCodeBranch } from 'react-icons/fa';
-import { Skeleton } from '~/components/ui/skeleton';
 import Link from 'next/link';
+import { FaCodeBranch, FaStar } from 'react-icons/fa';
+import { Skeleton } from '~/components/ui/skeleton';
 import { RepositoryListProps } from '~/types/Repository';
 
 export function RepositoryList({

@@ -1,16 +1,16 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaDiscord } from 'react-icons/fa';
-import { MdRefresh, MdSkipPrevious, MdSkipNext } from 'react-icons/md';
+import { MdRefresh, MdSkipNext, MdSkipPrevious } from 'react-icons/md';
+import { z } from 'zod';
 import { Button } from '~/components/ui/button';
 import { Skeleton } from '~/components/ui/skeleton';
-import { useMobile } from '~/hooks/useMobile';
 import { Weather } from '~/components/Weather';
-import { z } from 'zod';
 import { useDiscordPresence } from '~/hooks/useDiscordPresence';
+import { useMobile } from '~/hooks/useMobile';
 
 const discordPresencePropsSchema = z.object({
   userId: z.string().optional(),

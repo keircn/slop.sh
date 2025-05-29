@@ -1,15 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { BiCode } from 'react-icons/bi';
+import { FaCoffee, FaDiscord, FaEnvelope, FaGithub } from 'react-icons/fa';
+import { LuCalendarDays } from 'react-icons/lu';
+import { Typewriter } from 'react-simple-typewriter';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
-import { FaGithub, FaEnvelope, FaCoffee, FaDiscord } from 'react-icons/fa';
-import { BiCode } from 'react-icons/bi';
-import { LuCalendarDays } from 'react-icons/lu';
-import Link from 'next/link';
 import { getAge } from '~/lib/utils';
-import { Typewriter } from 'react-simple-typewriter';
 import type { ProfileInfoProps } from '~/types/ProfileInfo';
 
 export function ProfileInfo({

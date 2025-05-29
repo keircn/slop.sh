@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '~/components/ui/button';
-import { FaGithub, FaEnvelope, FaDiscord, FaTwitter } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { FaDiscord, FaEnvelope, FaGithub, FaTwitter } from 'react-icons/fa';
+import { Button } from '~/components/ui/button';
 import { links } from '~/lib/data/social';
 
 const itemVariants = {

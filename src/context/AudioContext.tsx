@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { AudioContextType, AudioProviderProps } from '~/types/Audio';
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FaPause, FaPlay, FaVolumeUp, FaVolumeMute } from 'react-icons/fa';
+import { useEffect, useRef, useState } from 'react';
+import { FaPause, FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import { MdSkipNext, MdSkipPrevious } from 'react-icons/md';
 import { useAudio } from '~/context/AudioContext';
 import { AudioPlayerProps } from '~/types/Audio';

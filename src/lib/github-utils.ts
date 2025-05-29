@@ -1,8 +1,8 @@
 import type {
   ContributionData,
   ContributionDay,
-  MonthLabel,
   DayLabel,
+  MonthLabel,
 } from '~/types/GitHub';
 
 export function getMonthLabels(

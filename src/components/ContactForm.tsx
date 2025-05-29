@@ -1,10 +1,10 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { BiSend } from 'react-icons/bi';
 import { Button } from '~/components/ui/button';
 import { Card } from '~/components/ui/card';
-import { motion } from 'framer-motion';
-import { BiSend } from 'react-icons/bi';
 import { FormData } from '~/types/Contact';
 
 export function ContactForm() {

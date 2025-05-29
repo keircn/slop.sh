@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Presence, Activity } from '~/types/Presence';
+import { useCallback, useEffect, useState } from 'react';
+import { Activity, Presence } from '~/types/Presence';
 
 export function useDiscordPresence(userId?: string) {
   const [presence, setPresence] = useState<Presence | null>(null);

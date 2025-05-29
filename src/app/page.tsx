@@ -1,13 +1,15 @@
-import { Suspense } from 'react';
-import { HeaderCardProps } from '~/lib/data/home';
-import { Card } from '~/components/ui/card';
-import { HomePage } from '~/components/HomePage';
-import type { GitHubStatsData } from '~/types/GitHub';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
+import { HomePage } from '~/components/HomePage';
+import { Card } from '~/components/ui/card';
+import { HeaderCardProps } from '~/lib/data/home';
+import type { GitHubStatsData } from '~/types/GitHub';
 
 export const metadata: Metadata = {
   title: `${HeaderCardProps[0].name} | ${HeaderCardProps[0].title}`,
-  description: HeaderCardProps[0].bio || `Portfolio of ${HeaderCardProps[0].name}, a ${HeaderCardProps[0].title}`,
+  description:
+    HeaderCardProps[0].bio ||
+    `Portfolio of ${HeaderCardProps[0].name}, a ${HeaderCardProps[0].title}`,
   keywords: [
     'developer',
     'portfolio',
@@ -21,7 +23,9 @@ export const metadata: Metadata = {
   creator: HeaderCardProps[0].name,
   openGraph: {
     title: `${HeaderCardProps[0].name} | ${HeaderCardProps[0].title}`,
-    description: HeaderCardProps[0].bio || `Portfolio of ${HeaderCardProps[0].name}, a ${HeaderCardProps[0].title}`,
+    description:
+      HeaderCardProps[0].bio ||
+      `Portfolio of ${HeaderCardProps[0].name}, a ${HeaderCardProps[0].title}`,
     url: 'https://slop.sh',
     siteName: `${HeaderCardProps[0].name}'s Portfolio`,
     images: [
@@ -38,7 +42,9 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary',
     title: `${HeaderCardProps[0].name} | ${HeaderCardProps[0].title}`,
-    description: HeaderCardProps[0].bio || `Portfolio of ${HeaderCardProps[0].name}, a ${HeaderCardProps[0].title}`,
+    description:
+      HeaderCardProps[0].bio ||
+      `Portfolio of ${HeaderCardProps[0].name}, a ${HeaderCardProps[0].title}`,
     images: [HeaderCardProps[0].avatarUrl],
   },
   robots: {
@@ -90,9 +96,7 @@ export default async function Home() {
 
   return (
     <Suspense
-      fallback={
-        <Card className='bg-primary/5 h-screen w-full animate-pulse' />
-      }
+      fallback={<Card className='bg-primary/5 h-screen w-full animate-pulse' />}
     >
       <HomePage initialGitHubData={initialGitHubData} />
     </Suspense>

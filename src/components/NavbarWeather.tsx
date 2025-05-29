@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useState, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
+import React, { memo, useEffect, useState } from 'react';
 import {
-  WiDaySunny,
   WiCloudy,
+  WiDaySunny,
+  WiFog,
+  WiNightClear,
   WiRain,
   WiSnow,
   WiThunderstorm,
-  WiFog,
-  WiNightClear,
 } from 'react-icons/wi';
 import { NavbarWeatherData, NavbarWeatherProps } from '~/types/Navbar';
 

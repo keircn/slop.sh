@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { LuMenu } from 'react-icons/lu';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { LuMenu } from 'react-icons/lu';
+import { AudioPlayer } from '~/components/AudioPlayer';
 import { Button } from '~/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '~/components/ui/sheet';
-import { AudioPlayer } from '~/components/AudioPlayer';
 
 function NavbarLogo() {
   return (

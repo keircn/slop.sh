@@ -1,4 +1,4 @@
-import type { WeatherData, CacheEntry } from '~/types/Weather';
+import type { CacheEntry, WeatherData } from '~/types/Weather';
 
 class WeatherCache {
   private cache: Map<string, CacheEntry>;

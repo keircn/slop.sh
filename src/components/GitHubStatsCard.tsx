@@ -1,8 +1,8 @@
 'use client';
 
-import { Card, CardContent } from '~/components/ui/card';
-import { GitHubStats } from '~/components/GitHubStats';
 import { motion } from 'framer-motion';
+import { GitHubStats } from '~/components/GitHubStats';
+import { Card, CardContent } from '~/components/ui/card';
 
 interface GitHubStatsCardProps {
   isLoading: boolean;
